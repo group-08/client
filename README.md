@@ -1,5 +1,7 @@
 # SoPra FS20 - Client Template
 
+![Deploy Project](https://github.com/group-08/client/workflows/Deploy%20Project/badge.svg)
+
 ## Getting started with React
 
 Read and go through those Tutorials, It will make your life easier!
