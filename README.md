@@ -1,6 +1,7 @@
 # SoPra FS20 - Client Template
 
 ![Deploy Project](https://github.com/group-08/client/workflows/Deploy%20Project/badge.svg)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=group-08_client&metric=alert_status)](https://sonarcloud.io/dashboard?id=group-08_client)
 
 ## Getting started with React
 
