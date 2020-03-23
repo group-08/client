@@ -190,7 +190,7 @@ class SignUp extends React.Component {
                       this.login();
                     }}
                 >
-                  SignUp
+                  Sign Up
                 </Button>
               </form>
               <Grid

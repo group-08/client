@@ -139,7 +139,7 @@ class Login extends React.Component {
               }
 
               <Typography component="h1" variant="h5">
-                Sign in
+                Login
               </Typography>
               <form className={classes.form} noValidate>
                 <TextField
@@ -177,7 +177,7 @@ class Login extends React.Component {
                       this.login();
                     }}
                 >
-                  Sign In
+                  Login
                 </Button>
               </form>
               <Grid
@@ -190,7 +190,7 @@ class Login extends React.Component {
                         this.props.history.push(`/signup`);
                       }}
                   >
-                    SignUp
+                    Sign Up
                   </Link>
                 </Grid>
               </Grid>
