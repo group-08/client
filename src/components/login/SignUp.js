@@ -26,10 +26,13 @@ const styles = theme => ({
     backgroundPosition: 'left center',
   },
   paper: {
-    margin: theme.spacing(8, 4),
+    padding: theme.spacing(8, 4),
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
+    position: 'relative',
+    top: '50%',
+    transform: 'translateY(-50%)'
   },
   complete: {
     margin: theme.spacing(1),
