@@ -9,8 +9,7 @@ import TextField from '@material-ui/core/TextField';
 import Link from '@material-ui/core/Link';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import LockOpenOutlinedIcon from '@material-ui/icons/LockOpenOutlined';
+import EmojiPeopleIcon from '@material-ui/icons/EmojiPeople';
 import Typography from '@material-ui/core/Typography';
 import withStyles from "@material-ui/core/styles/withStyles";
 
@@ -32,13 +31,13 @@ const styles = theme => ({
     flexDirection: 'column',
     alignItems: 'center',
   },
-  closed: {
-    margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
-  },
-  open: {
+  complete: {
     margin: theme.spacing(1),
     backgroundColor: theme.palette.success.main,
+  },
+  hi: {
+    margin: theme.spacing(1),
+    backgroundColor: theme.palette.primary.main,
   },
   form: {
     width: '100%', // Fix IE 11 issue.
@@ -58,7 +57,7 @@ const styles = theme => ({
  * https://reactjs.org/docs/react-component.html
  * @Class
  */
-class Login extends React.Component {
+class SignUp extends React.Component {
   /**
    * If you don’t initialize the state and you don’t bind methods, you don’t need to implement a constructor for your React component.
    * The constructor for a React component is called before it is mounted (rendered).
@@ -69,8 +68,8 @@ class Login extends React.Component {
     super();
     this.state = {
       email: null,
-      password: null,
-      locked: true
+      username: null,
+      password: null
     };
   }
   /**
@@ -82,6 +81,7 @@ class Login extends React.Component {
     try {
       const requestBody = JSON.stringify({
         email: this.state.email,
+        username: this.state.username,
         name: this.state.name
       });
       const response = await api.post('/users', requestBody);
@@ -128,18 +128,18 @@ class Login extends React.Component {
           <Grid item xs={false} sm={4} md={7} className={classes.image} />
           <Grid item xs={12} sm={8} md={5} component={Paper} elevation={10} square>
             <div className={classes.paper}>
-              {this.state.locked?
-                  <Avatar className={classes.closed}>
-                    <LockOutlinedIcon />
+              {!this.state.username || !this.state.password || !this.state.email ?
+                  <Avatar className={classes.hi}>
+                    <EmojiPeopleIcon />
                   </Avatar>
                   :
-                  <Avatar className={classes.open}>
-                    <LockOpenOutlinedIcon />
+                  <Avatar className={classes.complete}>
+                    <EmojiPeopleIcon />
                   </Avatar>
               }
 
               <Typography component="h1" variant="h5">
-                Sign in
+                Sign Up
               </Typography>
               <form className={classes.form} noValidate>
                 <TextField
@@ -148,10 +148,23 @@ class Login extends React.Component {
                     fullWidth
                     id="email"
                     label="E-Mail"
-                    name="E-Mail"
+                    name="email"
+                    type="email"
                     autoComplete="email"
                     onChange={e => {
                       this.handleInputChange('email', e.target.value);
+                    }}
+                />
+                <TextField
+                    variant="outlined"
+                    margin="normal"
+                    fullWidth
+                    id="username"
+                    label="Username"
+                    name="username"
+                    autoComplete="username"
+                    onChange={e => {
+                      this.handleInputChange('username', e.target.value);
                     }}
                 />
                 <TextField
@@ -172,25 +185,24 @@ class Login extends React.Component {
                     variant="contained"
                     color="primary"
                     className={classes.submit}
-                    disabled={!this.state.email || !this.state.password}
+                    disabled={!this.state.username || !this.state.password || !this.state.email}
                     onClick={() => {
                       this.login();
                     }}
                 >
-                  Sign In
+                  SignUp
                 </Button>
               </form>
               <Grid
                   container
-                  justify="flex-end"
               >
                 <Grid item>
                   <Link
                       onClick={() => {
-                        this.props.history.push(`/signup`);
+                        this.props.history.push(`/login`);
                       }}
                   >
-                    SignUp
+                    Login
                   </Link>
                 </Grid>
               </Grid>
@@ -205,4 +217,4 @@ class Login extends React.Component {
  * You can get access to the history object's properties via the withRouter.
  * withRouter will pass updated match, location, and history props to the wrapped component whenever it renders.
  */
-export default withRouter(withStyles(styles)(Login));
+export default withRouter(withStyles(styles)(SignUp));
