@@ -14,12 +14,14 @@ import LockOpenOutlinedIcon from '@material-ui/icons/LockOpenOutlined';
 import Typography from '@material-ui/core/Typography';
 import withStyles from "@material-ui/core/styles/withStyles";
 
+import splash from './splash.jpg'
+
 const styles = theme => ({
   root: {
     height: '100vh',
   },
   image: {
-    backgroundImage: 'url(/images/splash.jpg)',
+    backgroundImage: 'url(' + splash + ')',
     backgroundRepeat: 'no-repeat',
     backgroundColor:
         theme.palette.type === 'light' ? theme.palette.grey[50] : theme.palette.grey[900],
