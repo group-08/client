@@ -1,28 +1,67 @@
 import React from 'react';
-import styled from 'styled-components';
-import { BaseContainer } from '../../helpers/layout';
 import { api, handleError } from '../../helpers/api';
-import Player from '../../views/Player';
-import { Spinner } from '../../views/design/Spinner';
-import { Button } from '../../views/design/Button';
+
+import CssBaseline from '@material-ui/core/CssBaseline';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import Paper from '@material-ui/core/Paper';
+import Button from '@material-ui/core/Button';
+import Typography from '@material-ui/core/Typography';
 import { withRouter } from 'react-router-dom';
 
-const Container = styled(BaseContainer)`
-  color: white;
-  text-align: center;
-`;
+import withStyles from "@material-ui/core/styles/withStyles";
+import Grid from "@material-ui/core/Grid";
+import LinearProgress from "@material-ui/core/LinearProgress";
 
-const Users = styled.ul`
-  list-style: none;
-  padding-left: 0;
-`;
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableContainer from '@material-ui/core/TableContainer';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
 
-const PlayerContainer = styled.li`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-`;
+const styles = theme => ({
+  root: {
+    height: '100vh',
+  },
+  appBar: {
+    position: 'relative',
+    height: 'min-content',
+    backgroundColor: theme.palette.primary.main,
+    color: 'white'
+  },
+  layout: {
+    width: 'auto',
+    marginLeft: theme.spacing(2),
+    marginRight: theme.spacing(2),
+    [theme.breakpoints.up(600 + theme.spacing(2) * 2)]: {
+      width: 600,
+      marginLeft: 'auto',
+      marginRight: 'auto',
+    },
+  },
+  paper: {
+    marginTop: theme.spacing(3),
+    marginBottom: theme.spacing(3),
+    padding: theme.spacing(2),
+    [theme.breakpoints.up(600 + theme.spacing(3) * 2)]: {
+      marginTop: theme.spacing(6),
+      marginBottom: theme.spacing(6),
+      padding: theme.spacing(3),
+    },
+  },
+  stepper: {
+    padding: theme.spacing(3, 0, 5),
+  },
+  buttons: {
+    display: 'flex',
+    justifyContent: 'flex-end',
+  },
+  button: {
+    marginTop: theme.spacing(3),
+    marginLeft: theme.spacing(1),
+  },
+});
 
 class Game extends React.Component {
   constructor() {
@@ -63,36 +102,60 @@ class Game extends React.Component {
   }
 
   render() {
+    const { classes } = this.props;
+
     return (
-      <Container>
-        <h2>Happy Coding! </h2>
-        <p>Get all users from secure end point:</p>
-        {!this.state.users ? (
-          <Spinner />
-        ) : (
-          <div>
-            <Users>
-              {this.state.users.map(user => {
-                return (
-                  <PlayerContainer key={user.id}>
-                    <Player user={user} />
-                  </PlayerContainer>
-                );
-              })}
-            </Users>
-            <Button
-              width="100%"
-              onClick={() => {
-                this.logout();
-              }}
-            >
-              Logout
-            </Button>
-          </div>
-        )}
-      </Container>
+        <Grid container component="main" className={classes.root}>
+        <CssBaseline />
+          <AppBar position="absolute" color="default" className={classes.appBar}>
+            <Toolbar>
+              <Typography variant="h6" color="inherit" noWrap>
+                Game
+              </Typography>
+            </Toolbar>
+          </AppBar>
+          <main className={classes.layout}>
+            <Paper className={classes.paper}>
+              <Typography component="h1" variant="h4" align="center">
+                Welcome
+              </Typography>
+              {this.state.users ? (
+                  <TableContainer>
+                    <Table>
+                      <TableBody>
+                        {this.state.users.map(user => {
+                          return (
+                              <TableRow key={user.id}>
+                                <TableCell>
+                                  {user.id}
+                                </TableCell>
+                                <TableCell>
+                                  {user.username}
+                                </TableCell>
+                                <TableCell>
+                                  {user.email}
+                                </TableCell>
+                                <TableCell>
+                                  {user.status}
+                                </TableCell>
+                              </TableRow>
+                          );
+                        })}
+                      </TableBody>
+                    </Table>
+                  </TableContainer>
+              ):(
+                  <div>
+                    <p>Loading users</p>
+                    <LinearProgress />
+                  </div>
+
+              ) }
+            </Paper>
+          </main>
+        </Grid>
     );
   }
 }
 
-export default withRouter(Game);
+export default withRouter(withStyles(styles)(Game));
