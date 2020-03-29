@@ -85,9 +85,9 @@ class Login extends React.Component {
     try {
       const requestBody = JSON.stringify({
         email: this.state.email,
-        name: this.state.name
+        password: this.state.password
       });
-      const response = await api.post('/users', requestBody);
+      const response = await api.post('/login', requestBody);
 
       // Get the returned user and update a new object.
       const user = new User(response.data);
@@ -120,7 +120,13 @@ class Login extends React.Component {
    * You may call setState() immediately in componentDidMount().
    * It will trigger an extra rendering, but it will happen before the browser updates the screen.
    */
-  componentDidMount() { }
+  componentDidMount() {
+    // Automatically fill email if user just signed up
+    if (this.props.location.state && this.props.location.state.email ) {
+      this.setState({email: this.props.location.state.email});
+
+    }
+  }
 
   render() {
     const { classes } = this.props;
@@ -153,6 +159,7 @@ class Login extends React.Component {
                     label="E-Mail"
                     name="E-Mail"
                     autoComplete="email"
+                    value={this.state.email}
                     onChange={e => {
                       this.handleInputChange('email', e.target.value);
                     }}

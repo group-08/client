@@ -85,7 +85,7 @@ class SignUp extends React.Component {
       const requestBody = JSON.stringify({
         email: this.state.email,
         username: this.state.username,
-        name: this.state.name
+        password: this.state.password
       });
       const response = await api.post('/users', requestBody);
 
@@ -93,10 +93,10 @@ class SignUp extends React.Component {
       const user = new User(response.data);
 
       // Store the token into the local storage.
-      localStorage.setItem('token', user.token);
+      let userEmail = user.email;
 
       // Login successfully worked --> navigate to the route /game in the GameRouter
-      this.props.history.push(`/game`);
+      this.props.history.push(`/login`, {email: userEmail});
     } catch (error) {
       alert(`Something went wrong during the login: \n${handleError(error)}`);
     }
