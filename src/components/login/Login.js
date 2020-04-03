@@ -4,39 +4,17 @@ import User from '../shared/models/User';
 import { withRouter } from 'react-router-dom';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
-import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
 import Link from '@material-ui/core/Link';
-import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import LockOpenOutlinedIcon from '@material-ui/icons/LockOpenOutlined';
 import Typography from '@material-ui/core/Typography';
 import withStyles from "@material-ui/core/styles/withStyles";
 
-import splash from './splash.jpg'
+import Splash from "../../views/splash/Splash";
 
 const styles = theme => ({
-  root: {
-    height: '100vh',
-  },
-  image: {
-    backgroundImage: 'url(' + splash + ')',
-    backgroundRepeat: 'no-repeat',
-    backgroundColor:
-        theme.palette.type === 'light' ? theme.palette.grey[50] : theme.palette.grey[900],
-    backgroundSize: 'cover',
-    backgroundPosition: 'left center',
-  },
-  paper: {
-    padding: theme.spacing(8, 4),
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    position: 'relative',
-    top: '50%',
-    transform: 'translateY(-50%)'
-  },
   closed: {
     margin: theme.spacing(1),
     backgroundColor: theme.palette.secondary.main,
@@ -134,81 +112,75 @@ class Login extends React.Component {
     const { classes } = this.props;
 
     return (
-        <Grid container component="main" className={classes.root}>
-          <CssBaseline />
-          <Grid item xs={false} sm={4} md={7} className={classes.image} />
-          <Grid item xs={12} sm={8} md={5} component={Paper} elevation={10} square>
-            <div className={classes.paper}>
-              {this.state.locked?
-                  <Avatar className={classes.closed}>
-                    <LockOutlinedIcon />
-                  </Avatar>
-                  :
-                  <Avatar className={classes.open}>
-                    <LockOpenOutlinedIcon />
-                  </Avatar>
-              }
+        <Splash>
+          {this.state.locked?
+              <Avatar className={classes.closed}>
+                <LockOutlinedIcon />
+              </Avatar>
+              :
+              <Avatar className={classes.open}>
+                <LockOpenOutlinedIcon />
+              </Avatar>
+          }
 
-              <Typography component="h1" variant="h5">
-                Login
-              </Typography>
-              <form className={classes.form} noValidate>
-                <TextField
-                    variant="outlined"
-                    margin="normal"
-                    fullWidth
-                    id="email"
-                    label="E-Mail"
-                    name="E-Mail"
-                    autoComplete="email"
-                    value={this.state.email}
-                    onChange={e => {
-                      this.handleInputChange('email', e.target.value);
-                    }}
-                />
-                <TextField
-                    variant="outlined"
-                    margin="normal"
-                    fullWidth
-                    name="password"
-                    label="Password"
-                    type="password"
-                    id="password"
-                    autoComplete="current-password"
-                    onChange={e => {
-                      this.handleInputChange('password', e.target.value);
-                    }}
-                />
-                <Button
-                    fullWidth
-                    variant="contained"
-                    color="primary"
-                    className={classes.submit}
-                    disabled={!this.state.email || !this.state.password}
-                    onClick={() => {
-                      this.login();
-                    }}
-                >
-                  Login
-                </Button>
-              </form>
-              <Grid
-                  container
-                  justify="flex-end"
+          <Typography component="h1" variant="h5">
+            Login
+          </Typography>
+          <form className={classes.form} noValidate>
+            <TextField
+                variant="outlined"
+                margin="normal"
+                fullWidth
+                id="email"
+                label="E-Mail"
+                name="E-Mail"
+                autoComplete="email"
+                value={this.state.email}
+                onChange={e => {
+                  this.handleInputChange('email', e.target.value);
+                }}
+            />
+            <TextField
+                variant="outlined"
+                margin="normal"
+                fullWidth
+                name="password"
+                label="Password"
+                type="password"
+                id="password"
+                autoComplete="current-password"
+                onChange={e => {
+                  this.handleInputChange('password', e.target.value);
+                }}
+            />
+            <Button
+                fullWidth
+                variant="contained"
+                color="primary"
+                className={classes.submit}
+                disabled={!this.state.email || !this.state.password}
+                onClick={() => {
+                  this.login();
+                }}
+            >
+              Login
+            </Button>
+          </form>
+          <Grid
+              container
+              justify="flex-end"
+          >
+            <Grid item>
+              <Link
+                  onClick={() => {
+                    this.props.history.push(`/signup`);
+                  }}
               >
-                <Grid item>
-                  <Link
-                      onClick={() => {
-                        this.props.history.push(`/signup`);
-                      }}
-                  >
-                    Sign Up
-                  </Link>
-                </Grid>
-              </Grid>
-            </div>
+                Sign Up
+              </Link>
+            </Grid>
           </Grid>
-        </Grid>
+        </Splash>
     )
   }
 }
