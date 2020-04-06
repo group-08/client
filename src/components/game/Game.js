@@ -17,6 +17,7 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableRow from '@material-ui/core/TableRow';
+import Button from "@material-ui/core/Button";
 
 const styles = theme => ({
   root: {
@@ -55,9 +56,9 @@ const styles = theme => ({
     display: 'flex',
     justifyContent: 'flex-end',
   },
-  button: {
-    marginTop: theme.spacing(3),
-    marginLeft: theme.spacing(1),
+  logoutButton: {
+    width: "100%",
+    marginTop: theme.spacing(2)
   },
 });
 
@@ -149,6 +150,17 @@ class Game extends React.Component {
                   </div>
 
               ) }
+              <Button
+                  size="large"
+                  variant="contained"
+                  color="primary"
+                  className={classes.logoutButton}
+                  onClick={() => {
+                    this.logout();
+                  }}
+              >
+                Logout
+              </Button>
             </Paper>
           </main>
         </Grid>
