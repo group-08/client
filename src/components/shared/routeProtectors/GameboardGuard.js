@@ -9,10 +9,18 @@ import { Redirect } from "react-router-dom";
  * If the user isn't authenticated, the components redirects to the /login screen
  * @Guard
  * @param props
- */
- export const GameGuard = props => {
+ *
+ * export const GameboardGuard = props => {
   if (localStorage.getItem("token")) {
     return props.children;
   }
   return <Redirect to={"/login"} />;
+};
+ *
+ */
+export const GameboardGuard = props => {
+    if (localStorage.getItem("token")) {
+    return props.children;
+    }
+    return <Redirect to={"/login"} />;
 };
