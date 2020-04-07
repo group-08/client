@@ -102,7 +102,7 @@ const map = {
 const pieceButton = {
     border: '1px solid',
     position: "absolute",
-    width: 30,
+    maxWidth: 26,
     height: 26,
     borderRadius: 13,
     padding: 0,
@@ -217,6 +217,12 @@ class Gameboard extends React.Component {
         };
     }
 
+    changeColor(){
+        this.const.style1 = {
+            backgroundColor: 'blue'
+        }
+    }
+
     render() {
         return (
             <div style={board}>
@@ -232,7 +238,7 @@ class Gameboard extends React.Component {
                     <Button
                         style={{...pieceButton, ...style1}}
                         onClick={() => {
-                            this.props.history.push(`/signup`);
+                            this.changeColor();
                         }}>1
                     </Button>
                     <Button style={{...pieceButton, ...style2}}>
