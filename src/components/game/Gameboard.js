@@ -110,69 +110,69 @@ const pieceButton = {
 }
 
 const style1 = {top: 488, left: 104,}
-const style2 = {top: 466, left: 82,}
-const style3 = {top: 444, left: 60,}
-const style4 = {top: 422, left: 38,}
-const style5 = {top: 400, left: 16,}
-const style6 = {top: 378, left: 38,}
-const style7 = {top: 356, left: 60,}
-const style8 = {top: 334, left: 82,}
-const style9 = {top: 312, left: 104,}
-const style10 = {top: 282, left: 100,}
-const style11 = {top: 252, left: 96,}
-const style12 = {top: 222, left: 100,}
-const style13 = {top: 192, left: 104,}
-const style14 = {top: 170, left: 82,}
-const style15 = {top: 148, left: 60,}
-const style16 = {top: 126, left: 38,}
-const style17 = {top: 104, left: 16,}
-const style18 = {top: 82, left: 38,}
-const style19 = {top: 60, left: 60,}
-const style20 = {top: 38, left: 82,}
-const style21 = {top: 16, left: 104,}
-const style22 = {top: 38, left: 126,}
-const style23 = {top: 60, left: 148,}
-const style24 = {top: 82, left: 170,}
-const style25 = {top: 104, left: 192,}
-const style26 = {top: 100, left: 222,}
-const style27 = {top: 96, left: 252,}
-const style28 = {top: 100, left: 282,}
-const style29 = {top: 104, left: 312,}
-const style30 = {top: 82, left: 334,}
-const style31 = {top: 60, left: 356,}
-const style32 = {top: 38, left: 378,}
+const style64 = {top: 466, left: 82,}
+const style63 = {top: 444, left: 60,}
+const style62 = {top: 422, left: 38,}
+const style61 = {top: 400, left: 16,}
+const style60 = {top: 378, left: 38,}
+const style59 = {top: 356, left: 60,}
+const style58 = {top: 334, left: 82,}
+const style57 = {top: 312, left: 104,}
+const style56 = {top: 282, left: 100,}
+const style55 = {top: 252, left: 96,}
+const style54 = {top: 222, left: 100,}
+const style53 = {top: 192, left: 104,}
+const style52 = {top: 170, left: 82,}
+const style51 = {top: 148, left: 60,}
+const style50 = {top: 126, left: 38,}
+const style49 = {top: 104, left: 16,}
+const style48 = {top: 82, left: 38,}
+const style47 = {top: 60, left: 60,}
+const style46 = {top: 38, left: 82,}
+const style45 = {top: 16, left: 104,}
+const style44 = {top: 38, left: 126,}
+const style43 = {top: 60, left: 148,}
+const style42 = {top: 82, left: 170,}
+const style41 = {top: 104, left: 192,}
+const style40 = {top: 100, left: 222,}
+const style39 = {top: 96, left: 252,}
+const style38 = {top: 100, left: 282,}
+const style37 = {top: 104, left: 312,}
+const style36 = {top: 82, left: 334,}
+const style35 = {top: 60, left: 356,}
+const style34 = {top: 38, left: 378,}
 const style33 = {top: 16, left: 400,}
-const style34 = {top: 38, left: 422,}
-const style35 = {top: 60, left: 444,}
-const style36 = {top: 82, left: 466,}
-const style37 = {top: 104, left: 488,}
-const style38 = {top: 126, left: 466,}
-const style39 = {top: 148, left: 444,}
-const style40 = {top: 170, left: 422,}
-const style41 = {top: 192, left: 400,}
-const style42 = {top: 222, left: 404,}
-const style43 = {top: 252, left: 408,}
-const style44 = {top: 282, left: 404,}
-const style45 = {top: 312, left: 400,}
-const style46 = {top: 334, left: 422,}
-const style47 = {top: 356, left: 444,}
-const style48 = {top: 378, left: 466,}
-const style49 = {top: 400, left: 488,}
-const style50 = {top: 422, left: 466,}
-const style51 = {top: 444, left: 444,}
-const style52 = {top: 466, left: 422,}
-const style53 = {top: 488, left: 400,}
-const style54 = {top: 466, left: 378,}
-const style55 = {top: 444, left: 356,}
-const style56 = {top: 422, left: 334,}
-const style57 = {top: 400, left: 312,}
-const style58 = {top: 404, left: 282,}
-const style59 = {top: 408, left: 252,}
-const style60 = {top: 404, left: 222,}
-const style61 = {top: 400, left: 192,}
-const style62 = {top: 422, left: 170,}
-const style63 = {top: 444, left: 148,}
-const style64 = {top: 466, left: 126,}
+const style32 = {top: 38, left: 422,}
+const style31 = {top: 60, left: 444,}
+const style30 = {top: 82, left: 466,}
+const style29 = {top: 104, left: 488,}
+const style28 = {top: 126, left: 466,}
+const style27 = {top: 148, left: 444,}
+const style26 = {top: 170, left: 422,}
+const style25 = {top: 192, left: 400,}
+const style24 = {top: 222, left: 404,}
+const style23 = {top: 252, left: 408,}
+const style22 = {top: 282, left: 404,}
+const style21 = {top: 312, left: 400,}
+const style20 = {top: 334, left: 422,}
+const style19 = {top: 356, left: 444,}
+const style18 = {top: 378, left: 466,}
+const style17 = {top: 400, left: 488,}
+const style16 = {top: 422, left: 466,}
+const style15 = {top: 444, left: 444,}
+const style14 = {top: 466, left: 422,}
+const style13 = {top: 488, left: 400,}
+const style12 = {top: 466, left: 378,}
+const style11 = {top: 444, left: 356,}
+const style10 = {top: 422, left: 334,}
+const style9 = {top: 400, left: 312,}
+const style8 = {top: 404, left: 282,}
+const style7 = {top: 408, left: 252,}
+const style6 = {top: 404, left: 222,}
+const style5 = {top: 400, left: 192,}
+const style4 = {top: 422, left: 170,}
+const style3 = {top: 444, left: 148,}
+const style2 = {top: 466, left: 126,}
 const style65 = {top: 10, left: 0,}
 const style66 = {top: 0, left: 0,}
 const style67 = {top: 10, left: 0,}
@@ -241,9 +241,9 @@ class Gameboard extends React.Component {
                             this.changeColor();
                         }}>1
                     </Button>
-                    <Button style={{...pieceButton, ...style2}}>
+                    <Button style={{...pieceButton, ...style2}}>2
                     </Button>
-                    <Button style={{...pieceButton, ...style3}}>
+                    <Button style={{...pieceButton, ...style3}}>3
                     </Button>
                     <Button style={{...pieceButton, ...style4}}>
                     </Button>
@@ -257,7 +257,7 @@ class Gameboard extends React.Component {
                     </Button>
                     <Button style={{...pieceButton, ...style9}}>
                     </Button>
-                    <Button style={{...pieceButton, ...style10}}>
+                    <Button style={{...pieceButton, ...style10}}>10
                     </Button>
                     <Button style={{...pieceButton, ...style11}}>
                     </Button>
@@ -269,15 +269,15 @@ class Gameboard extends React.Component {
                     </Button>
                     <Button style={{...pieceButton, ...style15}}>
                     </Button>
-                    <Button style={{...pieceButton, ...style16}}>
+                    <Button style={{...pieceButton, ...style16}}>16
                     </Button>
-                    <Button style={{...pieceButton, ...style17}}>
+                    <Button style={{...pieceButton, ...style17}}>17
                     </Button>
                     <Button style={{...pieceButton, ...style18}}>
                     </Button>
                     <Button style={{...pieceButton, ...style19}}>
                     </Button>
-                    <Button style={{...pieceButton, ...style20}}>
+                    <Button style={{...pieceButton, ...style20}}>20
                     </Button>
                     <Button style={{...pieceButton, ...style21}}>
                     </Button>
@@ -303,7 +303,7 @@ class Gameboard extends React.Component {
                     </Button>
                     <Button style={{...pieceButton, ...style32}}>
                     </Button>
-                    <Button style={{...pieceButton, ...style33}}>
+                    <Button style={{...pieceButton, ...style33}}>33
                     </Button>
                     <Button style={{...pieceButton, ...style34}}>
                     </Button>
@@ -335,7 +335,7 @@ class Gameboard extends React.Component {
                     </Button>
                     <Button style={{...pieceButton, ...style48}}>
                     </Button>
-                    <Button style={{...pieceButton, ...style49}}>
+                    <Button style={{...pieceButton, ...style49}}>49
                     </Button>
                     <Button style={{...pieceButton, ...style50}}>
                     </Button>
@@ -363,9 +363,9 @@ class Gameboard extends React.Component {
                     </Button>
                     <Button style={{...pieceButton, ...style62}}>
                     </Button>
-                    <Button style={{...pieceButton, ...style63}}>
+                    <Button style={{...pieceButton, ...style63}}>63
                     </Button>
-                    <Button style={{...pieceButton, ...style64}}>
+                    <Button style={{...pieceButton, ...style64}}>64
                     </Button>
                     <Button style={{...pieceButton, ...style65}}>
                     </Button>
