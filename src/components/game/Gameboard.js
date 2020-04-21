@@ -14,38 +14,7 @@ import LockOpenOutlinedIcon from '@material-ui/icons/LockOpenOutlined';
 import Typography from '@material-ui/core/Typography';
 import withStyles from "@material-ui/core/styles/withStyles";
 
-/**
-const styles = theme => ({
-    root: {
-        height: '100vh',
-    },
-    paper: {
-        padding: theme.spacing(8, 4),
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        position: 'relative',
-        top: '50%',
-        transform: 'translateY(-50%)'
-    },
-    closed: {
-        margin: theme.spacing(1),
-        backgroundColor: theme.palette.secondary.main,
-    },
-    open: {
-        margin: theme.spacing(1),
-        backgroundColor: theme.palette.success.main,
-    },
-    form: {
-        width: '100%', // Fix IE 11 issue.
-        marginTop: theme.spacing(1),
-    },
-    submit: {
-        margin: theme.spacing(3, 0, 2),
-    },
-});
-*/
-
+import mapPic from './mapPic.jpeg'
 
 const board = {
     border: '1px solid',
@@ -55,61 +24,127 @@ const board = {
     marginLeft: 50
 }
 
-const opponent1 = {
+const opponent3 = {
     border: '1px solid',
-    width: 100,
+    width: 95,
     height: 420,
     marginLeft: 5,
-    marginTop: 200
+    marginTop: 160
 }
 
 const opponent2 = {
     border: '1px solid',
     width: 420,
-    height: 100,
-    position: "fixed",
+    height: 95,
+    position: "absolute",
     marginLeft: 173,
-    top: 0
+    marginTop: 5
 }
 
-const opponent3 = {
+const opponent1 = {
     border: '1px solid',
-    width: 100,
+    width: 95,
     height: 420,
-    position: "fixed",
-    left: 713,
-    top: 200
+    position: "absolute",
+    left: 663,
+    top: 160
 }
 
 const cards = {
     border: '1px solid',
     width: 504,
-    height: 120,
-    position: "fixed",
+    height: 115,
+    position: "absolute",
     top: 640,
-    left: 180
+    left: 120
 }
 
 const map = {
+    backgroundImage: 'url(' + mapPic + ')',
     border: '1px solid',
     width: 530,
     height: 530,
-    position: "fixed",
+    position: "absolute",
     top:104,
-    left:169
+    left:115
 }
 
 const pieceButton = {
     border: '1px solid',
     position: "absolute",
-    maxWidth: 26,
+    width: 26,
     height: 26,
     borderRadius: 13,
-    padding: 0,
-    //background: 'blue'
 }
 
-const style1 = {top: 488, left: 104,}
+const sideboard = {
+    //backgroundImage: 'url(' + mapPic + ')',
+    border: '1px solid',
+    width: 548,
+    height: 768,
+    position: "absolute",
+    left:818
+}
+
+const players = {
+    border: '1px solid',
+    width: 530,
+    height: 210,
+    position: "absolute",
+    marginTop: 200,
+    marginLeft: 9,
+    borderRadius: 10
+}
+
+const joker = {
+    border: '1px solid',
+    width: 530,
+    height: 210,
+    position: "absolute",
+    marginTop: 420,
+    marginLeft: 9,
+    borderRadius: 10
+}
+
+const player = {
+    border: '1px solid',
+    marginLeft: 10,
+    width: 510,
+    height: 40,
+    marginTop: 10,
+    borderRadius: 10
+}
+
+
+const playerBlue = {
+    width: 26,
+    height: 26,
+    borderRadius: 13,
+    background: 'blue',
+    margin: 6
+}
+const playerGreen = {
+    width: 26,
+    height: 26,
+    borderRadius: 13,
+    background: 'green',
+    margin: 6
+}
+const playerRed = {
+    width: 26,
+    height: 26,
+    borderRadius: 13,
+    background: 'red',
+    margin: 6
+}
+const playerYellow = {
+    width: 26,
+    height: 26,
+    borderRadius: 13,
+    background: 'yellow',
+    margin: 6
+}
+
 const style64 = {top: 466, left: 82,}
 const style63 = {top: 444, left: 60,}
 const style62 = {top: 422, left: 38,}
@@ -173,38 +208,46 @@ const style5 = {top: 400, left: 192,}
 const style4 = {top: 422, left: 170,}
 const style3 = {top: 444, left: 148,}
 const style2 = {top: 466, left: 126,}
-const style65 = {top: 10, left: 0,}
-const style66 = {top: 0, left: 0,}
-const style67 = {top: 10, left: 0,}
-const style68 = {top: 0, left: 0,}
-const style69 = {top: 10, left: 0,}
-const style70 = {top: 0, left: 0,}
-const style71 = {top: 10, left: 0,}
-const style72 = {top: 0, left: 0,}
-const style73 = {top: 10, left: 0,}
-const style74 = {top: 0, left: 0,}
-const style75 = {top: 10, left: 0,}
-const style76 = {top: 0, left: 0,}
-const style77 = {top: 10, left: 0,}
-const style78 = {top: 0, left: 0,}
-const style79 = {top: 10, left: 0,}
-const style80 = {top: 0, left: 0,}
-const style81 = {top: 10, left: 0,}
-const style82 = {top: 0, left: 0,}
-const style83 = {top: 10, left: 0,}
-const style84 = {top: 0, left: 0,}
-const style85 = {top: 10, left: 0,}
-const style86 = {top: 0, left: 0,}
-const style87 = {top: 10, left: 0,}
-const style88 = {top: 0, left: 0,}
-const style89 = {top: 10, left: 0,}
-const style90 = {top: 0, left: 0,}
-const style91 = {top: 10, left: 0,}
-const style92 = {top: 0, left: 0,}
-const style93 = {top: 10, left: 0,}
-const style94 = {top: 0, left: 0,}
-const style95 = {top: 10, left: 0,}
-const style96 = {top: 0, left: 0,}
+const style1 = {top: 488, left: 104,}
+const style65 = {top: 436, left: 102,}
+const style66 = {top: 404, left: 100,}
+const style67 = {top: 381, left: 123,}
+const style68 = {top: 358, left: 146,}
+const style69 = {top: 402, left: 436,}
+const style70 = {top: 404, left: 404,}
+const style71 = {top: 381, left: 381,}
+const style72 = {top: 358, left: 358,}
+const style73 = {top: 68, left: 402,}
+const style74 = {top: 100, left: 404,}
+const style75 = {top: 123, left: 381,}
+const style76 = {top: 146, left: 358,}
+const style77 = {top: 102, left: 68,}
+const style78 = {top: 100, left: 100,}
+const style79 = {top: 123, left: 123,}
+const style80 = {top: 146, left: 146,}
+const style81 = {top: 488, left: 169,}
+const style82 = {top: 488, left: 202,}
+const style83 = {top: 488, left: 235,}
+const style84 = {top: 488, left: 268,}
+const style85 = {top: 335, left: 488,}
+const style86 = {top: 302, left: 488,}
+const style87 = {top: 269, left: 488,}
+const style88 = {top: 237, left: 488,}
+const style89 = {top: 16, left: 335,}
+const style90 = {top: 16, left: 302,}
+const style91 = {top: 16, left: 269,}
+const style92 = {top: 16, left: 237,}
+const style93 = {top: 169, left: 16,}
+const style94 = {top: 202, left: 16,}
+const style95 = {top: 235, left: 16,}
+const style96 = {top: 268, left: 16,}
+
+const blue = {border: '3px solid', borderColor: 'blue'}
+const green = {border: '3px solid', borderColor: 'green'}
+const red = {border: '3px solid', borderColor: 'red'}
+const yellow = {border: '3px solid', borderColor: 'yellow'}
+
+
 
 
 class Gameboard extends React.Component {
@@ -222,219 +265,271 @@ class Gameboard extends React.Component {
             backgroundColor: 'blue'
         }
     }
+/**
+    getJokerDeck(){
+        const values = ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"];
+        let jokerDeck = [];
+        let card = [];
 
+        for (let x = 0; x < values.length; x++) {
+            card = {suit: 'J', val: values[x]};
+            jokerDeck.push(card);
+        }
+    }
+const Card = (jokerDeck) => {
+        <div className="card card-black">
+            <div className="card-tl">
+                <div className="card-value">
+                    {props.value}
+                </div>
+                <div className="card-suit">
+                    {props.suit}
+                </div>
+            </div>
+            <div className="card-br">
+                <div className="card-value">
+                    {props.value}
+                </div>
+                <div className="card-suit">
+                    {props.suit}
+                </div>
+            </div>
+        </div>
+    }
+**/
     render() {
         return (
-            <div style={board}>
-                <div style={opponent1}>
-                </div>
-                <div style={opponent2}>
-                </div>
-                <div style={opponent3}>
-                </div>
-                <div style={cards}>
-                </div>
-                <div style={map}>
-                    <Button
-                        style={{...pieceButton, ...style1}}
+            <div>
+                <div style={board}>
+                    <div style={opponent1}>
+                    </div>
+                    <div style={opponent2}>
+                    </div>
+                    <div style={opponent3}>
+                    </div>
+                    <div style={cards}>
+                    </div>
+                    <div style={map}>
+                    <div
+                        style={{...pieceButton, ...style1, ...blue}}
                         onClick={() => {
                             this.changeColor();
-                        }}>1
-                    </Button>
-                    <Button style={{...pieceButton, ...style2}}>2
-                    </Button>
-                    <Button style={{...pieceButton, ...style3}}>3
-                    </Button>
-                    <Button style={{...pieceButton, ...style4}}>
-                    </Button>
-                    <Button style={{...pieceButton, ...style5}}>
-                    </Button>
-                    <Button style={{...pieceButton, ...style6}}>
-                    </Button>
-                    <Button style={{...pieceButton, ...style7}}>
-                    </Button>
-                    <Button style={{...pieceButton, ...style8}}>
-                    </Button>
-                    <Button style={{...pieceButton, ...style9}}>
-                    </Button>
-                    <Button style={{...pieceButton, ...style10}}>10
-                    </Button>
-                    <Button style={{...pieceButton, ...style11}}>
-                    </Button>
-                    <Button style={{...pieceButton, ...style12}}>
-                    </Button>
-                    <Button style={{...pieceButton, ...style13}}>
-                    </Button>
-                    <Button style={{...pieceButton, ...style14}}>
-                    </Button>
-                    <Button style={{...pieceButton, ...style15}}>
-                    </Button>
-                    <Button style={{...pieceButton, ...style16}}>16
-                    </Button>
-                    <Button style={{...pieceButton, ...style17}}>17
-                    </Button>
-                    <Button style={{...pieceButton, ...style18}}>
-                    </Button>
-                    <Button style={{...pieceButton, ...style19}}>
-                    </Button>
-                    <Button style={{...pieceButton, ...style20}}>20
-                    </Button>
-                    <Button style={{...pieceButton, ...style21}}>
-                    </Button>
-                    <Button style={{...pieceButton, ...style22}}>
-                    </Button>
-                    <Button style={{...pieceButton, ...style23}}>
-                    </Button>
-                    <Button style={{...pieceButton, ...style24}}>
-                    </Button>
-                    <Button style={{...pieceButton, ...style25}}>
-                    </Button>
-                    <Button style={{...pieceButton, ...style26}}>
-                    </Button>
-                    <Button style={{...pieceButton, ...style27}}>
-                    </Button>
-                    <Button style={{...pieceButton, ...style28}}>
-                    </Button>
-                    <Button style={{...pieceButton, ...style29}}>
-                    </Button>
-                    <Button style={{...pieceButton, ...style30}}>
-                    </Button>
-                    <Button style={{...pieceButton, ...style31}}>
-                    </Button>
-                    <Button style={{...pieceButton, ...style32}}>
-                    </Button>
-                    <Button style={{...pieceButton, ...style33}}>33
-                    </Button>
-                    <Button style={{...pieceButton, ...style34}}>
-                    </Button>
-                    <Button style={{...pieceButton, ...style35}}>
-                    </Button>
-                    <Button style={{...pieceButton, ...style36}}>
-                    </Button>
-                    <Button style={{...pieceButton, ...style37}}>
-                    </Button>
-                    <Button style={{...pieceButton, ...style38}}>
-                    </Button>
-                    <Button style={{...pieceButton, ...style39}}>
-                    </Button>
-                    <Button style={{...pieceButton, ...style40}}>
-                    </Button>
-                    <Button style={{...pieceButton, ...style41}}>
-                    </Button>
-                    <Button style={{...pieceButton, ...style42}}>
-                    </Button>
-                    <Button style={{...pieceButton, ...style43}}>
-                    </Button>
-                    <Button style={{...pieceButton, ...style44}}>
-                    </Button>
-                    <Button style={{...pieceButton, ...style45}}>
-                    </Button>
-                    <Button style={{...pieceButton, ...style46}}>
-                    </Button>
-                    <Button style={{...pieceButton, ...style47}}>
-                    </Button>
-                    <Button style={{...pieceButton, ...style48}}>
-                    </Button>
-                    <Button style={{...pieceButton, ...style49}}>49
-                    </Button>
-                    <Button style={{...pieceButton, ...style50}}>
-                    </Button>
-                    <Button style={{...pieceButton, ...style51}}>
-                    </Button>
-                    <Button style={{...pieceButton, ...style52}}>
-                    </Button>
-                    <Button style={{...pieceButton, ...style53}}>
-                    </Button>
-                    <Button style={{...pieceButton, ...style54}}>
-                    </Button>
-                    <Button style={{...pieceButton, ...style55}}>
-                    </Button>
-                    <Button style={{...pieceButton, ...style56}}>
-                    </Button>
-                    <Button style={{...pieceButton, ...style57}}>
-                    </Button>
-                    <Button style={{...pieceButton, ...style58}}>
-                    </Button>
-                    <Button style={{...pieceButton, ...style59}}>
-                    </Button>
-                    <Button style={{...pieceButton, ...style60}}>
-                    </Button>
-                    <Button style={{...pieceButton, ...style61}}>
-                    </Button>
-                    <Button style={{...pieceButton, ...style62}}>
-                    </Button>
-                    <Button style={{...pieceButton, ...style63}}>63
-                    </Button>
-                    <Button style={{...pieceButton, ...style64}}>64
-                    </Button>
-                    <Button style={{...pieceButton, ...style65}}>
-                    </Button>
-                    <Button style={{...pieceButton, ...style66}}>
-                    </Button>
-                    <Button style={{...pieceButton, ...style67}}>
-                    </Button>
-                    <Button style={{...pieceButton, ...style68}}>
-                    </Button>
-                    <Button style={{...pieceButton, ...style69}}>
-                    </Button>
-                    <Button style={{...pieceButton, ...style70}}>
-                    </Button>
-                    <Button style={{...pieceButton, ...style71}}>
-                    </Button>
-                    <Button style={{...pieceButton, ...style72}}>
-                    </Button>
-                    <Button style={{...pieceButton, ...style73}}>
-                    </Button>
-                    <Button style={{...pieceButton, ...style74}}>
-                    </Button>
-                    <Button style={{...pieceButton, ...style75}}>
-                    </Button>
-                    <Button style={{...pieceButton, ...style76}}>
-                    </Button>
-                    <Button style={{...pieceButton, ...style77}}>
-                    </Button>
-                    <Button style={{...pieceButton, ...style78}}>
-                    </Button>
-                    <Button style={{...pieceButton, ...style79}}>
-                    </Button>
-                    <Button style={{...pieceButton, ...style80}}>
-                    </Button>
-                    <Button style={{...pieceButton, ...style81}}>
-                    </Button>
-                    <Button style={{...pieceButton, ...style82}}>
-                    </Button>
-                    <Button style={{...pieceButton, ...style83}}>
-                    </Button>
-                    <Button style={{...pieceButton, ...style84}}>
-                    </Button>
-                    <Button style={{...pieceButton, ...style85}}>
-                    </Button>
-                    <Button style={{...pieceButton, ...style86}}>
-                    </Button>
-                    <Button style={{...pieceButton, ...style87}}>
-                    </Button>
-                    <Button style={{...pieceButton, ...style88}}>
-                    </Button>
-                    <Button style={{...pieceButton, ...style89}}>
-                    </Button>
-                    <Button style={{...pieceButton, ...style90}}>
-                    </Button>
-                    <Button style={{...pieceButton, ...style91}}>
-                    </Button>
-                    <Button style={{...pieceButton, ...style92}}>
-                    </Button>
-                    <Button style={{...pieceButton, ...style93}}>
-                    </Button>
-                    <Button style={{...pieceButton, ...style94}}>
-                    </Button>
-                    <Button style={{...pieceButton, ...style95}}>
-                    </Button>
-                    <Button style={{...pieceButton, ...style96}}>
-                    </Button>
+                        }}>
+                    </div>
+                    <div id= '2' style={{...pieceButton, ...style2}}>
+                    </div>
+                    <div style={{...pieceButton, ...style3}}>
+                    </div>
+                    <div style={{...pieceButton, ...style4}}>
+                    </div>
+                    <div style={{...pieceButton, ...style5}}>
+                    </div>
+                    <div style={{...pieceButton, ...style6}}>
+                    </div>
+                    <div style={{...pieceButton, ...style7}}>
+                    </div>
+                    <div style={{...pieceButton, ...style8}}>
+                    </div>
+                    <div style={{...pieceButton, ...style9}}>
+                    </div>
+                    <div style={{...pieceButton, ...style10}}>
+                    </div>
+                    <div style={{...pieceButton, ...style11}}>
+                    </div>
+                    <div style={{...pieceButton, ...style12}}>
+                    </div>
+                    <div style={{...pieceButton, ...style13}}>
+                    </div>
+                    <div style={{...pieceButton, ...style14}}>
+                    </div>
+                    <div style={{...pieceButton, ...style15}}>
+                    </div>
+                    <div style={{...pieceButton, ...style16}}>
+                    </div>
+                    <div style={{...pieceButton, ...style17, ...green}}>
+                    </div>
+                    <div style={{...pieceButton, ...style18}}>
+                    </div>
+                    <div style={{...pieceButton, ...style19}}>
+                    </div>
+                    <div style={{...pieceButton, ...style20}}>
+                    </div>
+                    <div style={{...pieceButton, ...style21}}>
+                    </div>
+                    <div style={{...pieceButton, ...style22}}>
+                    </div>
+                    <div style={{...pieceButton, ...style23}}>
+                    </div>
+                    <div style={{...pieceButton, ...style24}}>
+                    </div>
+                    <div style={{...pieceButton, ...style25}}>
+                    </div>
+                    <div style={{...pieceButton, ...style26}}>
+                    </div>
+                    <div style={{...pieceButton, ...style27}}>
+                    </div>
+                    <div style={{...pieceButton, ...style28}}>
+                    </div>
+                    <div style={{...pieceButton, ...style29}}>
+                    </div>
+                    <div style={{...pieceButton, ...style30}}>
+                    </div>
+                    <div style={{...pieceButton, ...style31}}>
+                    </div>
+                    <div style={{...pieceButton, ...style32}}>
+                    </div>
+                    <div style={{...pieceButton, ...style33, ...red}}>
+                    </div>
+                    <div style={{...pieceButton, ...style34}}>
+                    </div>
+                    <div style={{...pieceButton, ...style35}}>
+                    </div>
+                    <div style={{...pieceButton, ...style36}}>
+                    </div>
+                    <div style={{...pieceButton, ...style37}}>
+                    </div>
+                    <div style={{...pieceButton, ...style38}}>
+                    </div>
+                    <div style={{...pieceButton, ...style39}}>
+                    </div>
+                    <div style={{...pieceButton, ...style40}}>
+                    </div>
+                    <div style={{...pieceButton, ...style41}}>
+                    </div>
+                    <div style={{...pieceButton, ...style42}}>
+                    </div>
+                    <div style={{...pieceButton, ...style43}}>
+                    </div>
+                    <div style={{...pieceButton, ...style44}}>
+                    </div>
+                    <div style={{...pieceButton, ...style45}}>
+                    </div>
+                    <div style={{...pieceButton, ...style46}}>
+                    </div>
+                    <div style={{...pieceButton, ...style47}}>
+                    </div>
+                    <div style={{...pieceButton, ...style48}}>
+                    </div>
+                    <div style={{...pieceButton, ...style49, ...yellow}}>
+                    </div>
+                    <div style={{...pieceButton, ...style50}}>
+                    </div>
+                    <div style={{...pieceButton, ...style51}}>
+                    </div>
+                    <div style={{...pieceButton, ...style52}}>
+                    </div>
+                    <div style={{...pieceButton, ...style53}}>
+                    </div>
+                    <div style={{...pieceButton, ...style54}}>
+                    </div>
+                    <div style={{...pieceButton, ...style55}}>
+                    </div>
+                    <div style={{...pieceButton, ...style56}}>
+                    </div>
+                    <div style={{...pieceButton, ...style57}}>
+                    </div>
+                    <div style={{...pieceButton, ...style58}}>
+                    </div>
+                    <div style={{...pieceButton, ...style59}}>
+                    </div>
+                    <div style={{...pieceButton, ...style60}}>
+                    </div>
+                    <div style={{...pieceButton, ...style61}}>
+                    </div>
+                    <div style={{...pieceButton, ...style62}}>
+                    </div>
+                    <div style={{...pieceButton, ...style63}}>
+                    </div>
+                    <div style={{...pieceButton, ...style64}}>
+                    </div>
+                    <div style={{...pieceButton, ...style65, ...blue}}>
+                    </div>
+                    <div style={{...pieceButton, ...style66, ...blue}}>
+                    </div>
+                    <div style={{...pieceButton, ...style67, ...blue}}>
+                    </div>
+                    <div style={{...pieceButton, ...style68, ...blue}}>
+                    </div>
+                    <div style={{...pieceButton, ...style69, ...green}}>
+                    </div>
+                    <div style={{...pieceButton, ...style70, ...green}}>
+                    </div>
+                    <div style={{...pieceButton, ...style71, ...green}}>
+                    </div>
+                    <div style={{...pieceButton, ...style72, ...green}}>
+                    </div>
+                    <div style={{...pieceButton, ...style73, ...red}}>
+                    </div>
+                    <div style={{...pieceButton, ...style74, ...red}}>
+                    </div>
+                    <div style={{...pieceButton, ...style75, ...red}}>
+                    </div>
+                    <div style={{...pieceButton, ...style76, ...red}}>
+                    </div>
+                    <div style={{...pieceButton, ...style77, ...yellow}}>
+                    </div>
+                    <div style={{...pieceButton, ...style78, ...yellow}}>
+                    </div>
+                    <div style={{...pieceButton, ...style79, ...yellow}}>
+                    </div>
+                    <div style={{...pieceButton, ...style80, ...yellow}}>
+                    </div>
+                    <div style={{...pieceButton, ...style81, ...blue}}>
+                    </div>
+                    <div style={{...pieceButton, ...style82, ...blue}}>
+                    </div>
+                    <div style={{...pieceButton, ...style83, ...blue}}>
+                    </div>
+                    <div style={{...pieceButton, ...style84, ...blue}}>
+                    </div>
+                    <div style={{...pieceButton, ...style85, ...green}}>
+                    </div>
+                    <div style={{...pieceButton, ...style86, ...green}}>
+                    </div>
+                    <div style={{...pieceButton, ...style87, ...green}}>
+                    </div>
+                    <div style={{...pieceButton, ...style88, ...green}}>
+                    </div>
+                    <div style={{...pieceButton, ...style89, ...red}}>
+                    </div>
+                    <div style={{...pieceButton, ...style90, ...red}}>
+                    </div>
+                    <div style={{...pieceButton, ...style91, ...red}}>
+                    </div>
+                    <div style={{...pieceButton, ...style92, ...red}}>
+                    </div>
+                    <div style={{...pieceButton, ...style93, ...yellow}}>
+                    </div>
+                    <div style={{...pieceButton, ...style94, ...yellow}}>
+                    </div>
+                    <div style={{...pieceButton, ...style95, ...yellow}}>
+                    </div>
+                    <div style={{...pieceButton, ...style96, ...yellow}}>
+                    </div>
 
                 </div>
+                </div>
+                <div style={sideboard}>
+                    <div style={players}>
+                        <div style={player}>
+                            <div style={playerBlue}></div>
+                        </div>
+                        <div style={player}>
+                            <div style={playerGreen}></div>
+                        </div>
+                        <div style={player}>
+                            <div style={playerRed}></div>
+                        </div>
+                        <div style={player}>
+                            <div style={playerYellow}></div>
+                        </div>
+                    </div>
+                    <div style={joker}>
 
+                    </div>
+                </div>
             </div>
+
         )
     }
 }
