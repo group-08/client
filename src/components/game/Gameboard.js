@@ -20,7 +20,7 @@ const board = {
     border: '1px solid',
     width: 768,
     height: 768,
-    position: "fixed",
+    position: "absolute",
     marginLeft: 50
 }
 
