@@ -131,14 +131,16 @@ class Lobby extends React.Component {
                   </Typography>
                 </Grid>
                 <Grid item>
-                  <Button
-                      color="inherit"
-                      onClick={() => {
-                        this.logout();
-                      }}
-                  >
-                    <ExitToAppIcon />
-                  </Button>
+                  <Tooltip title="Logout" placement="left">
+                    <Button
+                        color="inherit"
+                        onClick={() => {
+                          this.logout();
+                        }}
+                    >
+                      <ExitToAppIcon />
+                    </Button>
+                  </Tooltip>
                 </Grid>
               </Grid>
             </Toolbar>
