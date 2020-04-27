@@ -25,7 +25,16 @@ import Tooltip from "@material-ui/core/Tooltip";
 
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
+import AddCircleIcon from '@material-ui/icons/AddCircle';
+import SendIcon from '@material-ui/icons/Send';
 
+import Input from '@material-ui/core/Input';
+import InputAdornment from '@material-ui/core/InputAdornment';
+import IconButton from '@material-ui/core/IconButton';
+
+import Slide from '@material-ui/core/Slide';
+import InputLabel from "@material-ui/core/InputLabel";
+import FormControl from "@material-ui/core/FormControl";
 
 const styles = theme => ({
   root: {
@@ -71,6 +80,7 @@ class Lobby extends React.Component {
     this.state = {
       users: null,
       games: null,
+      showNewGame: false,
     };
   }
 
@@ -159,8 +169,9 @@ class Lobby extends React.Component {
                     Games
                   </Typography>
                   {this.state.games ? (
+                      <>
                       <TableContainer>
-                        <Table>
+                        <Table size="small">
                           <TableHead>
                             <TableRow>
                               <TableCell>
@@ -209,6 +220,26 @@ class Lobby extends React.Component {
                           </TableBody>
                         </Table>
                       </TableContainer>
+                        <form>
+                          <FormControl fullWidth gutterTop>
+                            <InputLabel htmlFor="GameName">Name of your Game</InputLabel>
+                            <Input
+
+                                id="GameName"
+                                label="Name of your game"
+                                endAdornment={
+                                  <InputAdornment position="end">
+                                    <IconButton
+                                        aria-label="Create Room"
+                                    >
+                                      <AddCircleIcon />
+                                    </IconButton>
+                                  </InputAdornment>
+                                }
+                            />
+                          </FormControl>
+                        </form>
+                      </>
                   ):(
                       <div>
                         <p>Loading games</p>
@@ -225,7 +256,7 @@ class Lobby extends React.Component {
                   </Typography>
                   {this.state.users ? (
                       <TableContainer>
-                        <Table>
+                        <Table size="small">
                           <TableBody>
                             {this.state.users.map(user => {
                               return (
@@ -247,7 +278,6 @@ class Lobby extends React.Component {
                         <p>Loading users</p>
                         <LinearProgress />
                       </div>
-
                   ) }
                 </Paper>
               </Grid>
