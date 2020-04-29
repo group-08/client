@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { Redirect, Route } from "react-router-dom";
 import Lobby from "../../game/Lobby";
+import GameLobby from "../../game/GameLobby";
 
 const Container = styled.div`
   display: flex;
@@ -25,6 +26,11 @@ class GameRouter extends React.Component {
           exact
           path={`${this.props.base}`}
           render={() => <Redirect to={`${this.props.base}/lobby`} />}
+        />
+        <Route
+            exact
+            path={`${this.props.base}/game/lobby`}
+            render={() => <GameLobby />}
         />
       </Container>
     );

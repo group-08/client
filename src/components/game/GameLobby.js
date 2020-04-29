@@ -27,6 +27,7 @@ import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import SendIcon from '@material-ui/icons/Send';
+import CloseIcon from '@material-ui/icons/Close';
 
 import Input from '@material-ui/core/Input';
 import InputAdornment from '@material-ui/core/InputAdornment';
@@ -74,13 +75,11 @@ const styles = theme => ({
   },
 });
 
-class Lobby extends React.Component {
+class GameLobby extends React.Component {
   constructor() {
     super();
     this.state = {
-      users: null,
-      games: null,
-      showNewGame: false,
+      game: null
     };
   }
 
@@ -89,13 +88,9 @@ class Lobby extends React.Component {
     this.props.history.push('/login');
   }
 
-  joinGame(gameID) {
-    localStorage.setItem('gameID', gameID);
-    alert("Will join game " + gameID);
-  }
-
   async componentDidMount() {
     try {
+      /*
       const response = await api.get('/users');
       // delays continuous execution of an async operation for 1 second.
       // This is just a fake async call, so that the spinner can be displayed
@@ -104,21 +99,13 @@ class Lobby extends React.Component {
 
       // Get the returned users and update the state.
       this.setState({ users: response.data });
-
+       */
       // Mock the games
       await new Promise(resolve => setTimeout(resolve, 1000));
-      let games = JSON.parse('[{"id":1,"name":"Wau","players":3},{"id":2,"name":"Wuff","players":2},{"id":3,"name":"Grrrr","players":4},{"id":4,"name":"Wauwau","players":1}]');
-      this.setState({games: games});
+      let game = JSON.parse('{"id":1,"name":"Wau-Game","gameMaster":{"id":1,"name":"Player 1"},"players":[{"id":1,"name":"Player 1"},{"id":2,"name":"Player 2"},{"id":3,"name":"Player 3"},{"id":4,"name":"Player 4"}]}');
+      this.setState({game: game});
 
-      // This is just some data for you to see what is available.
-      // Feel free to remove it.
-      console.log('request to:', response.request.responseURL);
-      console.log('status code:', response.status);
-      console.log('status text:', response.statusText);
-      console.log('requested data:', response.data);
 
-      // See here to get more data.
-      console.log(response);
     } catch (error) {
       alert(`Something went wrong while fetching the users: \n${handleError(error)}`);
     }
@@ -126,6 +113,7 @@ class Lobby extends React.Component {
 
   render() {
     const { classes } = this.props;
+    const me = localStorage.getItem('id');
 
     return (
         <Grid container component="main" className={classes.root}>
@@ -138,7 +126,7 @@ class Lobby extends React.Component {
               >
                 <Grid item>
                   <Typography variant="h6" color="inherit" noWrap>
-                    Game
+                    {this.state.game?this.state.game.name:`Game`}
                   </Typography>
                 </Grid>
                 <Grid item>
@@ -167,53 +155,51 @@ class Lobby extends React.Component {
               <Grid item xs>
                 <Paper className={classes.paper}>
                   <Typography component="h1" variant="h4" align="center">
-                    Games
+                    {this.state.game?(
+                        <>
+                          {this.state.game.name}
+                        </>
+                      ):`Loading your game`}
                   </Typography>
-                  {this.state.games ? (
+                  {this.state.game ? (
                       <>
                       <TableContainer>
                         <Table size="small">
                           <TableHead>
                             <TableRow>
                               <TableCell>
+                                #
+                              </TableCell>
+                              <TableCell>
                                 Name
                               </TableCell>
                               <TableCell>
-                                Players
-                              </TableCell>
-                              <TableCell>
-                                Join
+                                Leave
                               </TableCell>
                             </TableRow>
                           </TableHead>
                           <TableBody>
-                            {this.state.games.map(game => {
+                            {this.state.game.players.map(player => {
                               return (
-                                  <TableRow key={game.id}>
+                                  <TableRow key={player.id}>
                                     <TableCell>
-                                      {game.name}
+                                      {player.id}
                                     </TableCell>
                                     <TableCell>
-                                      {game.players}
+                                      {player.name}
                                     </TableCell>
                                     <TableCell>
-                                      {game.players < 4?(
-                                          <Button
-                                              onClick={() => {
-                                                this.joinGame(game.id);
-                                              }}
-                                          >
-                                            <PersonAddIcon />
-                                          </Button>
-                                      ):(
-                                          <Tooltip title="Game is full" placement="right">
-                                            <span>
-                                            <Button disabled>
-                                              <PersonAddIcon />
-                                            </Button>
-                                            </span>
-                                          </Tooltip>
-                                      )}
+                                      {player.id == me || this.state.game.gameMaster.id == me?
+                                          (
+                                              <Button>
+                                                <CloseIcon />
+                                              </Button>
+                                          ):(
+                                              <Button disabled>
+                                                <CloseIcon />
+                                              </Button>
+                                          )
+                                      }
                                     </TableCell>
                                   </TableRow>
                               );
@@ -289,4 +275,4 @@ class Lobby extends React.Component {
   }
 }
 
-export default withRouter(withStyles(styles)(Lobby));
+export default withRouter(withStyles(styles)(GameLobby));
