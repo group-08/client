@@ -102,7 +102,7 @@ class GameLobby extends React.Component {
        */
       // Mock the games
       await new Promise(resolve => setTimeout(resolve, 1000));
-      let game = JSON.parse('{"id":1,"name":"Wau-Game","gameMaster":{"id":1,"name":"Player 1"},"players":[{"id":1,"name":"Player 1"},{"id":2,"name":"Player 2"},{"id":3,"name":"Player 3"},{"id":4,"name":"Player 4"}]}');
+      let game = JSON.parse('{"id":1,"name":"Wau-Game","gameMaster":{"id":2,"name":"Player 2"},"players":[{"id":1,"name":"Player 1"},{"id":2,"name":"Player 2"},{"id":3,"name":"Player 3"},{"id":4,"name":"Player 4"}]}');
       this.setState({game: game});
 
 
@@ -113,7 +113,7 @@ class GameLobby extends React.Component {
 
   render() {
     const { classes } = this.props;
-    const me = localStorage.getItem('id');
+    const userID = localStorage.getItem('userID');
 
     return (
         <Grid container component="main" className={classes.root}>
@@ -157,12 +157,11 @@ class GameLobby extends React.Component {
                   <Typography component="h1" variant="h4" align="center">
                     {this.state.game?(
                         <>
-                          {this.state.game.name}
+                          Your game
                         </>
                       ):`Loading your game`}
                   </Typography>
                   {this.state.game ? (
-                      <>
                       <TableContainer>
                         <Table size="small">
                           <TableHead>
@@ -189,7 +188,7 @@ class GameLobby extends React.Component {
                                       {player.name}
                                     </TableCell>
                                     <TableCell>
-                                      {player.id == me || this.state.game.gameMaster.id == me?
+                                      {player.id == userID || this.state.game.gameMaster.id == userID?
                                           (
                                               <Button>
                                                 <CloseIcon />
@@ -207,26 +206,6 @@ class GameLobby extends React.Component {
                           </TableBody>
                         </Table>
                       </TableContainer>
-                        <form>
-                          <FormControl fullWidth gutterTop>
-                            <InputLabel htmlFor="GameName">Name of your Game</InputLabel>
-                            <Input
-
-                                id="GameName"
-                                label="Name of your game"
-                                endAdornment={
-                                  <InputAdornment position="end">
-                                    <IconButton
-                                        aria-label="Create Room"
-                                    >
-                                      <AddCircleIcon />
-                                    </IconButton>
-                                  </InputAdornment>
-                                }
-                            />
-                          </FormControl>
-                        </form>
-                      </>
                   ):(
                       <div>
                         <p>Loading games</p>
@@ -239,30 +218,16 @@ class GameLobby extends React.Component {
               <Grid item xs={4}>
                 <Paper className={classes.paper}>
                   <Typography component="h1" variant="h4" align="center">
-                    Users
+                    {this.state.game?this.state.game.name:`Loading your game`}
                   </Typography>
-                  {this.state.users ? (
-                      <TableContainer>
-                        <Table size="small">
-                          <TableBody>
-                            {this.state.users.map(user => {
-                              return (
-                                  <TableRow key={user.id}>
-                                    <TableCell>
-                                      {user.username}
-                                    </TableCell>
-                                    <TableCell>
-                                      {user.status}
-                                    </TableCell>
-                                  </TableRow>
-                              );
-                            })}
-                          </TableBody>
-                        </Table>
-                      </TableContainer>
+                  {this.state.game ? (
+                      <>
+                        <strong>Organsier:</strong> {this.state.game.gameMaster.name} <br />
+                        <strong>Currenty Players:</strong> {this.state.game.players.length}
+                      </>
                   ):(
                       <div>
-                        <p>Loading users</p>
+                        <p>Loading game</p>
                         <LinearProgress />
                       </div>
                   ) }
