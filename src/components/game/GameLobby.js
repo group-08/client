@@ -10,7 +10,6 @@ import { withRouter } from 'react-router-dom';
 
 import withStyles from "@material-ui/core/styles/withStyles";
 import Grid from "@material-ui/core/Grid";
-import Box from "@material-ui/core/Box";
 import LinearProgress from "@material-ui/core/LinearProgress";
 
 import Table from '@material-ui/core/Table';
@@ -24,18 +23,7 @@ import Button from "@material-ui/core/Button";
 import Tooltip from "@material-ui/core/Tooltip";
 
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
-import PersonAddIcon from '@material-ui/icons/PersonAdd';
-import AddCircleIcon from '@material-ui/icons/AddCircle';
-import SendIcon from '@material-ui/icons/Send';
 import CloseIcon from '@material-ui/icons/Close';
-
-import Input from '@material-ui/core/Input';
-import InputAdornment from '@material-ui/core/InputAdornment';
-import IconButton from '@material-ui/core/IconButton';
-
-import Slide from '@material-ui/core/Slide';
-import InputLabel from "@material-ui/core/InputLabel";
-import FormControl from "@material-ui/core/FormControl";
 
 const styles = theme => ({
 	root: {
