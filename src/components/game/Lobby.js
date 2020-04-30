@@ -92,9 +92,11 @@ class Lobby extends React.Component {
   joinGame(gameID) {
     localStorage.setItem('gameID', gameID);
     alert("Will join game " + gameID);
+    // TODO: Use the API to join the game
+    this.props.history.push('game/lobby');
   }
 
-  async componentDidMount() {
+  async fetchUsers() {
     try {
       const response = await api.get('/users');
       // delays continuous execution of an async operation for 1 second.
@@ -103,25 +105,34 @@ class Lobby extends React.Component {
       await new Promise(resolve => setTimeout(resolve, 1000));
 
       // Get the returned users and update the state.
-      this.setState({ users: response.data });
+      this.setState({users: response.data});
+    }
+    catch (error) {
+      alert(`Something went wrong while fetching the users: \n${handleError(error)}`);
+    }
+  }
 
+  async fetchGames() {
+    try {
       // Mock the games
       await new Promise(resolve => setTimeout(resolve, 1000));
       let games = JSON.parse('[{"id":1,"name":"Wau","players":3},{"id":2,"name":"Wuff","players":2},{"id":3,"name":"Grrrr","players":4},{"id":4,"name":"Wauwau","players":1}]');
       this.setState({games: games});
-
-      // This is just some data for you to see what is available.
-      // Feel free to remove it.
-      console.log('request to:', response.request.responseURL);
-      console.log('status code:', response.status);
-      console.log('status text:', response.statusText);
-      console.log('requested data:', response.data);
-
-      // See here to get more data.
-      console.log(response);
     } catch (error) {
-      alert(`Something went wrong while fetching the users: \n${handleError(error)}`);
+      alert(`Something went wrong while fetching the game: \n${handleError(error)}`);
     }
+  }
+
+  async componentDidMount() {
+      this.fetchUsers();
+      this.fetchGames()
+      this.userInterval = setInterval(() => this.fetchUsers(), 3000); // Reload the users every 3 seconds
+      this.gamesInterval = setInterval(() => this.fetchGames(), 1000); // Reload the games every 3 seconds
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.userInterval);
+    clearInterval(this.gamesInterval);
   }
 
   render() {
