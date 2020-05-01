@@ -33,6 +33,7 @@ import IconButton from '@material-ui/core/IconButton';
 import InputLabel from "@material-ui/core/InputLabel";
 import FormControl from "@material-ui/core/FormControl";
 import Divider from "@material-ui/core/Divider";
+import {getDomain} from "../../helpers/getDomain";
 
 const styles = theme => ({
 	root: {
@@ -78,8 +79,9 @@ class Lobby extends React.Component {
 		this.state = {
 			users: null,
 			games: null,
-			showNewGame: false,
+			newGameName: null
 		};
+		this.userToken = localStorage.getItem('token')
 	}
 
 	logout() {
@@ -107,20 +109,41 @@ class Lobby extends React.Component {
 	}
 
 	async fetchGames() {
+		const auth = {
+			baseURL: getDomain(),
+			headers: {
+				'Content-Type': 'application/json',
+				'X-Token': this.userToken
+			}
+		}
 		try {
-			const response = await api.get('/lobbies');
-
+			const response = await api.get('/lobbies', auth);
+			console.log(response.data);
 			this.setState({games: response.data});
 		} catch (error) {
-			alert(`Something went wrong while fetching the game: \n${handleError(error)}`);
+			alert(`Something went wrong while fetching the games: \n${handleError(error)}`);
 		}
+	}
+
+	async createGame() {
+		const auth = {
+			baseURL: getDomain(),
+			headers: {
+				'Content-Type': 'application/json',
+				'X-Token': this.userToken
+			}
+		}
+		const requestBody = JSON.stringify({
+			name: this.state.newGameName
+		});
+		const response = await api.post('/lobbies', requestBody, auth);
 	}
 
 	async componentDidMount() {
 		await this.fetchUsers();
 		await this.fetchGames()
-		this.userInterval = setInterval(() => this.fetchUsers(), 3000); // Reload the users every 3 seconds
-		this.gamesInterval = setInterval(() => this.fetchGames(), 1000); // Reload the games every 3 seconds
+		this.userInterval = setInterval(() => this.fetchUsers(), 10000); // Reload the users every 3 seconds
+		this.gamesInterval = setInterval(() => this.fetchGames(), 10000); // Reload the games every 3 seconds
 	}
 
 	componentWillUnmount() {
@@ -199,10 +222,10 @@ class Lobby extends React.Component {
 																		{game.name}
 																	</TableCell>
 																	<TableCell>
-																		{game.players}
+																		{game.players.length}
 																	</TableCell>
 																	<TableCell>
-																		{game.players < 4?(
+																		{game.players.length < 4?(
 																			<Button
 																				onClick={() => {
 																					this.joinGame(game.id);
@@ -212,11 +235,11 @@ class Lobby extends React.Component {
 																			</Button>
 																		):(
 																			<Tooltip title="Game is full" placement="right">
-                                            <span>
-                                            <Button disabled>
-                                              <PersonAddIcon />
-                                            </Button>
-                                            </span>
+								                                                <span>
+										                                            <Button disabled>
+										                                              <PersonAddIcon />
+										                                            </Button>
+								                                                </span>
 																			</Tooltip>
 																		)}
 																	</TableCell>
@@ -238,13 +261,18 @@ class Lobby extends React.Component {
 											<FormControl fullWidth gutterTop>
 												<InputLabel htmlFor="GameName">Name of your Game</InputLabel>
 												<Input
-
 													id="GameName"
 													label="Name of your game"
+													onChange={e => {
+														this.setState({newGameName: e.target.value})
+													}}
 													endAdornment={
 														<InputAdornment position="end">
 															<IconButton
 																aria-label="Create Room"
+																onClick={() => {
+																	this.createGame();
+																}}
 															>
 																<AddCircleIcon />
 															</IconButton>
