@@ -32,6 +32,7 @@ import IconButton from '@material-ui/core/IconButton';
 
 import InputLabel from "@material-ui/core/InputLabel";
 import FormControl from "@material-ui/core/FormControl";
+import Divider from "@material-ui/core/Divider";
 
 const styles = theme => ({
 	root: {
@@ -96,10 +97,6 @@ class Lobby extends React.Component {
 	async fetchUsers() {
 		try {
 			const response = await api.get('/users');
-			// delays continuous execution of an async operation for 1 second.
-			// This is just a fake async call, so that the spinner can be displayed
-			// feel free to remove it :)
-			await new Promise(resolve => setTimeout(resolve, 1000));
 
 			// Get the returned users and update the state.
 			this.setState({users: response.data});
@@ -111,18 +108,17 @@ class Lobby extends React.Component {
 
 	async fetchGames() {
 		try {
-			// Mock the games
-			await new Promise(resolve => setTimeout(resolve, 1000));
-			let games = JSON.parse('[{"id":1,"name":"Wau","players":3},{"id":2,"name":"Wuff","players":2},{"id":3,"name":"Grrrr","players":4},{"id":4,"name":"Wauwau","players":1}]');
-			this.setState({games: games});
+			const response = await api.get('/lobbies');
+
+			this.setState({games: response.data});
 		} catch (error) {
 			alert(`Something went wrong while fetching the game: \n${handleError(error)}`);
 		}
 	}
 
 	async componentDidMount() {
-		this.fetchUsers();
-		this.fetchGames()
+		await this.fetchUsers();
+		await this.fetchGames()
 		this.userInterval = setInterval(() => this.fetchUsers(), 3000); // Reload the users every 3 seconds
 		this.gamesInterval = setInterval(() => this.fetchGames(), 1000); // Reload the games every 3 seconds
 	}
@@ -179,56 +175,65 @@ class Lobby extends React.Component {
 								</Typography>
 								{this.state.games ? (
 									<>
-										<TableContainer>
-											<Table size="small">
-												<TableHead>
-													<TableRow>
-														<TableCell>
-															Name
-														</TableCell>
-														<TableCell>
-															Players
-														</TableCell>
-														<TableCell>
-															Join
-														</TableCell>
-													</TableRow>
-												</TableHead>
-												<TableBody>
-													{this.state.games.map(game => {
-														return (
-															<TableRow key={game.id}>
-																<TableCell>
-																	{game.name}
-																</TableCell>
-																<TableCell>
-																	{game.players}
-																</TableCell>
-																<TableCell>
-																	{game.players < 4?(
-																		<Button
-																			onClick={() => {
-																				this.joinGame(game.id);
-																			}}
-																		>
-																			<PersonAddIcon />
-																		</Button>
-																	):(
-																		<Tooltip title="Game is full" placement="right">
+										{this.state.games.length > 0 ? (
+											<TableContainer>
+												<Table size="small">
+													<TableHead>
+														<TableRow>
+															<TableCell>
+																Name
+															</TableCell>
+															<TableCell>
+																Players
+															</TableCell>
+															<TableCell>
+																Join
+															</TableCell>
+														</TableRow>
+													</TableHead>
+													<TableBody>
+														{this.state.games.map(game => {
+															return (
+																<TableRow key={game.id}>
+																	<TableCell>
+																		{game.name}
+																	</TableCell>
+																	<TableCell>
+																		{game.players}
+																	</TableCell>
+																	<TableCell>
+																		{game.players < 4?(
+																			<Button
+																				onClick={() => {
+																					this.joinGame(game.id);
+																				}}
+																			>
+																				<PersonAddIcon />
+																			</Button>
+																		):(
+																			<Tooltip title="Game is full" placement="right">
                                             <span>
                                             <Button disabled>
                                               <PersonAddIcon />
                                             </Button>
                                             </span>
-																		</Tooltip>
-																	)}
-																</TableCell>
-															</TableRow>
-														);
-													})}
-												</TableBody>
-											</Table>
-										</TableContainer>
+																			</Tooltip>
+																		)}
+																	</TableCell>
+																</TableRow>
+															);
+														})}
+													</TableBody>
+												</Table>
+											</TableContainer>
+										):(
+											<>
+											<Typography variant="body1" component="p" gutterBottom>
+												There are no games, but you can create one.
+											</Typography>
+											<Divider />
+											</>
+										)}
 										<form>
 											<FormControl fullWidth gutterTop>
 												<InputLabel htmlFor="GameName">Name of your Game</InputLabel>
