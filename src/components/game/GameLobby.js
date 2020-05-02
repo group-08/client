@@ -86,7 +86,7 @@ class GameLobby extends React.Component {
 			baseURL: getDomain(),
 			headers: {
 				'Content-Type': 'application/json',
-				'X-Token': this.userToken
+				'X-Token': localStorage.getItem('token')
 			}
 		}
 		try {
@@ -106,6 +106,16 @@ class GameLobby extends React.Component {
 		this.fetchGameInterval = setInterval(() => this.fetchgame(), 1000); // Grab the game every second
 	}
 
+	componentDidUpdate(prevProps, prevState, snapshot) {
+		// Game State changes from pending to running
+		if (this.state.game !== prevState.game &&
+			prevState.game &&
+			this.state.game.gameState !== prevState.game.gameState &&
+			this.state.game.gameState == "RUNNING") {
+			alert('Game has started.');
+		}
+	}
+
 	componentWillUnmount() {
 		clearInterval(this.fetchGameInterval);
 	}
@@ -115,6 +125,24 @@ class GameLobby extends React.Component {
 		// and go back to lobby if you removed yourself
 		if (localStorage.getItem('userID') == id) {
 			this.props.history.push('../lobby');
+		}
+	}
+
+	async startGame() {
+		let gameID = localStorage.getItem('gameID');
+		const auth = {
+			baseURL: getDomain(),
+			headers: {
+				'Content-Type': 'application/json',
+				'X-Token': localStorage.getItem('token')
+			}
+		}
+		try {
+			const response = await api.post('/lobby/' + gameID + '/start', {}, auth);
+			console.log(response.data);
+			this.setState({games: response.data});
+		} catch (error) {
+			alert(`Something went wrong while starting the game: \n${handleError(error)}`);
 		}
 	}
 
@@ -240,7 +268,11 @@ class GameLobby extends React.Component {
 											(
 												<>
 													<Divider />
-													<Button>
+													<Button
+														onClick={() => {
+															this.startGame();
+														}}
+													>
 														Start Game
 													</Button>
 												</>
