@@ -91,7 +91,6 @@ class Lobby extends React.Component {
 
 	async joinGame(gameID) {
 		localStorage.setItem('gameID', gameID);
-		let userID = localStorage.getItem('userID');
 		const auth = {
 			baseURL: getDomain(),
 			headers: {

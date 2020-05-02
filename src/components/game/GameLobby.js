@@ -20,6 +20,7 @@ import TableRow from '@material-ui/core/TableRow';
 import TableHead from "@material-ui/core/TableHead";
 
 import Button from "@material-ui/core/Button";
+import Divider from "@material-ui/core/Divider";
 import Tooltip from "@material-ui/core/Tooltip";
 
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
@@ -72,7 +73,10 @@ class GameLobby extends React.Component {
 		};
 	}
 
-	logout() {
+	async logout() {
+		// Remove the player from the game as well
+		await this.removePlayer(localStorage.getItem('userID'));
+
 		localStorage.removeItem('token');
 		this.props.history.push('/login');
 	}
@@ -232,6 +236,17 @@ class GameLobby extends React.Component {
 									<>
 										<strong>Organsier:</strong> {this.state.game.host.username} <br />
 										<strong>Currenty Players:</strong> {this.state.game.players.length}
+										{this.state.game.host.id == userID && this.state.game.players.length >= 4 ?
+											(
+												<>
+													<Divider />
+													<Button>
+														Start Game
+													</Button>
+												</>
+											):``
+										}
+
 									</>
 								):(
 									<div>
