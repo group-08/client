@@ -22,7 +22,7 @@ const board = {
     height: 768,
     position: "absolute",
     marginLeft: 50
-}
+};
 
 const opponent3 = {
     border: '1px solid',
@@ -30,7 +30,7 @@ const opponent3 = {
     height: 420,
     marginLeft: 5,
     marginTop: 160
-}
+};
 
 const opponent2 = {
     border: '1px solid',
@@ -39,7 +39,7 @@ const opponent2 = {
     position: "absolute",
     marginLeft: 173,
     marginTop: 5
-}
+};
 
 const opponent1 = {
     border: '1px solid',
@@ -48,16 +48,16 @@ const opponent1 = {
     position: "absolute",
     left: 663,
     top: 160
-}
+};
 
 const cards = {
     border: '1px solid',
-    width: 504,
+    width: 453,
     height: 115,
     position: "absolute",
     top: 640,
-    left: 120
-}
+    left: 154
+};
 
 const map = {
     backgroundImage: 'url(' + mapPic + ')',
@@ -67,7 +67,7 @@ const map = {
     position: "absolute",
     top:104,
     left:115
-}
+};
 
 const pieceButton = {
     border: '1px solid',
@@ -75,7 +75,12 @@ const pieceButton = {
     width: 26,
     height: 26,
     borderRadius: 13,
-}
+};
+
+const blue = {border: '3px solid', borderColor: 'blue'};
+const green = {border: '3px solid', borderColor: 'green'};
+const red = {border: '3px solid', borderColor: 'red'};
+const yellow = {border: '3px solid', borderColor: 'yellow'};
 
 const sideboard = {
     //backgroundImage: 'url(' + mapPic + ')',
@@ -84,7 +89,7 @@ const sideboard = {
     height: 768,
     position: "absolute",
     left:818
-}
+};
 
 const players = {
     border: '1px solid',
@@ -94,7 +99,7 @@ const players = {
     marginTop: 200,
     marginLeft: 9,
     borderRadius: 10
-}
+};
 
 const joker = {
     border: '1px solid',
@@ -104,6 +109,17 @@ const joker = {
     marginTop: 420,
     marginLeft: 9,
     borderRadius: 10
+};
+
+const cardLayout = {
+    border: '1px solid',
+    height: 90,
+    width: 65,
+    marginLeft: 9,
+    marginTop: 9,
+    padding: 5,
+    borderRadius: 5,
+    float: 'left'
 }
 
 const player = {
@@ -113,8 +129,7 @@ const player = {
     height: 40,
     marginTop: 10,
     borderRadius: 10
-}
-
+};
 
 const playerBlue = {
     width: 26,
@@ -122,130 +137,126 @@ const playerBlue = {
     borderRadius: 13,
     background: 'blue',
     margin: 6
-}
+};
 const playerGreen = {
     width: 26,
     height: 26,
     borderRadius: 13,
     background: 'green',
     margin: 6
-}
+};
 const playerRed = {
     width: 26,
     height: 26,
     borderRadius: 13,
     background: 'red',
     margin: 6
-}
+};
 const playerYellow = {
     width: 26,
     height: 26,
     borderRadius: 13,
     background: 'yellow',
     margin: 6
-}
+};
 
-const style64 = {top: 466, left: 82,}
-const style63 = {top: 444, left: 60,}
-const style62 = {top: 422, left: 38,}
-const style61 = {top: 400, left: 16,}
-const style60 = {top: 378, left: 38,}
-const style59 = {top: 356, left: 60,}
-const style58 = {top: 334, left: 82,}
-const style57 = {top: 312, left: 104,}
-const style56 = {top: 282, left: 100,}
-const style55 = {top: 252, left: 96,}
-const style54 = {top: 222, left: 100,}
-const style53 = {top: 192, left: 104,}
-const style52 = {top: 170, left: 82,}
-const style51 = {top: 148, left: 60,}
-const style50 = {top: 126, left: 38,}
-const style49 = {top: 104, left: 16,}
-const style48 = {top: 82, left: 38,}
-const style47 = {top: 60, left: 60,}
-const style46 = {top: 38, left: 82,}
-const style45 = {top: 16, left: 104,}
-const style44 = {top: 38, left: 126,}
-const style43 = {top: 60, left: 148,}
-const style42 = {top: 82, left: 170,}
-const style41 = {top: 104, left: 192,}
-const style40 = {top: 100, left: 222,}
-const style39 = {top: 96, left: 252,}
-const style38 = {top: 100, left: 282,}
-const style37 = {top: 104, left: 312,}
-const style36 = {top: 82, left: 334,}
-const style35 = {top: 60, left: 356,}
-const style34 = {top: 38, left: 378,}
-const style33 = {top: 16, left: 400,}
-const style32 = {top: 38, left: 422,}
-const style31 = {top: 60, left: 444,}
-const style30 = {top: 82, left: 466,}
-const style29 = {top: 104, left: 488,}
-const style28 = {top: 126, left: 466,}
-const style27 = {top: 148, left: 444,}
-const style26 = {top: 170, left: 422,}
-const style25 = {top: 192, left: 400,}
-const style24 = {top: 222, left: 404,}
-const style23 = {top: 252, left: 408,}
-const style22 = {top: 282, left: 404,}
-const style21 = {top: 312, left: 400,}
-const style20 = {top: 334, left: 422,}
-const style19 = {top: 356, left: 444,}
-const style18 = {top: 378, left: 466,}
-const style17 = {top: 400, left: 488,}
-const style16 = {top: 422, left: 466,}
-const style15 = {top: 444, left: 444,}
-const style14 = {top: 466, left: 422,}
-const style13 = {top: 488, left: 400,}
-const style12 = {top: 466, left: 378,}
-const style11 = {top: 444, left: 356,}
-const style10 = {top: 422, left: 334,}
-const style9 = {top: 400, left: 312,}
-const style8 = {top: 404, left: 282,}
-const style7 = {top: 408, left: 252,}
-const style6 = {top: 404, left: 222,}
-const style5 = {top: 400, left: 192,}
-const style4 = {top: 422, left: 170,}
-const style3 = {top: 444, left: 148,}
-const style2 = {top: 466, left: 126,}
-const style1 = {top: 488, left: 104,}
-const style65 = {top: 436, left: 102,}
-const style66 = {top: 404, left: 100,}
-const style67 = {top: 381, left: 123,}
-const style68 = {top: 358, left: 146,}
-const style69 = {top: 402, left: 436,}
-const style70 = {top: 404, left: 404,}
-const style71 = {top: 381, left: 381,}
-const style72 = {top: 358, left: 358,}
-const style73 = {top: 68, left: 402,}
-const style74 = {top: 100, left: 404,}
-const style75 = {top: 123, left: 381,}
-const style76 = {top: 146, left: 358,}
-const style77 = {top: 102, left: 68,}
-const style78 = {top: 100, left: 100,}
-const style79 = {top: 123, left: 123,}
-const style80 = {top: 146, left: 146,}
-const style81 = {top: 488, left: 169,}
-const style82 = {top: 488, left: 202,}
-const style83 = {top: 488, left: 235,}
-const style84 = {top: 488, left: 268,}
-const style85 = {top: 335, left: 488,}
-const style86 = {top: 302, left: 488,}
-const style87 = {top: 269, left: 488,}
-const style88 = {top: 237, left: 488,}
-const style89 = {top: 16, left: 335,}
-const style90 = {top: 16, left: 302,}
-const style91 = {top: 16, left: 269,}
-const style92 = {top: 16, left: 237,}
-const style93 = {top: 169, left: 16,}
-const style94 = {top: 202, left: 16,}
-const style95 = {top: 235, left: 16,}
-const style96 = {top: 268, left: 16,}
+const style64 = {top: 466, left: 82};
+const style63 = {top: 444, left: 60};
+const style62 = {top: 422, left: 38};
+const style61 = {top: 400, left: 16};
+const style60 = {top: 378, left: 38};
+const style59 = {top: 356, left: 60};
+const style58 = {top: 334, left: 82};
+const style57 = {top: 312, left: 104};
+const style56 = {top: 282, left: 100};
+const style55 = {top: 252, left: 96};
+const style54 = {top: 222, left: 100};
+const style53 = {top: 192, left: 104};
+const style52 = {top: 170, left: 82};
+const style51 = {top: 148, left: 60};
+const style50 = {top: 126, left: 38};
+const style49 = {top: 104, left: 16};
+const style48 = {top: 82, left: 38};
+const style47 = {top: 60, left: 60};
+const style46 = {top: 38, left: 82};
+const style45 = {top: 16, left: 104};
+const style44 = {top: 38, left: 126};
+const style43 = {top: 60, left: 148};
+const style42 = {top: 82, left: 170};
+const style41 = {top: 104, left: 192};
+const style40 = {top: 100, left: 222};
+const style39 = {top: 96, left: 252};
+const style38 = {top: 100, left: 282};
+const style37 = {top: 104, left: 312};
+const style36 = {top: 82, left: 334};
+const style35 = {top: 60, left: 356};
+const style34 = {top: 38, left: 378};
+const style33 = {top: 16, left: 400};
+const style32 = {top: 38, left: 422};
+const style31 = {top: 60, left: 444};
+const style30 = {top: 82, left: 466};
+const style29 = {top: 104, left: 488};
+const style28 = {top: 126, left: 466};
+const style27 = {top: 148, left: 444};
+const style26 = {top: 170, left: 422};
+const style25 = {top: 192, left: 400};
+const style24 = {top: 222, left: 404};
+const style23 = {top: 252, left: 408};
+const style22 = {top: 282, left: 404};
+const style21 = {top: 312, left: 400};
+const style20 = {top: 334, left: 422};
+const style19 = {top: 356, left: 444};
+const style18 = {top: 378, left: 466};
+const style17 = {top: 400, left: 488};
+const style16 = {top: 422, left: 466};
+const style15 = {top: 444, left: 444};
+const style14 = {top: 466, left: 422};
+const style13 = {top: 488, left: 400};
+const style12 = {top: 466, left: 378};
+const style11 = {top: 444, left: 356};
+const style10 = {top: 422, left: 334};
+const style9 = {top: 400, left: 312};
+const style8 = {top: 404, left: 282};
+const style7 = {top: 408, left: 252};
+const style6 = {top: 404, left: 222};
+const style5 = {top: 400, left: 192};
+const style4 = {top: 422, left: 170};
+const style3 = {top: 444, left: 148};
+const style2 = {top: 466, left: 126};
+const style1 = {top: 488, left: 104};
+const style65 = {top: 436, left: 102};
+const style66 = {top: 404, left: 100};
+const style67 = {top: 381, left: 123};
+const style68 = {top: 358, left: 146};
+const style69 = {top: 402, left: 436};
+const style70 = {top: 404, left: 404};
+const style71 = {top: 381, left: 381};
+const style72 = {top: 358, left: 358};
+const style73 = {top: 68, left: 402};
+const style74 = {top: 100, left: 404};
+const style75 = {top: 123, left: 381};
+const style76 = {top: 146, left: 358};
+const style77 = {top: 102, left: 68};
+const style78 = {top: 100, left: 100};
+const style79 = {top: 123, left: 123};
+const style80 = {top: 146, left: 146};
+const style81 = {top: 488, left: 169};
+const style82 = {top: 488, left: 202};
+const style83 = {top: 488, left: 235};
+const style84 = {top: 488, left: 268};
+const style85 = {top: 335, left: 488};
+const style86 = {top: 302, left: 488};
+const style87 = {top: 269, left: 488};
+const style88 = {top: 237, left: 488};
+const style89 = {top: 16, left: 335};
+const style90 = {top: 16, left: 302};
+const style91 = {top: 16, left: 269};
+const style92 = {top: 16, left: 237};
+const style93 = {top: 169, left: 16};
+const style94 = {top: 202, left: 16};
+const style95 = {top: 235, left: 16};
+const style96 = {top: 268, left: 16};
 
-const blue = {border: '3px solid', borderColor: 'blue'}
-const green = {border: '3px solid', borderColor: 'green'}
-const red = {border: '3px solid', borderColor: 'red'}
-const yellow = {border: '3px solid', borderColor: 'yellow'}
 
 
 
@@ -256,7 +267,8 @@ class Gameboard extends React.Component {
         this.state = {
             users: null,
             cards: null,
-            pieces: null
+            pieces: null,
+            chosenCard: null
         };
     }
 
@@ -265,19 +277,49 @@ class Gameboard extends React.Component {
             backgroundColor: 'blue'
         }
     }
-/**
+
+    chosenCard(card){
+        this.state.chosenCard = card
+    }
+
+
     getJokerDeck(){
-        const values = ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"];
+        const values = ["2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"];
         let jokerDeck = [];
         let card = [];
 
         for (let x = 0; x < values.length; x++) {
-            card = {suit: 'J', val: values[x]};
+            card = {suit: 'Joker', val: values[x]};
             jokerDeck.push(card);
         }
+        return jokerDeck
     }
+/**
+    async fetch() {
+        try {
+            let auth = {
+                baseURL: getDomain(),
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-Token': localStorage.getItem('token')
+                }
+            };
+            const response = await api.get('/game', auth);
+
+
+            this.setState({ users: response.data });
+        } catch (error) {
+            if (error.response.status === 403) {
+                //error
+            }
+            else{
+                alert(`Something went wrong while fetching the users: \n${handleError(error)}`);
+            }
+        }
+    }
+    /**
 const Card = (jokerDeck) => {
-        <div className="card card-black">
+        <div className="card">
             <div className="card-tl">
                 <div className="card-value">
                     {props.value}
@@ -525,6 +567,20 @@ const Card = (jokerDeck) => {
                         </div>
                     </div>
                     <div style={joker}>
+                        <div>
+                            <div style={cardLayout}> Please choose Joker </div>
+                            {this.getJokerDeck().map(card => {
+                                return (
+                                    <div key={card}
+                                           onClick={() => { this.chosenCard(card) }}>
+                                        <div style={cardLayout}>
+                                            {card.suit} <br />
+                                            {card.val}
+                                        </div>
+                                    </div>
+                                );
+                            })}
+                        </div>
 
                     </div>
                 </div>
