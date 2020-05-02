@@ -191,7 +191,8 @@ class GameLobby extends React.Component {
 																{player.user.username}
 															</TableCell>
 															<TableCell>
-																{player.id == userID || this.state.game.host.id == userID?
+																{player.user.id == userID && this.state.game.host.id != userID ||
+																this.state.game.host.id == userID && player.user.id != userID?
 																	(
 																		<Button
 																			onClick={() => {
