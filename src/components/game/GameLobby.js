@@ -24,6 +24,7 @@ import Tooltip from "@material-ui/core/Tooltip";
 
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import CloseIcon from '@material-ui/icons/Close';
+import {getDomain} from "../../helpers/getDomain";
 
 const styles = theme => ({
 	root: {
@@ -77,21 +78,19 @@ class GameLobby extends React.Component {
 	}
 
 	async fetchgame() {
+		const auth = {
+			baseURL: getDomain(),
+			headers: {
+				'Content-Type': 'application/json',
+				'X-Token': this.userToken
+			}
+		}
 		try {
-			/*
-			const response = await api.get('/users');
-			// delays continuous execution of an async operation for 1 second.
-			// This is just a fake async call, so that the spinner can be displayed
-			// feel free to remove it :)
-			await new Promise(resolve => setTimeout(resolve, 1000));
-
-			// Get the returned users and update the state.
-			this.setState({ users: response.data });
-			 */
-			// Mock the games
 			let gameID = localStorage.getItem('gameID');
-			await new Promise(resolve => setTimeout(resolve, 1000));
-			let game = JSON.parse('{"id":1,"name":"Wau-Game","gameMaster":{"id":2,"name":"Player 2"},"players":[{"id":1,"name":"Player 1"},{"id":2,"name":"Player 2"},{"id":3,"name":"Player 3"},{"id":4,"name":"Player 4"}]}');
+
+			const response = await api.get('/lobby/' + gameID, auth);
+			let game = response.data;
+
 			this.setState({game: game});
 		} catch (error) {
 			alert(`Something went wrong while fetching the game: \n${handleError(error)}`);
@@ -177,7 +176,7 @@ class GameLobby extends React.Component {
 														Name
 													</TableCell>
 													<TableCell>
-														{this.state.game.gameMaster.id == userID ? `Remove`:`Leave`}
+														{this.state.game.host.id == userID ? `Remove`:`Leave`}
 													</TableCell>
 												</TableRow>
 											</TableHead>
@@ -186,17 +185,17 @@ class GameLobby extends React.Component {
 													return (
 														<TableRow key={player.id}>
 															<TableCell>
-																{player.id}
+																{player.user.id}
 															</TableCell>
 															<TableCell>
-																{player.name}
+																{player.user.username}
 															</TableCell>
 															<TableCell>
-																{player.id == userID || this.state.game.gameMaster.id == userID?
+																{player.id == userID || this.state.game.host.id == userID?
 																	(
 																		<Button
 																			onClick={() => {
-																				this.removePlayer(player.id);
+																				this.removePlayer(player.user.id);
 																			}}
 																		>
 																			<CloseIcon />
@@ -230,7 +229,7 @@ class GameLobby extends React.Component {
 								</Typography>
 								{this.state.game ? (
 									<>
-										<strong>Organsier:</strong> {this.state.game.gameMaster.name} <br />
+										<strong>Organsier:</strong> {this.state.game.host.username} <br />
 										<strong>Currenty Players:</strong> {this.state.game.players.length}
 									</>
 								):(

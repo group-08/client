@@ -35,8 +35,6 @@ import FormControl from "@material-ui/core/FormControl";
 import Divider from "@material-ui/core/Divider";
 import {getDomain} from "../../helpers/getDomain";
 
-import { withSnackbar } from 'notistack';
-
 const styles = theme => ({
 	root: {
 		height: '100vh',
