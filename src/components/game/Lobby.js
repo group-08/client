@@ -35,6 +35,8 @@ import FormControl from "@material-ui/core/FormControl";
 import Divider from "@material-ui/core/Divider";
 import {getDomain} from "../../helpers/getDomain";
 
+import { withSnackbar } from 'notistack';
+
 const styles = theme => ({
 	root: {
 		height: '100vh',
@@ -126,6 +128,7 @@ class Lobby extends React.Component {
 	}
 
 	async createGame() {
+		this.props.enqueueSnackbar('Creating your game');
 		const auth = {
 			baseURL: getDomain(),
 			headers: {
@@ -142,8 +145,8 @@ class Lobby extends React.Component {
 	async componentDidMount() {
 		await this.fetchUsers();
 		await this.fetchGames()
-		this.userInterval = setInterval(() => this.fetchUsers(), 10000); // Reload the users every 3 seconds
-		this.gamesInterval = setInterval(() => this.fetchGames(), 10000); // Reload the games every 3 seconds
+		this.userInterval = setInterval(() => this.fetchUsers(), 2500); // Reload the users every 3 seconds
+		this.gamesInterval = setInterval(() => this.fetchGames(), 1000); // Reload the games every 3 seconds
 	}
 
 	componentWillUnmount() {
@@ -330,4 +333,4 @@ class Lobby extends React.Component {
 	}
 }
 
-export default withRouter(withStyles(styles)(Lobby));
+export default withRouter(withStyles(styles)(withSnackbar(Lobby)));
