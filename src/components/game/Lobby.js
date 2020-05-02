@@ -89,10 +89,23 @@ class Lobby extends React.Component {
 		this.props.history.push('/login');
 	}
 
-	joinGame(gameID) {
+	async joinGame(gameID) {
 		localStorage.setItem('gameID', gameID);
-		alert("Will join game " + gameID);
-		// TODO: Use the API to join the game
+		let userID = localStorage.getItem('userID');
+		const auth = {
+			baseURL: getDomain(),
+			headers: {
+				'Content-Type': 'application/json',
+				'X-Token': this.userToken
+			}
+		}
+		try {
+			const response = await api.post('/lobby/' + gameID, {}, auth);
+			console.log(response.data);
+			this.setState({games: response.data});
+		} catch (error) {
+			alert(`Something went wrong while fetching the games: \n${handleError(error)}`);
+		}
 		this.props.history.push('game/lobby');
 	}
 
