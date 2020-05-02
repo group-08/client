@@ -11,7 +11,10 @@ import { SnackbarProvider } from 'notistack';
  * More: https://reactjs.org/docs/rendering-elements.html
  */
 ReactDOM.render(
-	<SnackbarProvider maxSnack={3}>
+	<SnackbarProvider
+		maxSnack={1}
+		autoHideDuration={5000}
+	>
 		<App />
 	</SnackbarProvider>
 	, document.getElementById("root"));

@@ -128,7 +128,6 @@ class Lobby extends React.Component {
 	}
 
 	async createGame() {
-		this.props.enqueueSnackbar('Creating your game');
 		const auth = {
 			baseURL: getDomain(),
 			headers: {
@@ -140,6 +139,8 @@ class Lobby extends React.Component {
 			name: this.state.newGameName
 		});
 		const response = await api.post('/lobbies', requestBody, auth);
+		localStorage.setItem('gameID', response.data.id);
+		this.props.history.push('game/lobby');
 	}
 
 	async componentDidMount() {
@@ -333,4 +334,4 @@ class Lobby extends React.Component {
 	}
 }
 
-export default withRouter(withStyles(styles)(withSnackbar(Lobby)));
+export default withRouter(withStyles(styles)(Lobby));
