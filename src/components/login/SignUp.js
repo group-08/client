@@ -4,38 +4,16 @@ import User from '../shared/models/User';
 import { withRouter } from 'react-router-dom';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
-import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
 import Link from '@material-ui/core/Link';
-import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import EmojiPeopleIcon from '@material-ui/icons/EmojiPeople';
 import Typography from '@material-ui/core/Typography';
 import withStyles from "@material-ui/core/styles/withStyles";
 
-import splash from './splash.jpg'
+import Splash from "../../views/splash/Splash";
 
 const styles = theme => ({
-  root: {
-    height: '100vh',
-  },
-  image: {
-    backgroundImage: 'url(' + splash + ')',
-    backgroundRepeat: 'no-repeat',
-    backgroundColor:
-        theme.palette.type === 'light' ? theme.palette.grey[50] : theme.palette.grey[900],
-    backgroundSize: 'cover',
-    backgroundPosition: 'left center',
-  },
-  paper: {
-    padding: theme.spacing(8, 4),
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    position: 'relative',
-    top: '50%',
-    transform: 'translateY(-50%)'
-  },
   complete: {
     margin: theme.spacing(1),
     backgroundColor: theme.palette.success.main,
@@ -89,7 +67,7 @@ class SignUp extends React.Component {
         username: this.state.username,
         password: this.state.password
       });
-      const response = await api.post('/users', requestBody);
+      const response = await api.post('/signup', requestBody);
 
       // Get the returned user and update a new object.
       const user = new User(response.data);
@@ -128,92 +106,86 @@ class SignUp extends React.Component {
     const { classes } = this.props;
 
     return (
-        <Grid container component="main" className={classes.root}>
-          <CssBaseline />
-          <Grid item xs={false} sm={4} md={7} className={classes.image} />
-          <Grid item xs={12} sm={8} md={5} component={Paper} elevation={10} square>
-            <div className={classes.paper}>
-              {!this.state.username || !this.state.password || !this.state.email ?
-                  <Avatar className={classes.hi}>
-                    <EmojiPeopleIcon />
-                  </Avatar>
-                  :
-                  <Avatar className={classes.complete}>
-                    <EmojiPeopleIcon />
-                  </Avatar>
-              }
+        <Splash>
+          {!this.state.username || !this.state.password || !this.state.email ?
+              <Avatar className={classes.hi}>
+                <EmojiPeopleIcon />
+              </Avatar>
+              :
+              <Avatar className={classes.complete}>
+                <EmojiPeopleIcon />
+              </Avatar>
+          }
 
-              <Typography component="h1" variant="h5">
-                Sign Up
-              </Typography>
-              <form className={classes.form} noValidate>
-                <TextField
-                    variant="outlined"
-                    margin="normal"
-                    fullWidth
-                    id="email"
-                    label="E-Mail"
-                    name="email"
-                    type="email"
-                    autoComplete="email"
-                    onChange={e => {
-                      this.handleInputChange('email', e.target.value);
-                    }}
-                />
-                <TextField
-                    variant="outlined"
-                    margin="normal"
-                    fullWidth
-                    id="username"
-                    label="Username"
-                    name="username"
-                    autoComplete="username"
-                    onChange={e => {
-                      this.handleInputChange('username', e.target.value);
-                    }}
-                />
-                <TextField
-                    variant="outlined"
-                    margin="normal"
-                    fullWidth
-                    name="password"
-                    label="Password"
-                    type="password"
-                    id="password"
-                    autoComplete="current-password"
-                    onChange={e => {
-                      this.handleInputChange('password', e.target.value);
-                    }}
-                />
-                <Button
-                    fullWidth
-                    variant="contained"
-                    color="primary"
-                    className={classes.submit}
-                    disabled={!this.state.username || !this.state.password || !this.state.email}
-                    onClick={() => {
-                      this.login();
-                    }}
-                >
-                  Sign Up
-                </Button>
-              </form>
-              <Grid
-                  container
+          <Typography component="h1" variant="h5">
+            Sign Up
+          </Typography>
+          <form className={classes.form} noValidate>
+            <TextField
+                variant="outlined"
+                margin="normal"
+                fullWidth
+                id="email"
+                label="E-Mail"
+                name="email"
+                type="email"
+                autoComplete="email"
+                onChange={e => {
+                  this.handleInputChange('email', e.target.value);
+                }}
+            />
+            <TextField
+                variant="outlined"
+                margin="normal"
+                fullWidth
+                id="username"
+                label="Username"
+                name="username"
+                autoComplete="username"
+                onChange={e => {
+                  this.handleInputChange('username', e.target.value);
+                }}
+            />
+            <TextField
+                variant="outlined"
+                margin="normal"
+                fullWidth
+                name="password"
+                label="Password"
+                type="password"
+                id="password"
+                autoComplete="current-password"
+                onChange={e => {
+                  this.handleInputChange('password', e.target.value);
+                }}
+            />
+            <Button
+                fullWidth
+                variant="contained"
+                color="primary"
+                className={classes.submit}
+                disabled={!this.state.username || !this.state.password || !this.state.email}
+                onClick={() => {
+                  this.login();
+                }}
+            >
+              Sign Up
+            </Button>
+          </form>
+          <Grid
+              container
+          >
+            <Grid item>
+              <Link
+                  onClick={() => {
+                    this.props.history.push(`/login`);
+                  }}
               >
-                <Grid item>
-                  <Link
-                      onClick={() => {
-                        this.props.history.push(`/login`);
-                      }}
-                  >
-                    Login
-                  </Link>
-                </Grid>
-              </Grid>
-            </div>
+                Login
+              </Link>
+            </Grid>
           </Grid>
-        </Grid>
+        </Splash>
     )
   }
 }

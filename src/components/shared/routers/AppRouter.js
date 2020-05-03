@@ -25,11 +25,11 @@ class AppRouter extends React.Component {
         <Switch>
           <div>
             <Route
-              path="/game"
+              path="/app"
               render={() => (
-                //<GameGuard>
-                  <GameRouter base={"/game"} />
-                //</GameGuard>
+                <GameGuard>
+                  <GameRouter base={"/app"} />
+                </GameGuard>
               )}
             />
             <Route
@@ -50,16 +50,7 @@ class AppRouter extends React.Component {
                       </LoginGuard>
                   )}
               />
-              <Route
-                  path="/gameboard"
-                  exact
-                  render={() => (
-                      //<GameboardGuard>
-                          <Gameboard />
-                      //</GameboardGuard>
-                  )}
-              />
-            <Route path="/" exact render={() => <Redirect to={"/game"} />} />
+            <Route path="/" exact render={() => <Redirect to={"/app"} />} />
           </div>
         </Switch>
       </BrowserRouter>
