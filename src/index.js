@@ -2,6 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
+import { SnackbarProvider } from 'notistack';
 
 /**
  * This is the entry point of your React application where the root element is in the public/index.html.
@@ -9,4 +10,11 @@ import App from "./App";
  * Applications built with just React usually have a single root DOM node.
  * More: https://reactjs.org/docs/rendering-elements.html
  */
-ReactDOM.render(<App />, document.getElementById("root"));
+ReactDOM.render(
+	<SnackbarProvider
+		maxSnack={1}
+		autoHideDuration={5000}
+	>
+		<App />
+	</SnackbarProvider>
+	, document.getElementById("root"));
