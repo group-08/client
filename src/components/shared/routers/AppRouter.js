@@ -2,12 +2,9 @@ import React from "react";
 import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
 import { GameGuard } from "../routeProtectors/GameGuard";
 import GameRouter from "./GameRouter";
-import { GameboardGuard } from "../routeProtectors/GameboardGuard";
-//import GameboardRouter from "./GameboardRouter";
 import { LoginGuard } from "../routeProtectors/LoginGuard";
 import Login from "../../login/Login";
 import SignUp from "../../login/SignUp";
-import Gameboard from "../../game/Gameboard";
 
 /**
  * Main router of your application.
