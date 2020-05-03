@@ -567,21 +567,17 @@ const Card = (jokerDeck) => {
                         </div>
                     </div>
                     <div style={joker}>
-                        <div>
-                            <div style={cardLayout}> Please choose Joker </div>
+                            <div style={cardLayout}> Please choose a Joker </div>
                             {this.getJokerDeck().map(card => {
                                 return (
                                     <div key={card}
                                            onClick={() => { this.chosenCard(card) }}>
                                         <div style={cardLayout}>
-                                            {card.suit} <br />
-                                            {card.val}
+                                            {card.val} <br />{card.suit}
                                         </div>
                                     </div>
                                 );
                             })}
-                        </div>
-
                     </div>
                 </div>
             </div>
@@ -590,13 +586,7 @@ const Card = (jokerDeck) => {
     }
 }
 
-export default withRouter(/**withStyles(styles)
-
-
-
-
-
- */(Gameboard));
+export default withRouter(/**withStyles(styles)*/(Gameboard));
 
 
 
