@@ -174,6 +174,8 @@ const Field = styled.div`
     top: ${props => props.top}px;
     left: ${props => props.left}px;
     ${props => props.bgColor?"background: radial-gradient(circle at 8px 8px," + props.bgColor + ", #000);":""}
+    ${props => props.bgColor?"&:hover {box-shadow: 0px 0px 3px 3px white;}":""}
+    
 `;
 
 // The fields positons
