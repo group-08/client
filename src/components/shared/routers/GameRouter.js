@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { Redirect, Route } from "react-router-dom";
 import Lobby from "../../game/Lobby";
 import GameLobby from "../../game/GameLobby";
+import Gameboard from "../../game/Gameboard";
 
 const Container = styled.div`
   display: flex;
@@ -32,6 +33,13 @@ class GameRouter extends React.Component {
             path={`${this.props.base}/game/lobby`}
             render={() => <GameLobby />}
         />
+          <Route
+              exact
+              path={`${this.props.base}/game`}
+              render={() => (
+                      <Gameboard />
+              )}
+          />
       </Container>
     );
   }

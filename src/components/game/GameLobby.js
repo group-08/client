@@ -113,6 +113,7 @@ class GameLobby extends React.Component {
 			this.state.game.gameState !== prevState.game.gameState &&
 			this.state.game.gameState == "RUNNING") {
 			alert('Game has started.');
+			this.props.history.push('../game');
 		}
 	}
 
