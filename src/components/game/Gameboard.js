@@ -1,18 +1,8 @@
 import React from 'react';
 import { api, handleError } from '../../helpers/api';
-import User from '../shared/models/User';
 import { withRouter } from 'react-router-dom';
-import Avatar from '@material-ui/core/Avatar';
-import Button from '@material-ui/core/Button';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import TextField from '@material-ui/core/TextField';
-import Link from '@material-ui/core/Link';
-import Paper from '@material-ui/core/Paper';
-import Grid from '@material-ui/core/Grid';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import LockOpenOutlinedIcon from '@material-ui/icons/LockOpenOutlined';
-import Typography from '@material-ui/core/Typography';
-import withStyles from "@material-ui/core/styles/withStyles";
+
+import { getDomain } from "../../helpers/getDomain";
 
 import styled from 'styled-components';
 import _ from 'lodash';
@@ -320,12 +310,15 @@ class Gameboard extends React.Component {
     constructor() {
         super();
         this.state = {
+        	game: null,
+	        cards: null,
             chosenCard: null,
-            fields: fields
+            fields: fields,
+	        displayJoker: false
         };
     }
 
-    chosenCard(card){
+    chosenJokerCard(card){
         this.state.chosenCard = card
     }
 
@@ -341,52 +334,36 @@ class Gameboard extends React.Component {
         }
         return jokerDeck
     }
-/**
+
     async fetch() {
-        try {
-            let auth = {
-                baseURL: getDomain(),
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-Token': localStorage.getItem('token')
-                }
-            };
-            const response = await api.get('/game', auth);
+	    const auth = {
+		    baseURL: getDomain(),
+		    headers: {
+			    'Content-Type': 'application/json',
+			    'X-Token': localStorage.getItem('token')
+		    }
+	    }
+	    try {
+		    let gameID = localStorage.getItem('gameID');
 
+		    const response = await api.get('/game/' + gameID, auth);
+		    let game = response.data;
 
-            this.setState({ users: response.data });
-        } catch (error) {
-            if (error.response.status === 403) {
-                //error
-            }
-            else{
-                alert(`Something went wrong while fetching the users: \n${handleError(error)}`);
-            }
-        }
+		    this.setState({game: game});
+	    } catch (error) {
+		    alert(`Something went wrong while fetching the game: \n${handleError(error)}`);
+	    }
     }
-    /**
-const Card = (jokerDeck) => {
-        <div className="card">
-            <div className="card-tl">
-                <div className="card-value">
-                    {props.value}
-                </div>
-                <div className="card-suit">
-                    {props.suit}
-                </div>
-            </div>
-            <div className="card-br">
-                <div className="card-value">
-                    {props.value}
-                </div>
-                <div className="card-suit">
-                    {props.suit}
-                </div>
-            </div>
-        </div>
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+    	if(this.state.game !== prevState.game){
+    		// TODO Update the cards
+		    // TODO Update the fields
+		    // TODO Update the players (mostly about the order)
+	    }
     }
-**/
-    render() {
+
+	render() {
         return (
             <div>
                 <div style={board}>
@@ -397,6 +374,31 @@ const Card = (jokerDeck) => {
                     <div style={opponent3}>
                     </div>
                     <div style={cards}>
+	                    <div>
+		                    <div style={cardLayout}>
+			                    Ace <br />Hearts
+		                    </div>
+	                    </div>
+	                    <div>
+		                    <div style={cardLayout}>
+			                    8 <br /> Spades
+		                    </div>
+	                    </div>
+	                    <div>
+		                    <div style={cardLayout}>
+			                    10 <br /> Clubs
+		                    </div>
+	                    </div>
+	                    <div>
+		                    <div style={cardLayout}>
+			                    5 <br /> Hearts
+		                    </div>
+	                    </div>
+	                    <div>
+		                    <div style={cardLayout}>
+			                    3 <br /> Clubs
+		                    </div>
+	                    </div>
                     </div>
                     <div style={map}>
 
@@ -425,19 +427,21 @@ const Card = (jokerDeck) => {
                             <div style={playerYellow}></div>
                         </div>
                     </div>
-                    <div style={joker}>
-                            <div style={cardLayout}> Please choose a Joker </div>
-                            {this.getJokerDeck().map(card => {
-                                return (
-                                    <div key={card}
-                                           onClick={() => { this.chosenCard(card) }}>
-                                        <div style={cardLayout}>
-                                            {card.val} <br />{card.suit}
-                                        </div>
-                                    </div>
-                                );
-                            })}
-                    </div>
+	                {this.state.displayJoker?
+		                (<div style={joker}>
+			                <div style={cardLayout}> Please choose a Joker </div>
+			                {this.getJokerDeck().map(card => {
+				                return (
+					                <div key={card}
+					                     onClick={() => { this.chosenJokerCard(card) }}>
+						                <div style={cardLayout}>
+							                {card.val} <br />{card.suit}
+						                </div>
+					                </div>
+				                );
+			                })}
+		                </div>):""
+	                }
                 </div>
             </div>
 
