@@ -4,6 +4,8 @@ import { withRouter } from 'react-router-dom';
 
 import { getDomain } from "../../helpers/getDomain";
 
+import Card from "./cards/Card";
+
 import styled from 'styled-components';
 import _ from 'lodash';
 
@@ -113,7 +115,8 @@ const cardLayout = {
     marginTop: 9,
     padding: 5,
     borderRadius: 5,
-    float: 'left'
+    float: 'left',
+	fontSize: '0.5em'
 }
 
 const player = {
@@ -165,7 +168,6 @@ const Field = styled.div`
     left: ${props => props.left}px;
     ${props => props.bgColor?"background: radial-gradient(circle at 8px 8px," + props.bgColor + ", #000);":""}
     ${props => props.bgColor?"&:hover {box-shadow: 0px 0px 3px 3px white;}":""}
-    
 `;
 
 // The fields positons
@@ -346,7 +348,7 @@ class Gameboard extends React.Component {
 	    try {
 		    let gameID = localStorage.getItem('gameID');
 
-		    const response = await api.get('/game/' + gameID, auth);
+		    // const response = await api.get('/game/' + gameID, auth);
 		    let game = JSON.parse('{"id":3,"name":"TestGame","gameState":"RUNNING","host":{"id":1,"email":"test1","username":"test1","status":"ONLINE"},"players":[{"id":123,"user":{"id":122,"email":"test4","username":"test4","status":"ONLINE"},"colour":"BLUE","hand":[{"suit":"CLUBS","value":"NINE"},{"suit":"DIAMONDS","value":"FIVE"},{"value":null},{"suit":"CLUBS","value":"KING"},{"suit":"HEARTS","value":"TWO"},{"suit":"HEARTS","value":"THREE"}]},{"id":121,"user":{"id":120,"email":"test3","username":"test3","status":"ONLINE"},"colour":"GREEN","hand":[{"suit":"DIAMONDS","value":"NINE"},{"suit":"DIAMONDS","value":"TWO"},{"suit":"DIAMONDS","value":"THREE"},{"suit":"HEARTS","value":"TEN"},{"value":null},{"suit":"CLUBS","value":"QUEEN"}]},{"id":118,"user":{"id":1,"email":"test1","username":"test1","status":"ONLINE"},"colour":"YELLOW","hand":[{"suit":"HEARTS","value":"QUEEN"},{"suit":"DIAMONDS","value":"FOUR"},{"suit":"SPADES","value":"JACK"},{"suit":"SPADES","value":"EIGHT"},{"suit":"HEARTS","value":"FIVE"},{"suit":"DIAMONDS","value":"QUEEN"}]},{"id":119,"user":{"id":2,"email":"test2","username":"test2","status":"ONLINE"},"colour":"RED","hand":[{"suit":"CLUBS","value":"TEN"},{"value":null},{"suit":"SPADES","value":"QUEEN"},{"suit":"DIAMONDS","value":"TEN"},{"suit":"CLUBS","value":"EIGHT"},{"suit":"SPADES","value":"FIVE"}]}],"board":{"id":4,"fields":[{"id":5,"occupant":null},{"id":6,"occupant":null},{"id":7,"occupant":null},{"id":8,"occupant":null},{"id":9,"occupant":null},{"id":10,"occupant":null},{"id":11,"occupant":null},{"id":12,"occupant":null},{"id":13,"occupant":null},{"id":14,"occupant":null},{"id":15,"occupant":null},{"id":16,"occupant":null},{"id":17,"occupant":null},{"id":18,"occupant":null},{"id":19,"occupant":null},{"id":20,"occupant":null},{"id":21,"occupant":null},{"id":22,"occupant":null},{"id":23,"occupant":null},{"id":24,"occupant":null},{"id":25,"occupant":null},{"id":26,"occupant":null},{"id":27,"occupant":null},{"id":28,"occupant":null},{"id":29,"occupant":null},{"id":30,"occupant":null},{"id":31,"occupant":null},{"id":32,"occupant":null},{"id":33,"occupant":null},{"id":34,"occupant":null},{"id":35,"occupant":null},{"id":36,"occupant":null},{"id":37,"occupant":null},{"id":38,"occupant":null},{"id":39,"occupant":null},{"id":40,"occupant":null},{"id":41,"occupant":null},{"id":42,"occupant":null},{"id":43,"occupant":null},{"id":44,"occupant":null},{"id":45,"occupant":null},{"id":46,"occupant":null},{"id":47,"occupant":null},{"id":48,"occupant":null},{"id":49,"occupant":null},{"id":50,"occupant":null},{"id":51,"occupant":null},{"id":52,"occupant":null},{"id":53,"occupant":null},{"id":54,"occupant":null},{"id":55,"occupant":null},{"id":56,"occupant":null},{"id":57,"occupant":null},{"id":58,"occupant":null},{"id":59,"occupant":null},{"id":60,"occupant":null},{"id":61,"occupant":null},{"id":62,"occupant":null},{"id":63,"occupant":null},{"id":64,"occupant":null},{"id":65,"occupant":null},{"id":66,"occupant":null},{"id":67,"occupant":null},{"id":68,"occupant":null},{"id":81,"occupant":null},{"id":82,"occupant":null},{"id":83,"occupant":null},{"id":84,"occupant":null},{"id":77,"occupant":null},{"id":78,"occupant":null},{"id":79,"occupant":null},{"id":80,"occupant":null},{"id":73,"occupant":null},{"id":74,"occupant":null},{"id":75,"occupant":null},{"id":76,"occupant":null},{"id":69,"occupant":null},{"id":70,"occupant":null},{"id":71,"occupant":null},{"id":72,"occupant":null},{"id":85,"occupant":{"id":86,"player":{"id":123,"user":{"id":122,"email":"test4","username":"test4","status":"ONLINE"},"colour":"BLUE","hand":[{"suit":"CLUBS","value":"NINE"},{"suit":"DIAMONDS","value":"FIVE"},{"value":null},{"suit":"CLUBS","value":"KING"},{"suit":"HEARTS","value":"TWO"},{"suit":"HEARTS","value":"THREE"}]}}},{"id":87,"occupant":{"id":88,"player":{"id":123,"user":{"id":122,"email":"test4","username":"test4","status":"ONLINE"},"colour":"BLUE","hand":[{"suit":"CLUBS","value":"NINE"},{"suit":"DIAMONDS","value":"FIVE"},{"value":null},{"suit":"CLUBS","value":"KING"},{"suit":"HEARTS","value":"TWO"},{"suit":"HEARTS","value":"THREE"}]}}},{"id":89,"occupant":{"id":90,"player":{"id":123,"user":{"id":122,"email":"test4","username":"test4","status":"ONLINE"},"colour":"BLUE","hand":[{"suit":"CLUBS","value":"NINE"},{"suit":"DIAMONDS","value":"FIVE"},{"value":null},{"suit":"CLUBS","value":"KING"},{"suit":"HEARTS","value":"TWO"},{"suit":"HEARTS","value":"THREE"}]}}},{"id":91,"occupant":{"id":92,"player":{"id":123,"user":{"id":122,"email":"test4","username":"test4","status":"ONLINE"},"colour":"BLUE","hand":[{"suit":"CLUBS","value":"NINE"},{"suit":"DIAMONDS","value":"FIVE"},{"value":null},{"suit":"CLUBS","value":"KING"},{"suit":"HEARTS","value":"TWO"},{"suit":"HEARTS","value":"THREE"}]}}},{"id":93,"occupant":{"id":94,"player":{"id":121,"user":{"id":120,"email":"test3","username":"test3","status":"ONLINE"},"colour":"GREEN","hand":[{"suit":"DIAMONDS","value":"NINE"},{"suit":"DIAMONDS","value":"TWO"},{"suit":"DIAMONDS","value":"THREE"},{"suit":"HEARTS","value":"TEN"},{"value":null},{"suit":"CLUBS","value":"QUEEN"}]}}},{"id":95,"occupant":{"id":96,"player":{"id":121,"user":{"id":120,"email":"test3","username":"test3","status":"ONLINE"},"colour":"GREEN","hand":[{"suit":"DIAMONDS","value":"NINE"},{"suit":"DIAMONDS","value":"TWO"},{"suit":"DIAMONDS","value":"THREE"},{"suit":"HEARTS","value":"TEN"},{"value":null},{"suit":"CLUBS","value":"QUEEN"}]}}},{"id":97,"occupant":{"id":98,"player":{"id":121,"user":{"id":120,"email":"test3","username":"test3","status":"ONLINE"},"colour":"GREEN","hand":[{"suit":"DIAMONDS","value":"NINE"},{"suit":"DIAMONDS","value":"TWO"},{"suit":"DIAMONDS","value":"THREE"},{"suit":"HEARTS","value":"TEN"},{"value":null},{"suit":"CLUBS","value":"QUEEN"}]}}},{"id":99,"occupant":{"id":100,"player":{"id":121,"user":{"id":120,"email":"test3","username":"test3","status":"ONLINE"},"colour":"GREEN","hand":[{"suit":"DIAMONDS","value":"NINE"},{"suit":"DIAMONDS","value":"TWO"},{"suit":"DIAMONDS","value":"THREE"},{"suit":"HEARTS","value":"TEN"},{"value":null},{"suit":"CLUBS","value":"QUEEN"}]}}},{"id":101,"occupant":{"id":102,"player":{"id":118,"user":{"id":1,"email":"test1","username":"test1","status":"ONLINE"},"colour":"YELLOW","hand":[{"suit":"HEARTS","value":"QUEEN"},{"suit":"DIAMONDS","value":"FOUR"},{"suit":"SPADES","value":"JACK"},{"suit":"SPADES","value":"EIGHT"},{"suit":"HEARTS","value":"FIVE"},{"suit":"DIAMONDS","value":"QUEEN"}]}}},{"id":103,"occupant":{"id":104,"player":{"id":118,"user":{"id":1,"email":"test1","username":"test1","status":"ONLINE"},"colour":"YELLOW","hand":[{"suit":"HEARTS","value":"QUEEN"},{"suit":"DIAMONDS","value":"FOUR"},{"suit":"SPADES","value":"JACK"},{"suit":"SPADES","value":"EIGHT"},{"suit":"HEARTS","value":"FIVE"},{"suit":"DIAMONDS","value":"QUEEN"}]}}},{"id":105,"occupant":{"id":106,"player":{"id":118,"user":{"id":1,"email":"test1","username":"test1","status":"ONLINE"},"colour":"YELLOW","hand":[{"suit":"HEARTS","value":"QUEEN"},{"suit":"DIAMONDS","value":"FOUR"},{"suit":"SPADES","value":"JACK"},{"suit":"SPADES","value":"EIGHT"},{"suit":"HEARTS","value":"FIVE"},{"suit":"DIAMONDS","value":"QUEEN"}]}}},{"id":107,"occupant":{"id":108,"player":{"id":118,"user":{"id":1,"email":"test1","username":"test1","status":"ONLINE"},"colour":"YELLOW","hand":[{"suit":"HEARTS","value":"QUEEN"},{"suit":"DIAMONDS","value":"FOUR"},{"suit":"SPADES","value":"JACK"},{"suit":"SPADES","value":"EIGHT"},{"suit":"HEARTS","value":"FIVE"},{"suit":"DIAMONDS","value":"QUEEN"}]}}},{"id":109,"occupant":{"id":110,"player":{"id":119,"user":{"id":2,"email":"test2","username":"test2","status":"ONLINE"},"colour":"RED","hand":[{"suit":"CLUBS","value":"TEN"},{"value":null},{"suit":"SPADES","value":"QUEEN"},{"suit":"DIAMONDS","value":"TEN"},{"suit":"CLUBS","value":"EIGHT"},{"suit":"SPADES","value":"FIVE"}]}}},{"id":111,"occupant":{"id":112,"player":{"id":119,"user":{"id":2,"email":"test2","username":"test2","status":"ONLINE"},"colour":"RED","hand":[{"suit":"CLUBS","value":"TEN"},{"value":null},{"suit":"SPADES","value":"QUEEN"},{"suit":"DIAMONDS","value":"TEN"},{"suit":"CLUBS","value":"EIGHT"},{"suit":"SPADES","value":"FIVE"}]}}},{"id":113,"occupant":{"id":114,"player":{"id":119,"user":{"id":2,"email":"test2","username":"test2","status":"ONLINE"},"colour":"RED","hand":[{"suit":"CLUBS","value":"TEN"},{"value":null},{"suit":"SPADES","value":"QUEEN"},{"suit":"DIAMONDS","value":"TEN"},{"suit":"CLUBS","value":"EIGHT"},{"suit":"SPADES","value":"FIVE"}]}}},{"id":115,"occupant":{"id":116,"player":{"id":119,"user":{"id":2,"email":"test2","username":"test2","status":"ONLINE"},"colour":"RED","hand":[{"suit":"CLUBS","value":"TEN"},{"value":null},{"suit":"SPADES","value":"QUEEN"},{"suit":"DIAMONDS","value":"TEN"},{"suit":"CLUBS","value":"EIGHT"},{"suit":"SPADES","value":"FIVE"}]}}}]}}')
 
 		    this.setState({game: game});
@@ -355,9 +357,14 @@ class Gameboard extends React.Component {
 	    }
     }
 
-    componentDidUpdate(prevProps, prevState, snapshot) {
+    componentDidMount() {
+    	this.fetch();
+    }
+
+	componentDidUpdate(prevProps, prevState, snapshot) {
     	if(this.state.game !== prevState.game){
-    		// TODO Update the cards
+    		let cards = this.state.game.players[0].hand;
+    		this.setState({cards: cards});
 		    // TODO Update the fields
 		    // TODO Update the players (mostly about the order)
 	    }
@@ -373,33 +380,19 @@ class Gameboard extends React.Component {
                     </div>
                     <div style={opponent3}>
                     </div>
-                    <div style={cards}>
-	                    <div>
-		                    <div style={cardLayout}>
-			                    Ace <br />Hearts
-		                    </div>
-	                    </div>
-	                    <div>
-		                    <div style={cardLayout}>
-			                    8 <br /> Spades
-		                    </div>
-	                    </div>
-	                    <div>
-		                    <div style={cardLayout}>
-			                    10 <br /> Clubs
-		                    </div>
-	                    </div>
-	                    <div>
-		                    <div style={cardLayout}>
-			                    5 <br /> Hearts
-		                    </div>
-	                    </div>
-	                    <div>
-		                    <div style={cardLayout}>
-			                    3 <br /> Clubs
-		                    </div>
-	                    </div>
-                    </div>
+	                {this.state.cards?
+		                <div style={cards}>
+			                {this.state.cards.map((card) =>
+				                <>
+					                {card.suit && card.value?
+						                <Card suit={card.suit} value={card.value} />:
+						                <Card type="JOKER" />
+					                }
+				                </>
+			                )}
+		                </div>:''
+	                }
+
                     <div style={map}>
 
                         {this.state.fields.map((field) =>
