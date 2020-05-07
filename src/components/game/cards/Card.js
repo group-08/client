@@ -14,8 +14,7 @@ const CardContent = styled.div`
 	font-size: 0.7em;
 	
 	&:hover {
-		border-color: red;
-		color: red;
+		box-shadow: 0px 0px 3px 3px grey;
 	}
 `;
 
