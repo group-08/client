@@ -170,8 +170,8 @@ const Field = styled.div`
     ${props => props.bgColor?"&:hover {box-shadow: 0px 0px 3px 3px white;}":""}
 `;
 
-// The fields positons
-let fields = [
+// The fields positions
+const fields = [
     {top: 488, left: 104},
     {top: 466, left: 126},
     {top: 444, left: 148},
@@ -270,43 +270,13 @@ let fields = [
 	{top: 268, left: 16},
 ];
 
-// Add the four start fields
-fields[0].ringColor = 'blue';
-fields[16].ringColor = 'green';
-fields[32].ringColor = 'red';
-fields[48].ringColor = 'yellow';
-
-// Goal fields
-for (const x of _.range(64, 68)) {
-    fields[x].ringColor = 'blue';
-}
-for (const x of _.range(68, 72)) {
-	fields[x].ringColor = 'green';
-}
-for (const x of _.range(72, 76)) {
-	fields[x].ringColor = 'red';
-}
-for (const x of _.range(76, 80)) {
-	fields[x].ringColor = 'yellow';
-}
-
-// Home fields
-for (const x of _.range(80, 84)) {
-	fields[x].ringColor = 'blue';
-	fields[x].ball = 'blue';
-}
-for (const x of _.range(84, 88)) {
-	fields[x].ringColor = 'green';
-	fields[x].ball = 'green';
-}
-for (const x of _.range(88, 92)) {
-	fields[x].ringColor = 'red';
-	fields[x].ball = 'red';
-}
-for (const x of _.range(92, 96)) {
-	fields[x].ringColor = 'yellow';
-	fields[x].ball = 'yellow';
-}
+// Special color fields
+const ranges = [
+	_.concat(0, _.range(64, 68), _.range(80, 84)),
+	_.concat(16, _.range(68, 72), _.range(84, 88)),
+	_.concat(32, _.range(72, 76), _.range(88, 92)),
+	_.concat(48, _.range(76, 80), _.range(92, 96))
+]
 
 class Gameboard extends React.Component {
     constructor() {
@@ -363,9 +333,33 @@ class Gameboard extends React.Component {
 
 	componentDidUpdate(prevProps, prevState, snapshot) {
     	if(this.state.game !== prevState.game){
+    		// Cards
     		let cards = this.state.game.players[0].hand;
     		this.setState({cards: cards});
-		    // TODO Update the fields
+
+		    // Board
+		    let newfields = fields;
+
+		    // Home and goal fields
+		    let players = this.state.game.players;
+		    for (let [index, value] of players.entries()) {
+		    	let range = ranges[index];
+		    	for (let i = 0; i < range.length; i++) {
+		    		newfields[range[i]].ringColor = value.colour;
+			    }
+		    }
+
+		    // Balls
+		    let boardFields = this.state.game.board.fields;
+		    for (let [index, value] of boardFields.entries()){
+		    	if (value.occupant){
+					newfields[index].ball = value.occupant.player.colour;
+			    }
+		    }
+
+
+		    this.setState({board: newfields});
+
 		    // TODO Update the players (mostly about the order)
 	    }
     }
