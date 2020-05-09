@@ -246,6 +246,10 @@ const fields = [
 	{top: 268, left: 16},
 ];
 
+for (let i = 0; i < fields.length; i++) {
+	fields[i].boardIndex = i;
+}
+
 // Special color fields
 const ranges = [
 	_.concat(0, _.range(64, 68), _.range(80, 84)),
@@ -261,10 +265,11 @@ class Gameboard extends React.Component {
         	game: null,
 	        cards: null,
 	        sortedPlayers: null,
-            chosenCard: null,
             fields: fields,
 	        displayJoker: false,
-	        boardRotation: 90
+	        boardRotation: 0,
+	        chosenCard: null,
+	        chosenBall: null,
         };
 
         this.userID = localStorage.getItem('userID');
@@ -314,8 +319,6 @@ class Gameboard extends React.Component {
 	componentDidUpdate(prevProps, prevState, snapshot) {
 		let newfields = fields;
     	if(this.state.game !== prevState.game){
-		    // Board
-
 
 		    // Balls
 		    let boardFields = this.state.game.board.fields;
@@ -328,7 +331,7 @@ class Gameboard extends React.Component {
 		    let sortPlayers = this.state.game.players.slice();
 		    let sortRotation = 90;
 
-		    // Sorted players (you are always first)
+		    // Sorted players & rotate board
 		    if (this.state.game.players) {
 		    	while (sortPlayers[0].user.id != this.userID) {
 		    		let popPlayer = sortPlayers.shift();
@@ -383,6 +386,7 @@ class Gameboard extends React.Component {
 					<Map rotation={this.state.boardRotation}>
                         {this.state.fields.map((field) =>
                             <Field
+	                            key={field.boardIndex}
                                 top={field.top}
                                 left={field.left}
                                 ringColor={field.ringColor}
