@@ -4,6 +4,8 @@ import { withRouter } from 'react-router-dom';
 
 import { getDomain } from "../../helpers/getDomain";
 
+import Card from "./cards/Card";
+
 import styled from 'styled-components';
 import _ from 'lodash';
 
@@ -52,15 +54,16 @@ const cards = {
     left: 154
 };
 
-const map = {
-    backgroundImage: 'url(' + mapPic + ')',
-    border: '1px solid',
-    width: 530,
-    height: 530,
-    position: "absolute",
-    top:104,
-    left:115
-};
+const Map = styled.div`
+	background-image: url(${mapPic});
+    border: 1px solid;
+    width: 530px;
+    height: 530px;
+    position: absolute;
+    top: 104px;
+    left: 115px;
+   transform: rotate(${props => props.rotation}deg);
+`;
 
 const pieceButton = {
     border: '1px solid',
@@ -113,46 +116,10 @@ const cardLayout = {
     marginTop: 9,
     padding: 5,
     borderRadius: 5,
-    float: 'left'
+    float: 'left',
+	fontSize: '0.5em'
 }
 
-const player = {
-    border: '1px solid',
-    marginLeft: 10,
-    width: 510,
-    height: 40,
-    marginTop: 10,
-    borderRadius: 10
-};
-
-const playerBlue = {
-    width: 26,
-    height: 26,
-    borderRadius: 13,
-    background: 'blue',
-    margin: 6
-};
-const playerGreen = {
-    width: 26,
-    height: 26,
-    borderRadius: 13,
-    background: 'green',
-    margin: 6
-};
-const playerRed = {
-    width: 26,
-    height: 26,
-    borderRadius: 13,
-    background: 'red',
-    margin: 6
-};
-const playerYellow = {
-    width: 26,
-    height: 26,
-    borderRadius: 13,
-    background: 'yellow',
-    margin: 6
-};
 
 const Field = styled.div`
     border: ${props => props.ringColor?"3px solid ": "1px solid"} black;
@@ -165,11 +132,22 @@ const Field = styled.div`
     left: ${props => props.left}px;
     ${props => props.bgColor?"background: radial-gradient(circle at 8px 8px," + props.bgColor + ", #000);":""}
     ${props => props.bgColor?"&:hover {box-shadow: 0px 0px 3px 3px white;}":""}
-    
 `;
 
-// The fields positons
-let fields = [
+const PlayerDetail = styled.div`
+    margin-left: 10px;
+    width: 510px;
+    height: 40px;
+    margin-top: 10px;
+    border-radius: 10px;
+    padding: 10px;
+    font-weight: bold;
+    color: ${props => props.color == "YELLOW"?'black':'white'};
+    background-color: ${props => props.color};
+`;
+
+// The fields positions
+const fields = [
     {top: 488, left: 104},
     {top: 466, left: 126},
     {top: 444, left: 148},
@@ -268,43 +246,13 @@ let fields = [
 	{top: 268, left: 16},
 ];
 
-// Add the four start fields
-fields[0].ringColor = 'blue';
-fields[16].ringColor = 'green';
-fields[32].ringColor = 'red';
-fields[48].ringColor = 'yellow';
-
-// Goal fields
-for (const x of _.range(64, 68)) {
-    fields[x].ringColor = 'blue';
-}
-for (const x of _.range(68, 72)) {
-	fields[x].ringColor = 'green';
-}
-for (const x of _.range(72, 76)) {
-	fields[x].ringColor = 'red';
-}
-for (const x of _.range(76, 80)) {
-	fields[x].ringColor = 'yellow';
-}
-
-// Home fields
-for (const x of _.range(80, 84)) {
-	fields[x].ringColor = 'blue';
-	fields[x].ball = 'blue';
-}
-for (const x of _.range(84, 88)) {
-	fields[x].ringColor = 'green';
-	fields[x].ball = 'green';
-}
-for (const x of _.range(88, 92)) {
-	fields[x].ringColor = 'red';
-	fields[x].ball = 'red';
-}
-for (const x of _.range(92, 96)) {
-	fields[x].ringColor = 'yellow';
-	fields[x].ball = 'yellow';
-}
+// Special color fields
+const ranges = [
+	_.concat(0, _.range(64, 68), _.range(80, 84)),
+	_.concat(16, _.range(68, 72), _.range(84, 88)),
+	_.concat(32, _.range(72, 76), _.range(88, 92)),
+	_.concat(48, _.range(76, 80), _.range(92, 96))
+]
 
 class Gameboard extends React.Component {
     constructor() {
@@ -312,10 +260,14 @@ class Gameboard extends React.Component {
         this.state = {
         	game: null,
 	        cards: null,
+	        sortedPlayers: null,
             chosenCard: null,
             fields: fields,
-	        displayJoker: false
+	        displayJoker: false,
+	        boardRotation: 90
         };
+
+        this.userID = localStorage.getItem('userID');
     }
 
     chosenJokerCard(card){
@@ -348,19 +300,62 @@ class Gameboard extends React.Component {
 
 		    const response = await api.get('/game/' + gameID, auth);
 		    let game = response.data;
-
 		    this.setState({game: game});
 	    } catch (error) {
 		    alert(`Something went wrong while fetching the game: \n${handleError(error)}`);
 	    }
     }
 
-    componentDidUpdate(prevProps, prevState, snapshot) {
+    componentDidMount() {
+    	this.fetch();
+	    this.fetchInterval = setInterval(() => this.fetch(), 1000);
+    }
+
+	componentDidUpdate(prevProps, prevState, snapshot) {
+		let newfields = fields;
     	if(this.state.game !== prevState.game){
-    		// TODO Update the cards
-		    // TODO Update the fields
-		    // TODO Update the players (mostly about the order)
+		    // Board
+
+
+		    // Balls
+		    let boardFields = this.state.game.board.fields;
+		    for (let [index, value] of boardFields.entries()){
+			    if (value.occupant){
+				    newfields[index].ball = value.occupant.player.colour;
+			    }
+		    }
+
+		    let sortPlayers = this.state.game.players.slice();
+		    let sortRotation = 90;
+
+		    // Sorted players (you are always first)
+		    if (this.state.game.players) {
+		    	while (sortPlayers[0].user.id != this.userID) {
+		    		let popPlayer = sortPlayers.shift();
+		    		sortPlayers.push(popPlayer);
+		    		sortRotation += 90;
+			    }
+		    }
+		    this.setState({board: newfields});
+		    this.setState({sortedPlayers: sortPlayers});
+		    this.setState({boardRotation: sortRotation});
 	    }
+
+		if (this.state.sortedPlayers !== prevState.sortedPlayers){
+			// Cards
+			let cards = this.state.sortedPlayers[0].hand;
+			this.setState({cards: cards});
+
+			// Home and goal fields
+			let players = this.state.game.players;
+			for (let [index, value] of players.entries()) {
+				let shiftedIndex = (index + 1)%4;
+				let range = ranges[shiftedIndex];
+				for (let i = 0; i < range.length; i++) {
+					newfields[range[i]].ringColor = value.colour;
+				}
+			}
+		}
     }
 
 	render() {
@@ -373,35 +368,19 @@ class Gameboard extends React.Component {
                     </div>
                     <div style={opponent3}>
                     </div>
-                    <div style={cards}>
-	                    <div>
-		                    <div style={cardLayout}>
-			                    Ace <br />Hearts
-		                    </div>
-	                    </div>
-	                    <div>
-		                    <div style={cardLayout}>
-			                    8 <br /> Spades
-		                    </div>
-	                    </div>
-	                    <div>
-		                    <div style={cardLayout}>
-			                    10 <br /> Clubs
-		                    </div>
-	                    </div>
-	                    <div>
-		                    <div style={cardLayout}>
-			                    5 <br /> Hearts
-		                    </div>
-	                    </div>
-	                    <div>
-		                    <div style={cardLayout}>
-			                    3 <br /> Clubs
-		                    </div>
-	                    </div>
-                    </div>
-                    <div style={map}>
-
+	                {this.state.cards?
+		                <div style={cards}>
+			                {this.state.cards.map((card) =>
+				                <>
+					                {card.suit && card.value?
+						                <Card suit={card.suit} value={card.value} />:
+						                <Card type="JOKER" />
+					                }
+				                </>
+			                )}
+		                </div>:''
+	                }
+					<Map rotation={this.state.boardRotation}>
                         {this.state.fields.map((field) =>
                             <Field
                                 top={field.top}
@@ -410,22 +389,18 @@ class Gameboard extends React.Component {
                                 bgColor={field.ball}
                             />
                         )}
-                </div>
+					</Map>
                 </div>
                 <div style={sideboard}>
                     <div style={players}>
-                        <div style={player}>
-                            <div style={playerBlue}></div>
-                        </div>
-                        <div style={player}>
-                            <div style={playerGreen}></div>
-                        </div>
-                        <div style={player}>
-                            <div style={playerRed}></div>
-                        </div>
-                        <div style={player}>
-                            <div style={playerYellow}></div>
-                        </div>
+	                    {this.state.game?
+		                    this.state.game.players.map((player) =>
+				                    <PlayerDetail color={player.colour}>
+					                    {player.user.username}
+				                    </PlayerDetail>
+			                    ):''
+	                    }
+
                     </div>
 	                {this.state.displayJoker?
 		                (<div style={joker}>
