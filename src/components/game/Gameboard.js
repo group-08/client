@@ -290,12 +290,16 @@ class Gameboard extends React.Component {
     }
 
     selectFigureOrFieldFromBoardField(boardIndex){
-		if (this.isMyMove() && !this.state.selectedFigure) {
-
+		if ( this.isMyMove() ) {
+			let field = this.state.game.board.fields[boardIndex];
+			if (!this.state.selectedFigure) {
+				this.setState({selectedFigure: field.occupant});
+			}
+			else {
+				this.setState({selectedField: field});
+			}
 		}
-		else if (this.isMyMove() && this.state.selectedFigure) {
 
-		}
     }
 
 
