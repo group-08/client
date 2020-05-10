@@ -275,6 +275,10 @@ class Gameboard extends React.Component {
         this.userID = localStorage.getItem('userID');
     }
 
+    isMyMove(){
+    	return this.state.game.players[0].user.id == this.userID;
+    }
+
     chosenJokerCard(card){
         this.state.chosenCard = card
     }
