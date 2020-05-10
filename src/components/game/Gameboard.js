@@ -121,7 +121,7 @@ const cardLayout = {
 }
 
 
-const Field = styled.div`
+const Field = styled.div`   
     border: ${props => props.ringColor?"3px solid ": "1px solid"} black;
     border-color: ${props => props.ringColor};
     position: absolute;
@@ -268,8 +268,9 @@ class Gameboard extends React.Component {
             fields: fields,
 	        displayJoker: false,
 	        boardRotation: 0,
-	        chosenCard: null,
-	        chosenBall: null,
+	        selectedCard: null,
+	        selectedFigure: null,
+	        selectedField: null
         };
 
         this.userID = localStorage.getItem('userID');
@@ -278,6 +279,25 @@ class Gameboard extends React.Component {
     isMyMove(){
     	return this.state.game.players[0].user.id == this.userID;
     }
+
+    selectPlayingCard(card) {
+    	if (this.isMyMove()) {
+		    this.setState({selectedCard: card});
+	    }
+    	else {
+    		console.log("Wait your turn");
+	    }
+    }
+
+    selectFigureOrFieldFromBoardField(boardIndex){
+		if (this.isMyMove() && !this.state.selectedFigure) {
+
+		}
+		else if (this.isMyMove() && this.state.selectedFigure) {
+
+		}
+    }
+
 
     chosenJokerCard(card){
         this.state.chosenCard = card
@@ -378,12 +398,12 @@ class Gameboard extends React.Component {
 	                {this.state.cards?
 		                <div style={cards}>
 			                {this.state.cards.map((card) =>
-				                <>
-					                {card.suit && card.value?
-						                <Card suit={card.suit} value={card.value} />:
-						                <Card type="JOKER" />
+				                <Card
+					                card={card}
+					                onClick={() => (
+					                	this.selectPlayingCard(card));
 					                }
-				                </>
+				                />
 			                )}
 		                </div>:''
 	                }
@@ -395,6 +415,9 @@ class Gameboard extends React.Component {
                                 left={field.left}
                                 ringColor={field.ringColor}
                                 bgColor={field.ball}
+	                            onClick={() => (
+		                            this.selectFigureOrFieldFromBoardField(field.boardIndex);
+	                            )}
                             />
                         )}
 					</Map>
