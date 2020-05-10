@@ -405,7 +405,7 @@ class Gameboard extends React.Component {
 				                <Card
 					                card={card}
 					                onClick={() => (
-					                	this.selectPlayingCard(card));
+					                	this.selectPlayingCard(card))
 					                }
 				                />
 			                )}
@@ -420,7 +420,7 @@ class Gameboard extends React.Component {
                                 ringColor={field.ringColor}
                                 bgColor={field.ball}
 	                            onClick={() => (
-		                            this.selectFigureOrFieldFromBoardField(field.boardIndex);
+		                            this.selectFigureOrFieldFromBoardField(field.boardIndex)
 	                            )}
                             />
                         )}
