@@ -270,7 +270,8 @@ class Gameboard extends React.Component {
 	        boardRotation: 0,
 	        selectedCard: null,
 	        selectedFigure: null,
-	        selectedField: null
+	        selectedField: null,
+	        possibleFields: null
         };
 
         this.userID = localStorage.getItem('userID');
@@ -404,9 +405,9 @@ class Gameboard extends React.Component {
 			                {this.state.cards.map((card) =>
 				                <Card
 					                card={card}
-					                onClick={() => (
-					                	this.selectPlayingCard(card));
-					                }
+					                onClick={() => {
+					                	this.selectPlayingCard(card);
+					                }}
 				                />
 			                )}
 		                </div>:''
@@ -419,9 +420,9 @@ class Gameboard extends React.Component {
                                 left={field.left}
                                 ringColor={field.ringColor}
                                 bgColor={field.ball}
-	                            onClick={() => (
+	                            onClick={() => {
 		                            this.selectFigureOrFieldFromBoardField(field.boardIndex);
-	                            )}
+	                            }}
                             />
                         )}
 					</Map>
