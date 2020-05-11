@@ -65,20 +65,6 @@ const Map = styled.div`
     transform: rotate(${props => props.rotation}deg);
 `;
 
-const pieceButton = {
-    border: '1px solid',
-    position: "absolute",
-    width: 26,
-    height: 26,
-    borderRadius: 13,
-};
-
-const blue = {border: '3px solid', borderColor: 'blue'};
-const blueOccupant = {backgroundColor: 'blue'};
-const green = {border: '3px solid', borderColor: 'green'};
-const red = {border: '3px solid', borderColor: 'red'};
-const yellow = {border: '3px solid', borderColor: 'yellow'};
-
 const sideboard = {
     //backgroundImage: 'url(' + mapPic + ')',
     border: '1px solid',
@@ -118,8 +104,7 @@ const cardLayout = {
     borderRadius: 5,
     float: 'left',
 	fontSize: '0.5em'
-}
-
+};
 
 const Field = styled.div`   
     border: ${props => props.ringColor?"3px solid ": "1px solid"} black;
@@ -256,7 +241,7 @@ const ranges = [
 	_.concat(16, _.range(68, 72), _.range(84, 88)),
 	_.concat(32, _.range(72, 76), _.range(88, 92)),
 	_.concat(48, _.range(76, 80), _.range(92, 96))
-]
+];
 
 class Gameboard extends React.Component {
     constructor() {
@@ -279,7 +264,7 @@ class Gameboard extends React.Component {
     }
 
     isMyMove(){
-    	return this.state.game.players[0].user.id === this.userID;
+    	return (this.state.game.players[0].user.id == this.userID);
     }
 
     possibleFields() {
@@ -515,7 +500,8 @@ class Gameboard extends React.Component {
 			                {this.state.cards.map((card) =>
 				                <Card
 					                card={card}
-					                pleaseSelect={this.isMyMove()}
+					                pleaseSelect={this.isMyMove() && !this.state.selectedCard}
+					                selected={card.id == this.state.selectedCard.id}
 					                onClick={() => {
 					                	this.selectPlayingCard(card);
 					                }}

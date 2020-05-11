@@ -16,17 +16,19 @@ const CardContent = styled.div`
 	box-shadow: 0px 0px 3px 3px grey;
 	&:hover {
 		box-shadow: 0px 0px 6px 6px grey;
-	}
 	`:``}
-	
+	${props => props.selected?`
+	box-shadow: 0px 0px 6px 6px grey;
+	`:``}
 `;
 
 function Card(props){
 	return (
 		<CardContent
 			select={props.pleaseSelect}
+			selected={props.selected}
 		>
-			{props.card.type == "Normal"?
+			{props.card.type === "Normal"?
 					<>
 						{props.card.suit}
 						{props.card.value}
