@@ -379,6 +379,7 @@ class Gameboard extends React.Component {
 
     selectPlayingCard(card) {
     	if (this.isMyMove()) {
+		    console.log('Player selected the following card:', card);
 		    this.setState({selectedCard: card});
 	    }
     }
@@ -508,12 +509,11 @@ class Gameboard extends React.Component {
 		                <div style={cards}>
 			                {this.state.cards.map((card) =>
 				                <Card
+					                key={card.id}
 					                card={card}
 					                pleaseSelect={this.isMyMove() && !this.state.selectedCard}
 					                selected={this.state.selectedCard && card.id == this.state.selectedCard.id}
-					                onClick={() => {
-					                	this.selectPlayingCard(card);
-					                }}
+					                action={() => this.selectPlayingCard(card)}
 				                />
 			                )}
 		                </div>:''
@@ -537,7 +537,10 @@ class Gameboard extends React.Component {
                     <div style={players}>
 	                    {this.state.game?
 		                    this.state.game.players.map((player) =>
-				                    <PlayerDetail color={player.colour}>
+				                    <PlayerDetail
+					                    key={player.id}
+					                    color={player.colour}
+				                    >
 					                    {player.user.username}
 				                    </PlayerDetail>
 			                    ):''

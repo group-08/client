@@ -22,22 +22,29 @@ const CardContent = styled.div`
 	`:``}
 `;
 
-function Card(props){
-	return (
-		<CardContent
-			select={props.pleaseSelect}
-			selected={props.selected}
-		>
-			{props.card.type === "Normal"?
+class Card extends React.Component{
+	constructor(props) {
+		super(props);
+	}
+
+	render() {
+		return (
+			<CardContent
+				select={this.props.pleaseSelect}
+				selected={this.props.selected}
+				onClick={this.props.action}
+			>
+				{this.props.card.type === "Normal"?
 					<>
-						{props.card.suit} <br />
-						{props.card.value}
+						{this.props.card.suit} <br />
+						{this.props.card.value}
 					</>
 					:
 					'JOKER'
-			}
-		</CardContent>
-	)
+				}
+			</CardContent>
+		)
+	}
 }
 
 export default Card;
