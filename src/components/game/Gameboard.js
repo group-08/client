@@ -122,6 +122,9 @@ const Field = styled.div`
         box-shadow: 0px 0px 6px 6px white;
     }
     `:""}
+    ${props => props.highlighted?`
+    box-shadow: 0px 0px 6px 6px white;
+    `:``}
 `;
 
 const PlayerDetail = styled.div`
@@ -284,7 +287,7 @@ class Gameboard extends React.Component {
 			let gameId = localStorage.getItem('gameID');
 			const requestBody = JSON.stringify({
 				cardId: this.state.selectedCard.id,
-				figureId: this.state.figure.id
+				figureId: this.state.selectedFigure.id
 			});
 			const response = api.post('/game/' + gameId + '/possible', requestBody, auth);
 
@@ -308,7 +311,7 @@ class Gameboard extends React.Component {
 			let gameId = localStorage.getItem('gameID');
 			const requestBody = JSON.stringify({
 				cardId: this.state.selectedCard.id,
-				figureId: this.state.figure.id,
+				figureId: this.state.selectedFigure.id,
 				remainingSeven: this.state.remainingSeven
 			});
 			const response = api.post('/game/' + gameId + '/possible', requestBody, auth);
@@ -332,7 +335,7 @@ class Gameboard extends React.Component {
 			let gameId = localStorage.getItem('gameID');
 			const requestBody = JSON.stringify({
 				cardId: this.state.selectedCard.id,
-				figureId: this.state.figure.id,
+				figureId: this.state.selectedFigure.id,
 				targetFieldId: this.state.selectedField.id
 			});
 
@@ -355,7 +358,7 @@ class Gameboard extends React.Component {
 			let gameId = localStorage.getItem('gameID');
 			const requestBody = JSON.stringify({
 				cardId: this.state.selectedCard.id,
-				figureId: this.state.figure.id,
+				figureId: this.state.selectedFigure.id,
 				targetFieldId: this.state.selectedField.id,
 				remainingSeven: this.state.remainingSeven
 			});
@@ -402,9 +405,11 @@ class Gameboard extends React.Component {
 			let field = this.state.game.board.fields[boardIndex];
 			if (!this.state.selectedFigure) {
 				if (field.occupant.player.user.id == this.userID) {
-					this.setState({selectedFigure: field.occupant});
+					this.setState(
+						{selectedFigure: field.occupant},
+						() => {this.getPossibleFields()}
+						);
 					console.log('Player selected the following figure', field.occupant);
-					this.getPossibleFields();
 				}
 
 
@@ -463,16 +468,7 @@ class Gameboard extends React.Component {
     }
 
 	componentDidUpdate(prevProps, prevState, snapshot) {
-		let newfields = fields;
     	if(this.state.game !== prevState.game){
-
-		    // Balls
-		    let boardFields = this.state.game.board.fields;
-		    for (let [index, value] of boardFields.entries()){
-			    if (value.occupant){
-				    newfields[index].ball = value.occupant.player.colour;
-			    }
-		    }
 
 		    let sortPlayers = this.state.game.players.slice();
 		    let sortRotation = 90;
@@ -489,10 +485,18 @@ class Gameboard extends React.Component {
 		    this.setState({boardRotation: sortRotation});
 	    }
 
-		if (this.state.sortedPlayers !== prevState.sortedPlayers){
-			// Cards
-			let cards = this.state.sortedPlayers[0].hand;
-			this.setState({cards: cards});
+		let newfields = fields;
+
+		if(this.state.game !== prevState.game ||
+			this.state.sortedPlayers !== prevState.sortedPlayers ||
+			this.state.selectedFigure !== prevState.selectedFigure) {
+			// Balls
+			let boardFields = this.state.game.board.fields;
+			for (let [index, value] of boardFields.entries()) {
+				if (value.occupant) {
+					newfields[index].ball = value.occupant.player.colour;
+				}
+			}
 
 			// Home and goal fields
 			let players = this.state.game.players;
@@ -503,9 +507,30 @@ class Gameboard extends React.Component {
 					newfields[range[i]].ringColor = value.colour;
 				}
 			}
+
+			// Selected field
+
+			for (let index = 0; index < newfields.length; index++){
+				if (this.state.selectedFigure &&
+					this.state.game.board.fields[index].occupant &&
+					this.state.game.board.fields[index].occupant.id == this.state.selectedFigure.id ){
+					newfields[index].highlighted = true;
+				}
+				else {
+					newfields[index].highlighted = false;
+				}
+			}
 		}
 
-		if (this.state.game !== prevState.game || this.state.sortedPlayers !== prevState.sortedPlayers) {
+		if (this.state.sortedPlayers !== prevState.sortedPlayers){
+			// Cards
+			let cards = this.state.sortedPlayers[0].hand;
+			this.setState({cards: cards});
+		}
+
+		if (this.state.game !== prevState.game ||
+			this.state.sortedPlayers !== prevState.sortedPlayers ||
+			this.state.selectedFigure !== prevState.selectedFigure ) {
 			this.setState({fields: newfields});
 		}
     }
@@ -541,7 +566,8 @@ class Gameboard extends React.Component {
                                 left={field.left}
                                 ringColor={field.ringColor}
                                 bgColor={field.ball}
-	                            highlightColor={this.state.selectedCard?this.state.sortedPlayers[0].colour:''}
+	                            highlightColor={this.state.selectedCard && !this.state.selectedFigure?this.state.sortedPlayers[0].colour:''}
+	                            highlighted={field.highlighted}
 	                            onClick={() => {
 		                            this.selectFigureOrFieldFromBoardField(field.boardIndex);
 	                            }}
