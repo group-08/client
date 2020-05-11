@@ -383,7 +383,7 @@ class Gameboard extends React.Component {
 			    console.log('Player selected the following card:', card);
 			    this.setState({selectedCard: card});
 		    }
-		    else if (this.state.selectedCard == card) {
+		    else if (this.state.selectedCard.id == card.id) {
 			    console.log('Player disselected card');
 			    this.setState({selectedCard: null});
 			    this.setState({selectedFigure: null});
