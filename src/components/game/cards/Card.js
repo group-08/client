@@ -12,15 +12,20 @@ const CardContent = styled.div`
 	display: inline-block;
 	vertical-align: top;
 	font-size: 0.7em;
-	
+	${props => props.select?`
+	box-shadow: 0px 0px 3px 3px grey;
 	&:hover {
-		box-shadow: 0px 0px 3px 3px grey;
+		box-shadow: 0px 0px 6px 6px grey;
 	}
+	`:``}
+	
 `;
 
 function Card(props){
 	return (
-		<CardContent>
+		<CardContent
+			select={props.pleaseSelect}
+		>
 			{props.card.type == "Normal"?
 					<>
 						{props.card.suit}
