@@ -62,7 +62,7 @@ const Map = styled.div`
     position: absolute;
     top: 104px;
     left: 115px;
-   transform: rotate(${props => props.rotation}deg);
+    transform: rotate(${props => props.rotation}deg);
 `;
 
 const pieceButton = {
@@ -303,11 +303,9 @@ class Gameboard extends React.Component {
 
     }
 
-
     chosenJokerCard(card){
         this.state.chosenCard = card
     }
-
 
     getJokerDeck(){
         const values = ["2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"];
@@ -405,6 +403,7 @@ class Gameboard extends React.Component {
 			                {this.state.cards.map((card) =>
 				                <Card
 					                card={card}
+					                pleaseSelect={this.isMyMove()}
 					                onClick={() => {
 					                	this.selectPlayingCard(card);
 					                }}
