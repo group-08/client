@@ -510,7 +510,7 @@ class Gameboard extends React.Component {
 				                <Card
 					                card={card}
 					                pleaseSelect={this.isMyMove() && !this.state.selectedCard}
-					                selected={card.id == this.state.selectedCard.id}
+					                selected={this.state.selectedCard && card.id == this.state.selectedCard.id}
 					                onClick={() => {
 					                	this.selectPlayingCard(card);
 					                }}

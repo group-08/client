@@ -30,7 +30,7 @@ function Card(props){
 		>
 			{props.card.type === "Normal"?
 					<>
-						{props.card.suit}
+						{props.card.suit} <br />
 						{props.card.value}
 					</>
 					:
