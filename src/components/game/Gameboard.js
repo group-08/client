@@ -260,7 +260,7 @@ class Gameboard extends React.Component {
 			remainingSeven: null
         };
 
-        this.userID = localStorage.getItem('userID');
+        this.userID = parseInt(localStorage.getItem('userID'));
     }
 
     isMyMove(){
@@ -371,30 +371,39 @@ class Gameboard extends React.Component {
 
 	getPossibleFields() {
 		if ( this.state.selectedCard.value === 'SEVEN' ) {
-			return this.possibleFieldsSeven();
+			this.possibleFieldsSeven();
 		} else {
-			return this.possibleFields();
+			this.possibleFields();
 		}
 	}
-
 
     selectPlayingCard(card) {
     	if (this.isMyMove()) {
 		    this.setState({selectedCard: card});
-	    }
-    	else {
-    		console.log("Wait your turn");
 	    }
     }
 
     selectFigureOrFieldFromBoardField(boardIndex){
 		if ( this.isMyMove() ) {
 			let field = this.state.game.board.fields[boardIndex];
-			if (!this.state.selectedFigure) {
-				this.setState({selectedFigure: field.occupant});
+			if (this.state.selectedCard && !this.state.selectedCard) {
+				if (board.occupant.player.user.id == this.userID) {
+					this.setState({selectedFigure: field.occupant});
+					this.getPossibleFields();
+				}
+				else{
+					alert("Please choose a field where you are on");
+				}
+
 			}
-			else {
-				this.setState({selectedField: field});
+			else if (this.state.selectedCard && this.state.possibleFields && this.state.selectedCard) {
+				for (let possibleField in this.state.possibleFields) {
+					if (possibleField.id == field.id) {
+						this.setState({selectedField: field});
+						this.makeMove();
+						break;
+					}
+				}
 			}
 		}
 
@@ -540,8 +549,10 @@ class Gameboard extends React.Component {
 			                <div style={cardLayout}> Please choose a Joker </div>
 			                {this.getJokerDeck().map(card => {
 				                return (
-					                <div key={card}
-					                     onClick={() => { this.chosenJokerCard(card) }}>
+					                <div
+						                key={card}
+						                onClick={() => { this.chosenJokerCard(card) }}
+					                >
 						                <div style={cardLayout}>
 							                {card.val} <br />{card.suit}
 						                </div>
