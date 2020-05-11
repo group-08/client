@@ -21,7 +21,7 @@ const CardContent = styled.div`
 function Card(props){
 	return (
 		<CardContent>
-			{{props.card.type == "Normal"?
+			{props.card.type == "Normal"?
 					<>
 						{props.card.suit}
 						{props.card.value}
