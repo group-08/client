@@ -116,7 +116,12 @@ const Field = styled.div`
     top: ${props => props.top}px;
     left: ${props => props.left}px;
     ${props => props.bgColor?"background: radial-gradient(circle at 8px 8px," + props.bgColor + ", #000);":""}
-    ${props => props.bgColor?"&:hover {box-shadow: 0px 0px 3px 3px white;}":""}
+    ${props => (props.highlightColor == props.bgColor)?`
+    box-shadow: 0px 0px 3px 3px white;
+    &:hover {
+        box-shadow: 0px 0px 6px 6px white;
+    }
+    `:""}
 `;
 
 const PlayerDetail = styled.div`
@@ -278,8 +283,8 @@ class Gameboard extends React.Component {
 		try {
 			let gameId = localStorage.getItem('gameID');
 			const requestBody = JSON.stringify({
-				card: this.state.selectedCard,
-				figure: this.state.figure
+				cardId: this.state.selectedCard.id,
+				figureId: this.state.figure.id
 			});
 			const response = api.post('/game/' + gameId + '/possible', requestBody, auth);
 
@@ -302,8 +307,8 @@ class Gameboard extends React.Component {
 		try {
 			let gameId = localStorage.getItem('gameID');
 			const requestBody = JSON.stringify({
-				card: this.state.selectedCard,
-				figure: this.state.figure,
+				cardId: this.state.selectedCard.id,
+				figureId: this.state.figure.id,
 				remainingSeven: this.state.remainingSeven
 			});
 			const response = api.post('/game/' + gameId + '/possible', requestBody, auth);
@@ -326,9 +331,9 @@ class Gameboard extends React.Component {
 		try {
 			let gameId = localStorage.getItem('gameID');
 			const requestBody = JSON.stringify({
-				card: this.state.selectedCard,
-				figure: this.state.figure,
-				targetField: this.state.selectedField
+				cardId: this.state.selectedCard.id,
+				figureId: this.state.figure.id,
+				targetFieldId: this.state.selectedField.id
 			});
 
 			api.post('/game/' + gameId + '/move', requestBody, auth);
@@ -349,9 +354,9 @@ class Gameboard extends React.Component {
 		try {
 			let gameId = localStorage.getItem('gameID');
 			const requestBody = JSON.stringify({
-				card: this.state.selectedCard,
-				figure: this.state.figure,
-				targetField: this.state.selectedField,
+				cardId: this.state.selectedCard.id,
+				figureId: this.state.figure.id,
+				targetFieldId: this.state.selectedField.id,
 				remainingSeven: this.state.remainingSeven
 			});
 			this.setState.remainingSeven = api.post('/game/' + gameId + '/move', requestBody, auth);
@@ -396,8 +401,9 @@ class Gameboard extends React.Component {
 		if ( this.isMyMove() && this.state.selectedCard ) {
 			let field = this.state.game.board.fields[boardIndex];
 			if (!this.state.selectedFigure) {
-				if (board.occupant.player.user.id == this.userID) {
+				if (field.occupant.player.user.id == this.userID) {
 					this.setState({selectedFigure: field.occupant});
+					console.log('Player selected the following figure', field.occupant);
 					this.getPossibleFields();
 				}
 
@@ -532,6 +538,7 @@ class Gameboard extends React.Component {
                                 left={field.left}
                                 ringColor={field.ringColor}
                                 bgColor={field.ball}
+	                            highlightColor={this.state.selectedCard?this.state.sortedPlayers[0].colour:''}
 	                            onClick={() => {
 		                            this.selectFigureOrFieldFromBoardField(field.boardIndex);
 	                            }}
