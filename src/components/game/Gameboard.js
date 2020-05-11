@@ -1,8 +1,8 @@
 import React from 'react';
-import { api, handleError } from '../../helpers/api';
-import { withRouter } from 'react-router-dom';
+import {api, handleError} from '../../helpers/api';
+import {withRouter} from 'react-router-dom';
 
-import { getDomain } from "../../helpers/getDomain";
+import {getDomain} from "../../helpers/getDomain";
 
 import Card from "./cards/Card";
 
@@ -271,15 +271,127 @@ class Gameboard extends React.Component {
 	        selectedCard: null,
 	        selectedFigure: null,
 	        selectedField: null,
-	        possibleFields: null
+	        possibleFields: null,
+			remainingSeven: null
         };
 
         this.userID = localStorage.getItem('userID');
     }
 
     isMyMove(){
-    	return this.state.game.players[0].user.id == this.userID;
+    	return this.state.game.players[0].user.id === this.userID;
     }
+
+    async possibleFields() {
+		const auth = {
+			baseURL: getDomain(),
+			headers: {
+				'Content-Type': 'application/json',
+				'X-Token': localStorage.getItem('token')
+			}
+		};
+		try {
+			let gameId = localStorage.getItem('gameID');
+			const requestBody = JSON.stringify({
+				card: this.state.selectedCard,
+				figure: this.state.figure
+			});
+			const response = await api.post('/game/' + gameId + '/possible', requestBody, auth);
+
+			this.setState.possibleFields = response.data;
+
+		} catch (error) {
+			alert(`Couldn't get possible fields: \n${handleError(error)}`);
+		}
+
+	}
+
+	async possibleFieldsSeven() {
+		const auth = {
+			baseURL: getDomain(),
+			headers: {
+				'Content-Type': 'application/json',
+				'X-Token': localStorage.getItem('token')
+			}
+		};
+		try {
+			let gameId = localStorage.getItem('gameID');
+			const requestBody = JSON.stringify({
+				card: this.state.selectedCard,
+				figure: this.state.figure,
+				remainingSeven: this.state.remainingSeven
+			});
+			const response = await api.post('/game/' + gameId + '/possible', requestBody, auth);
+
+			this.setState.possibleFields = response.data;
+
+		} catch (error) {
+			alert(`Couldn't get possible fields: \n${handleError(error)}`);
+		}
+	}
+
+	async move() {
+		const auth = {
+			baseURL: getDomain(),
+			headers: {
+				'Content-Type': 'application/json',
+				'X-Token': localStorage.getItem('token')
+			}
+		};
+		try {
+			let gameId = localStorage.getItem('gameID');
+			const requestBody = JSON.stringify({
+				card: this.state.selectedCard,
+				figure: this.state.figure,
+				targetField: this.state.selectedField
+			});
+
+			await api.post('/game/' + gameId + '/move', requestBody, auth);
+
+		} catch (error) {
+			alert(`There was an error in making the move: \n${handleError(error)}`);
+		}
+	}
+
+	async moveSeven() {
+		const auth = {
+			baseURL: getDomain(),
+			headers: {
+				'Content-Type': 'application/json',
+				'X-Token': localStorage.getItem('token')
+			}
+		};
+		try {
+			let gameId = localStorage.getItem('gameID');
+			const requestBody = JSON.stringify({
+				card: this.state.selectedCard,
+				figure: this.state.figure,
+				targetField: this.state.selectedField,
+				remainingSeven: this.state.remainingSeven
+			});
+			this.setState.remainingSeven = await api.post('/game/' + gameId + '/move', requestBody, auth);
+
+		} catch (error) {
+			alert(`There was an error in making the move with card seven: \n${handleError(error)}`);
+		}
+	}
+
+	makeMove() {
+    	if ( this.state.selectedCard.value === 'SEVEN' ) {
+    		return this.moveSeven();
+		} else {
+    		return this.move();
+		}
+	}
+
+	getPossibleFields() {
+		if ( this.state.selectedCard.value === 'SEVEN' ) {
+			return this.possibleFieldsSeven();
+		} else {
+			return this.possibleFields();
+		}
+	}
+
 
     selectPlayingCard(card) {
     	if (this.isMyMove()) {
@@ -362,7 +474,7 @@ class Gameboard extends React.Component {
 
 		    // Sorted players & rotate board
 		    if (this.state.game.players) {
-		    	while (sortPlayers[0].user.id != this.userID) {
+		    	while (sortPlayers[0].user.id !== this.userID) {
 		    		let popPlayer = sortPlayers.shift();
 		    		sortPlayers.push(popPlayer);
 		    		sortRotation += 90;
