@@ -485,7 +485,6 @@ class Gameboard extends React.Component {
 		    		sortRotation += 90;
 			    }
 		    }
-		    this.setState({board: newfields});
 		    this.setState({sortedPlayers: sortPlayers});
 		    this.setState({boardRotation: sortRotation});
 	    }
@@ -504,6 +503,10 @@ class Gameboard extends React.Component {
 					newfields[range[i]].ringColor = value.colour;
 				}
 			}
+		}
+
+		if (this.state.game !== prevState.game || this.state.sortedPlayers !== prevState.sortedPlayers) {
+			this.setState({fields: newfields});
 		}
     }
 
