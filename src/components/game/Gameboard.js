@@ -378,26 +378,32 @@ class Gameboard extends React.Component {
 	}
 
     selectPlayingCard(card) {
-    	if (this.isMyMove()) {
-		    console.log('Player selected the following card:', card);
-		    this.setState({selectedCard: card});
+	    if (this.isMyMove()) {
+		    if (!this.state.selectedCard) {
+			    console.log('Player selected the following card:', card);
+			    this.setState({selectedCard: card});
+		    }
+		    else if (this.state.selectedCard == card) {
+			    console.log('Player disselected card');
+			    this.setState({selectedCard: null});
+			    this.setState({selectedFigure: null});
+			    this.setState({selectedField: null});
+		    }
 	    }
     }
 
     selectFigureOrFieldFromBoardField(boardIndex){
-		if ( this.isMyMove() ) {
+		if ( this.isMyMove() && this.state.selectedCard ) {
 			let field = this.state.game.board.fields[boardIndex];
-			if (this.state.selectedCard && !this.state.selectedCard) {
+			if (!this.state.selectedFigure) {
 				if (board.occupant.player.user.id == this.userID) {
 					this.setState({selectedFigure: field.occupant});
 					this.getPossibleFields();
 				}
-				else{
-					alert("Please choose a field where you are on");
-				}
+
 
 			}
-			else if (this.state.selectedCard && this.state.possibleFields && this.state.selectedCard) {
+			else if (this.state.selectedCard && this.state.selectedFigure) {
 				for (let possibleField in this.state.possibleFields) {
 					if (possibleField.id == field.id) {
 						this.setState({selectedField: field});
