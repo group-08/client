@@ -282,7 +282,7 @@ class Gameboard extends React.Component {
     	return this.state.game.players[0].user.id === this.userID;
     }
 
-    async possibleFields() {
+    possibleFields() {
 		const auth = {
 			baseURL: getDomain(),
 			headers: {
@@ -296,7 +296,7 @@ class Gameboard extends React.Component {
 				card: this.state.selectedCard,
 				figure: this.state.figure
 			});
-			const response = await api.post('/game/' + gameId + '/possible', requestBody, auth);
+			const response = api.post('/game/' + gameId + '/possible', requestBody, auth);
 
 			this.setState.possibleFields = response.data;
 
@@ -306,7 +306,7 @@ class Gameboard extends React.Component {
 
 	}
 
-	async possibleFieldsSeven() {
+	possibleFieldsSeven() {
 		const auth = {
 			baseURL: getDomain(),
 			headers: {
@@ -321,7 +321,7 @@ class Gameboard extends React.Component {
 				figure: this.state.figure,
 				remainingSeven: this.state.remainingSeven
 			});
-			const response = await api.post('/game/' + gameId + '/possible', requestBody, auth);
+			const response = api.post('/game/' + gameId + '/possible', requestBody, auth);
 
 			this.setState.possibleFields = response.data;
 
@@ -330,7 +330,7 @@ class Gameboard extends React.Component {
 		}
 	}
 
-	async move() {
+	move() {
 		const auth = {
 			baseURL: getDomain(),
 			headers: {
@@ -346,14 +346,14 @@ class Gameboard extends React.Component {
 				targetField: this.state.selectedField
 			});
 
-			await api.post('/game/' + gameId + '/move', requestBody, auth);
+			api.post('/game/' + gameId + '/move', requestBody, auth);
 
 		} catch (error) {
 			alert(`There was an error in making the move: \n${handleError(error)}`);
 		}
 	}
 
-	async moveSeven() {
+	moveSeven() {
 		const auth = {
 			baseURL: getDomain(),
 			headers: {
@@ -369,7 +369,7 @@ class Gameboard extends React.Component {
 				targetField: this.state.selectedField,
 				remainingSeven: this.state.remainingSeven
 			});
-			this.setState.remainingSeven = await api.post('/game/' + gameId + '/move', requestBody, auth);
+			this.setState.remainingSeven = api.post('/game/' + gameId + '/move', requestBody, auth);
 
 		} catch (error) {
 			alert(`There was an error in making the move with card seven: \n${handleError(error)}`);
@@ -378,9 +378,9 @@ class Gameboard extends React.Component {
 
 	makeMove() {
     	if ( this.state.selectedCard.value === 'SEVEN' ) {
-    		return this.moveSeven();
+    		this.moveSeven();
 		} else {
-    		return this.move();
+    		this.move();
 		}
 	}
 
