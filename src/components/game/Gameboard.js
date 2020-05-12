@@ -266,7 +266,6 @@ class Gameboard extends React.Component {
 	        cards: null,
 	        sortedPlayers: null,
             fields: fields,
-	        displayJoker: false,
 	        boardRotation: 0,
 	        selectedCard: null,
 	        selectedFigure: null,
@@ -347,7 +346,11 @@ class Gameboard extends React.Component {
 			});
 
 			api.post('/game/' + gameId + '/move', requestBody, auth);
-
+			this.setState({
+				selectedCard: null,
+				selectedFigure: null,
+				selectedField: null
+			})
 		} catch (error) {
 			alert(`There was an error in making the move: \n${handleError(error)}`);
 		}
