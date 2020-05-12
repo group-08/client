@@ -245,10 +245,10 @@ for (let i = 0; i < fields.length; i++) {
 
 // Special color fields
 const ranges = [
+	_.concat(48, _.range(76, 80), _.range(92, 96)),
 	_.concat(0, _.range(64, 68), _.range(80, 84)),
 	_.concat(16, _.range(68, 72), _.range(84, 88)),
 	_.concat(32, _.range(72, 76), _.range(88, 92)),
-	_.concat(48, _.range(76, 80), _.range(92, 96))
 ];
 
 class Gameboard extends React.Component {
@@ -472,7 +472,7 @@ class Gameboard extends React.Component {
     	if(this.state.game !== prevState.game){
 
 		    let sortPlayers = this.state.game.players.slice();
-		    let sortRotation = 90;
+		    let sortRotation = -90;
 
 		    // Sorted players & rotate board
 		    if (this.state.game.players) {
@@ -502,7 +502,7 @@ class Gameboard extends React.Component {
 			// Home and goal fields
 			let players = this.state.game.players;
 			for (let [index, value] of players.entries()) {
-				let shiftedIndex = (index + 1)%4;
+				let shiftedIndex = index;
 				let range = ranges[shiftedIndex];
 				for (let i = 0; i < range.length; i++) {
 					newfields[range[i]].ringColor = value.colour;
