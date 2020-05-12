@@ -491,7 +491,7 @@ class Gameboard extends React.Component {
 		    	while (sortPlayers[0].user.id !== this.userID) {
 		    		let popPlayer = sortPlayers.shift();
 		    		sortPlayers.push(popPlayer);
-		    		sortRotation += 90;
+		    		//sortRotation += 90;
 			    }
 		    }
 		    this.setState({sortedPlayers: sortPlayers});
@@ -505,7 +505,7 @@ class Gameboard extends React.Component {
 			this.state.sortedPlayers !== prevState.sortedPlayers ||
 			this.state.selectedFigure !== prevState.selectedFigure ||
 			this.state.possibleFields !== prevState.possibleFields) {
-			// Balls
+			// Balls and Ring colors
 			let boardFields = this.state.game.board.fields;
 			for (let [index, value] of boardFields.entries()) {
 				if (value.occupant) {
@@ -514,9 +514,17 @@ class Gameboard extends React.Component {
 				else {
 					newfields[index].ball = null;
 				}
+
+				if (value.colour) {
+					newfields[index].ringColor = value.colour;
+				}
+				else {
+					newfields[index].ringColor = null;
+				}
 			}
 
 			// Home and goal fields
+			/*
 			let players = this.state.game.players;
 			for (let [index, value] of players.entries()) {
 				let shiftedIndex = index;
@@ -524,7 +532,7 @@ class Gameboard extends React.Component {
 				for (let i = 0; i < range.length; i++) {
 					newfields[range[i]].ringColor = value.colour;
 				}
-			}
+			}*/
 
 
 			// Selected figure
