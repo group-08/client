@@ -551,12 +551,10 @@ class Gameboard extends React.Component {
 			// Possible fields
 			if (this.state.possibleFields) {
 				for (let index = 0; index < newfields.length; index++){
+					newfields[index].selectable = false;
 					for (let y = 0; y < this.state.possibleFields.length; y++){
 						if (this.state.game.board.fields[index].id == this.state.possibleFields[y].id){
 							newfields[index].selectable = true;
-						}
-						else {
-							newfields[index].selectable = false;
 						}
 					}
 				}
