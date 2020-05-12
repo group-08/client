@@ -349,7 +349,8 @@ class Gameboard extends React.Component {
 			this.setState({
 				selectedCard: null,
 				selectedFigure: null,
-				selectedField: null
+				selectedField: null,
+				possibleFields: null
 			})
 		} catch (error) {
 			alert(`There was an error in making the move: \n${handleError(error)}`);
@@ -487,18 +488,15 @@ class Gameboard extends React.Component {
     	if(this.state.game !== prevState.game){
 
 		    let sortPlayers = this.state.game.players.slice();
-		    let sortRotation = 0;
 
-		    // Sorted players & rotate board
+		    // Sorted players
 		    if (this.state.game.players) {
 		    	while (sortPlayers[0].user.id !== this.userID) {
 		    		let popPlayer = sortPlayers.shift();
 		    		sortPlayers.push(popPlayer);
-		    		//sortRotation += 90;
 			    }
 		    }
 		    this.setState({sortedPlayers: sortPlayers});
-		    this.setState({boardRotation: sortRotation});
 	    }
 
 		let newfields = null;
@@ -526,16 +524,16 @@ class Gameboard extends React.Component {
 				}
 			}
 
-			// Home and goal fields
-			/*
-			let players = this.state.game.players;
-			for (let [index, value] of players.entries()) {
-				let shiftedIndex = index;
-				let range = ranges[shiftedIndex];
-				for (let i = 0; i < range.length; i++) {
-					newfields[range[i]].ringColor = value.colour;
+			// Board rotation
+			let boardRotation = 0;
+			let fieldIndex = 0;
+			if (this.state.sortedPlayers && this.state.game.board) {
+				while (this.state.sortedPlayers[0].colour != this.state.game.board.fields[fieldIndex].colour) {
+					boardRotation += 90;
+					fieldIndex += 16;
 				}
-			}*/
+			}
+			this.setState({boardRotation: boardRotation});
 
 
 			// Selected figure
