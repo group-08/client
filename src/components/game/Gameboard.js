@@ -125,6 +125,12 @@ const Field = styled.div`
     ${props => props.highlighted?`
     box-shadow: 0px 0px 6px 6px white;
     `:``}
+    ${props => props.selectable?`
+    box-shadow: 0px 0px 3px 3px white;
+    &:hover {
+        box-shadow: 0px 0px 6px 6px white;
+    }
+    `:""}
 `;
 
 const PlayerDetail = styled.div`
@@ -245,10 +251,11 @@ for (let i = 0; i < fields.length; i++) {
 
 // Special color fields
 const ranges = [
-	_.concat(48, _.range(76, 80), _.range(92, 96)),
+
 	_.concat(0, _.range(64, 68), _.range(80, 84)),
 	_.concat(16, _.range(68, 72), _.range(84, 88)),
 	_.concat(32, _.range(72, 76), _.range(88, 92)),
+	_.concat(48, _.range(76, 80), _.range(92, 96)),
 ];
 
 class Gameboard extends React.Component {
@@ -275,29 +282,29 @@ class Gameboard extends React.Component {
     	return (this.state.game.players[0].user.id == this.userID);
     }
 
-    possibleFields() {
-		const auth = {
-			baseURL: getDomain(),
-			headers: {
-				'Content-Type': 'application/json',
-				'X-Token': localStorage.getItem('token')
-			}
-		};
-		try {
-			let gameId = localStorage.getItem('gameID');
-			const requestBody = JSON.stringify({
-				cardId: this.state.selectedCard.id,
-				figureId: this.state.selectedFigure.id
-			});
-			const response = api.post('/game/' + gameId + '/possible', requestBody, auth);
+    async possibleFields() {
+	    const auth = {
+		    baseURL: getDomain(),
+		    headers: {
+			    'Content-Type': 'application/json',
+			    'X-Token': localStorage.getItem('token')
+		    }
+	    };
+	    try {
+		    let gameId = localStorage.getItem('gameID');
+		    const requestBody = JSON.stringify({
+			    cardId: this.state.selectedCard.id,
+			    figureId: this.state.selectedFigure.id
+		    });
+		    const response = await api.post('/game/' + gameId + '/possible', requestBody, auth);
+		    console.log('The following are the possible fields:', response.data);
+		    this.setState({possibleFields: response.data});
 
-			this.setState.possibleFields = response.data;
+	    } catch (error) {
+		    alert(`Couldn't get possible fields: \n${handleError(error)}`);
+	    }
 
-		} catch (error) {
-			alert(`Couldn't get possible fields: \n${handleError(error)}`);
-		}
-
-	}
+    }
 
 	possibleFieldsSeven() {
 		const auth = {
@@ -394,9 +401,12 @@ class Gameboard extends React.Component {
 		    }
 		    else if (this.state.selectedCard.id == card.id) {
 			    console.log('Player disselected card');
-			    this.setState({selectedCard: null});
-			    this.setState({selectedFigure: null});
-			    this.setState({selectedField: null});
+			    this.setState({
+				    selectedCard: null,
+				    selectedFigure: null,
+				    selectedField: null,
+				    possibleFields: null,
+			    });
 		    }
 	    }
     }
@@ -416,10 +426,12 @@ class Gameboard extends React.Component {
 
 			}
 			else if (this.state.selectedCard && this.state.selectedFigure) {
-				for (let possibleField in this.state.possibleFields) {
-					if (possibleField.id == field.id) {
-						this.setState({selectedField: field});
-						this.makeMove();
+				for (let index = 0; index < this.state.possibleFields.length; index++) {
+					if (this.state.possibleFields[index].id === field.id) {
+						this.setState(
+							{selectedField: field},
+							() => {this.makeMove()}
+						);
 						break;
 					}
 				}
@@ -472,7 +484,7 @@ class Gameboard extends React.Component {
     	if(this.state.game !== prevState.game){
 
 		    let sortPlayers = this.state.game.players.slice();
-		    let sortRotation = -90;
+		    let sortRotation = 0;
 
 		    // Sorted players & rotate board
 		    if (this.state.game.players) {
@@ -486,11 +498,12 @@ class Gameboard extends React.Component {
 		    this.setState({boardRotation: sortRotation});
 	    }
 
-		let newfields = fields;
+		const newfields = fields;
 
-		if(this.state.game !== prevState.game ||
+		if (this.state.game !== prevState.game ||
 			this.state.sortedPlayers !== prevState.sortedPlayers ||
-			this.state.selectedFigure !== prevState.selectedFigure) {
+			this.state.selectedFigure !== prevState.selectedFigure ||
+			this.state.possibleFields !== prevState.possibleFields) {
 			// Balls
 			let boardFields = this.state.game.board.fields;
 			for (let [index, value] of boardFields.entries()) {
@@ -509,8 +522,8 @@ class Gameboard extends React.Component {
 				}
 			}
 
-			// Selected field
 
+			// Selected figure
 			for (let index = 0; index < newfields.length; index++){
 				if (this.state.selectedFigure &&
 					this.state.game.board.fields[index].occupant &&
@@ -521,6 +534,26 @@ class Gameboard extends React.Component {
 					newfields[index].highlighted = false;
 				}
 			}
+
+			// Possible fields
+			if (this.state.possibleFields) {
+				for (let index = 0; index < newfields.length; index++){
+					for (let y = 0; y < this.state.possibleFields.length; y++){
+						if (this.state.game.board.fields[index].id == this.state.possibleFields[y].id){
+							newfields[index].selectable = true;
+						}
+						else {
+							newfields[index].selectable = false;
+						}
+					}
+				}
+			}
+			else {
+				for (let index = 0; index < newfields.length; index++){
+					newfields[index].selectable = false;
+				}
+			}
+
 		}
 
 		if (this.state.sortedPlayers !== prevState.sortedPlayers){
@@ -569,6 +602,7 @@ class Gameboard extends React.Component {
                                 bgColor={field.ball}
 	                            highlightColor={this.state.selectedCard && !this.state.selectedFigure?this.state.sortedPlayers[0].colour:''}
 	                            highlighted={field.highlighted}
+	                            selectable={field.selectable}
 	                            onClick={() => {
 		                            this.selectFigureOrFieldFromBoardField(field.boardIndex);
 	                            }}
