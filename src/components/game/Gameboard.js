@@ -362,7 +362,8 @@ class Gameboard extends React.Component {
 				targetFieldId: this.state.selectedField.id,
 				remainingSeven: this.state.remainingSeven
 			});
-			this.setState.remainingSeven = api.post('/game/' + gameId + '/move', requestBody, auth);
+			const response = api.post('/game/' + gameId + '/move', requestBody, auth);
+			this.setState({remainingSeven: parseInt(response.data)});
 
 		} catch (error) {
 			alert(`There was an error in making the move with card seven: \n${handleError(error)}`);
