@@ -498,7 +498,8 @@ class Gameboard extends React.Component {
 		    this.setState({boardRotation: sortRotation});
 	    }
 
-		const newfields = fields;
+		let newfields = null;
+    	newfields = fields
 
 		if (this.state.game !== prevState.game ||
 			this.state.sortedPlayers !== prevState.sortedPlayers ||
@@ -509,6 +510,9 @@ class Gameboard extends React.Component {
 			for (let [index, value] of boardFields.entries()) {
 				if (value.occupant) {
 					newfields[index].ball = value.occupant.player.colour;
+				}
+				else {
+					newfields[index].ball = null;
 				}
 			}
 
