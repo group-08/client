@@ -305,7 +305,7 @@ class Gameboard extends React.Component {
 
     }
 
-	possibleFieldsSeven() {
+	async possibleFieldsSeven() {
 		const auth = {
 			baseURL: getDomain(),
 			headers: {
@@ -320,9 +320,9 @@ class Gameboard extends React.Component {
 				figureId: this.state.selectedFigure.id,
 				remainingSeven: this.state.remainingSeven
 			});
-			const response = api.post('/game/' + gameId + '/possible', requestBody, auth);
-
-			this.setState.possibleFields = response.data;
+			const response = await api.post('/game/' + gameId + '/possible', requestBody, auth);
+			console.log('The following are the possible fields:', response.data);
+			this.setState({possibleFields: response.data});
 
 		} catch (error) {
 			alert(`Couldn't get possible fields: \n${handleError(error)}`);
@@ -357,7 +357,7 @@ class Gameboard extends React.Component {
 		}
 	}
 
-	moveSeven() {
+	async moveSeven() {
 		const auth = {
 			baseURL: getDomain(),
 			headers: {
@@ -373,9 +373,21 @@ class Gameboard extends React.Component {
 				targetFieldId: this.state.selectedField.id,
 				remainingSeven: this.state.remainingSeven
 			});
-			const response = api.post('/game/' + gameId + '/move', requestBody, auth);
-			this.setState({remainingSeven: parseInt(response.data)});
-
+			const response = await api.post('/game/' + gameId + '/move/seven', requestBody, auth);
+			let remainingSeven = parseInt(response.data);
+			console.log("Remaining moves: ", remainingSeven);
+			if (remainingSeven > 0) {
+				this.setState({selectedFigure:null, selectedField:null, possibleFields:null});
+				this.setState({remainingSeven: remainingSeven});
+			} else {
+				this.setState({
+					selectedFigure:null,
+					selectedField:null,
+					selectedCard:null,
+					remainingSeven:null,
+					possibleFields: null
+				});
+			}
 		} catch (error) {
 			alert(`There was an error in making the move with card seven: \n${handleError(error)}`);
 		}
@@ -400,16 +412,19 @@ class Gameboard extends React.Component {
     selectPlayingCard(card) {
 	    if (this.isMyMove()) {
 		    if (!this.state.selectedCard) {
+		    	if (card.value === 'SEVEN') {
+		    		this.setState({remainingSeven: 7});
+				}
 			    console.log('Player selected the following card:', card);
-			    this.setState({selectedCard: card});
-		    }
-		    else if (this.state.selectedCard.id == card.id) {
+			    this.setState({selectedCard: card});}
+		    else if (this.state.selectedCard.id == card.id && this.state.remainingSeven === 7) {
 			    console.log('Player disselected card');
 			    this.setState({
 				    selectedCard: null,
 				    selectedFigure: null,
 				    selectedField: null,
 				    possibleFields: null,
+					remainingSeven: null
 			    });
 		    }
 	    }
