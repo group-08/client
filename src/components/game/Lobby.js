@@ -89,8 +89,9 @@ class Lobby extends React.Component {
 		this.props.history.push('/login');
 	}
 
+	//Leaderboard button added
 	leaderboard() {
-		this.props.history.push('/login');
+		this.props.history.push('/leaderboard');
 	}
 
 	async joinGame(gameID) {
