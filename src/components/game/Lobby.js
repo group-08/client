@@ -89,6 +89,10 @@ class Lobby extends React.Component {
 		this.props.history.push('/login');
 	}
 
+	leaderboard() {
+		this.props.history.push('/login');
+	}
+
 	async joinGame(gameID) {
 		localStorage.setItem('gameID', gameID);
 		const auth = {
@@ -181,6 +185,18 @@ class Lobby extends React.Component {
 								<Typography variant="h6" color="inherit" noWrap>
 									Game
 								</Typography>
+							</Grid>
+							<Grid item>
+								<Tooltip title="Leaderboard" placement="left">
+									<Button
+										color="inherit"
+										onClick={() => {
+											this.leaderboard();
+										}}
+									>
+										Leaderboard
+									</Button>
+								</Tooltip>
 							</Grid>
 							<Grid item>
 								<Tooltip title="Logout" placement="left">
