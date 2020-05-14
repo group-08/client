@@ -1,8 +1,8 @@
 import React from 'react';
-import { api, handleError } from '../../helpers/api';
-import { withRouter } from 'react-router-dom';
+import {api, handleError} from '../../helpers/api';
+import {withRouter} from 'react-router-dom';
 
-import { getDomain } from "../../helpers/getDomain";
+import {getDomain} from "../../helpers/getDomain";
 
 import Card from "./cards/Card";
 
@@ -62,22 +62,8 @@ const Map = styled.div`
     position: absolute;
     top: 104px;
     left: 115px;
-   transform: rotate(${props => props.rotation}deg);
+    transform: rotate(${props => props.rotation}deg);
 `;
-
-const pieceButton = {
-    border: '1px solid',
-    position: "absolute",
-    width: 26,
-    height: 26,
-    borderRadius: 13,
-};
-
-const blue = {border: '3px solid', borderColor: 'blue'};
-const blueOccupant = {backgroundColor: 'blue'};
-const green = {border: '3px solid', borderColor: 'green'};
-const red = {border: '3px solid', borderColor: 'red'};
-const yellow = {border: '3px solid', borderColor: 'yellow'};
 
 const sideboard = {
     //backgroundImage: 'url(' + mapPic + ')',
@@ -118,10 +104,9 @@ const cardLayout = {
     borderRadius: 5,
     float: 'left',
 	fontSize: '0.5em'
-}
+};
 
-
-const Field = styled.div`
+const Field = styled.div`   
     border: ${props => props.ringColor?"3px solid ": "1px solid"} black;
     border-color: ${props => props.ringColor};
     position: absolute;
@@ -131,7 +116,21 @@ const Field = styled.div`
     top: ${props => props.top}px;
     left: ${props => props.left}px;
     ${props => props.bgColor?"background: radial-gradient(circle at 8px 8px," + props.bgColor + ", #000);":""}
-    ${props => props.bgColor?"&:hover {box-shadow: 0px 0px 3px 3px white;}":""}
+    ${props => (props.highlightColor == props.bgColor)?`
+    box-shadow: 0px 0px 3px 3px white;
+    &:hover {
+        box-shadow: 0px 0px 6px 6px white;
+    }
+    `:""}
+    ${props => props.highlighted?`
+    box-shadow: 0px 0px 6px 6px white;
+    `:``}
+    ${props => props.selectable?`
+    box-shadow: 0px 0px 3px 3px white;
+    &:hover {
+        box-shadow: 0px 0px 6px 6px white;
+    }
+    `:""}
 `;
 
 const PlayerDetail = styled.div`
@@ -246,13 +245,18 @@ const fields = [
 	{top: 268, left: 16},
 ];
 
+for (let i = 0; i < fields.length; i++) {
+	fields[i].boardIndex = i;
+}
+
 // Special color fields
 const ranges = [
+
 	_.concat(0, _.range(64, 68), _.range(80, 84)),
 	_.concat(16, _.range(68, 72), _.range(84, 88)),
 	_.concat(32, _.range(72, 76), _.range(88, 92)),
-	_.concat(48, _.range(76, 80), _.range(92, 96))
-]
+	_.concat(48, _.range(76, 80), _.range(92, 96)),
+];
 
 class Gameboard extends React.Component {
     constructor() {
@@ -261,19 +265,204 @@ class Gameboard extends React.Component {
         	game: null,
 	        cards: null,
 	        sortedPlayers: null,
-            chosenCard: null,
             fields: fields,
-	        displayJoker: false,
-	        boardRotation: 90
+	        boardRotation: 0,
+	        selectedCard: null,
+	        selectedFigure: null,
+	        selectedField: null,
+	        possibleFields: null,
+			remainingSeven: null
         };
 
-        this.userID = localStorage.getItem('userID');
+        this.userID = parseInt(localStorage.getItem('userID'));
+    }
+
+    isMyMove(){
+    	return (this.state.game.players[0].user && this.state.game.players[0].user.id == this.userID);
+    }
+
+    async possibleFields() {
+	    const auth = {
+		    baseURL: getDomain(),
+		    headers: {
+			    'Content-Type': 'application/json',
+			    'X-Token': localStorage.getItem('token')
+		    }
+	    };
+	    try {
+		    let gameId = localStorage.getItem('gameID');
+		    const requestBody = JSON.stringify({
+			    cardId: this.state.selectedCard.id,
+			    figureId: this.state.selectedFigure.id
+		    });
+		    const response = await api.post('/game/' + gameId + '/possible', requestBody, auth);
+		    console.log('The following are the possible fields:', response.data);
+		    this.setState({possibleFields: response.data});
+
+	    } catch (error) {
+		    alert(`Couldn't get possible fields: \n${handleError(error)}`);
+	    }
+
+    }
+
+	async possibleFieldsSeven() {
+		const auth = {
+			baseURL: getDomain(),
+			headers: {
+				'Content-Type': 'application/json',
+				'X-Token': localStorage.getItem('token')
+			}
+		};
+		try {
+			let gameId = localStorage.getItem('gameID');
+			const requestBody = JSON.stringify({
+				cardId: this.state.selectedCard.id,
+				figureId: this.state.selectedFigure.id,
+				remainingSeven: this.state.remainingSeven
+			});
+			const response = await api.post('/game/' + gameId + '/possible', requestBody, auth);
+			console.log('The following are the possible fields:', response.data);
+			this.setState({possibleFields: response.data});
+
+		} catch (error) {
+			alert(`Couldn't get possible fields: \n${handleError(error)}`);
+		}
+	}
+
+	move() {
+		const auth = {
+			baseURL: getDomain(),
+			headers: {
+				'Content-Type': 'application/json',
+				'X-Token': localStorage.getItem('token')
+			}
+		};
+		try {
+			let gameId = localStorage.getItem('gameID');
+			const requestBody = JSON.stringify({
+				cardId: this.state.selectedCard.id,
+				figureId: this.state.selectedFigure.id,
+				targetFieldId: this.state.selectedField.id
+			});
+
+			api.post('/game/' + gameId + '/move', requestBody, auth);
+			this.setState({
+				selectedCard: null,
+				selectedFigure: null,
+				selectedField: null,
+				possibleFields: null
+			})
+		} catch (error) {
+			alert(`There was an error in making the move: \n${handleError(error)}`);
+		}
+	}
+
+	async moveSeven() {
+		const auth = {
+			baseURL: getDomain(),
+			headers: {
+				'Content-Type': 'application/json',
+				'X-Token': localStorage.getItem('token')
+			}
+		};
+		try {
+			let gameId = localStorage.getItem('gameID');
+			const requestBody = JSON.stringify({
+				cardId: this.state.selectedCard.id,
+				figureId: this.state.selectedFigure.id,
+				targetFieldId: this.state.selectedField.id,
+				remainingSeven: this.state.remainingSeven
+			});
+			const response = await api.post('/game/' + gameId + '/move/seven', requestBody, auth);
+			let remainingSeven = parseInt(response.data);
+			console.log("Remaining moves: ", remainingSeven);
+			if (remainingSeven > 0) {
+				this.setState({selectedFigure:null, selectedField:null, possibleFields:null});
+				this.setState({remainingSeven: remainingSeven});
+			} else {
+				this.setState({
+					selectedFigure:null,
+					selectedField:null,
+					selectedCard:null,
+					remainingSeven:null,
+					possibleFields: null
+				});
+			}
+		} catch (error) {
+			alert(`There was an error in making the move with card seven: \n${handleError(error)}`);
+		}
+	}
+
+	makeMove() {
+    	if ( this.state.selectedCard.value === 'SEVEN' ) {
+    		this.moveSeven();
+		} else {
+    		this.move();
+		}
+	}
+
+	getPossibleFields() {
+		if ( this.state.selectedCard.value === 'SEVEN' ) {
+			this.possibleFieldsSeven();
+		} else {
+			this.possibleFields();
+		}
+	}
+
+    selectPlayingCard(card) {
+	    if (this.isMyMove()) {
+		    if (!this.state.selectedCard) {
+		    	if (card.value === 'SEVEN') {
+		    		this.setState({remainingSeven: 7});
+				}
+			    console.log('Player selected the following card:', card);
+			    this.setState({selectedCard: card});}
+		    else if (this.state.selectedCard.id == card.id &&
+			    (!this.state.remainingSeven || this.state.remainingSeven == 7)) {
+			    console.log('Player disselected card');
+			    this.setState({
+				    selectedCard: null,
+				    selectedFigure: null,
+				    selectedField: null,
+				    possibleFields: null,
+					remainingSeven: null
+			    });
+		    }
+	    }
+    }
+
+    selectFigureOrFieldFromBoardField(boardIndex){
+		if ( this.isMyMove() && this.state.selectedCard ) {
+			let field = this.state.game.board.fields[boardIndex];
+			if (!this.state.selectedFigure) {
+				if (field.occupant.player.user && field.occupant.player.user.id == this.userID) {
+					this.setState(
+						{selectedFigure: field.occupant},
+						() => {this.getPossibleFields()}
+						);
+					console.log('Player selected the following figure', field.occupant);
+				}
+
+
+			}
+			else if (this.state.selectedCard && this.state.selectedFigure) {
+				for (let index = 0; index < this.state.possibleFields.length; index++) {
+					if (this.state.possibleFields[index].id === field.id) {
+						this.setState(
+							{selectedField: field},
+							() => {this.makeMove()}
+						);
+						break;
+					}
+				}
+			}
+		}
+
     }
 
     chosenJokerCard(card){
         this.state.chosenCard = card
     }
-
 
     getJokerDeck(){
         const values = ["2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"];
@@ -312,49 +501,98 @@ class Gameboard extends React.Component {
     }
 
 	componentDidUpdate(prevProps, prevState, snapshot) {
-		let newfields = fields;
     	if(this.state.game !== prevState.game){
-		    // Board
-
-
-		    // Balls
-		    let boardFields = this.state.game.board.fields;
-		    for (let [index, value] of boardFields.entries()){
-			    if (value.occupant){
-				    newfields[index].ball = value.occupant.player.colour;
-			    }
-		    }
 
 		    let sortPlayers = this.state.game.players.slice();
-		    let sortRotation = 90;
 
-		    // Sorted players (you are always first)
+		    // Sorted players
 		    if (this.state.game.players) {
-		    	while (sortPlayers[0].user.id != this.userID) {
+		    	while (!sortPlayers[0].user || sortPlayers[0].user.id !== this.userID) {
 		    		let popPlayer = sortPlayers.shift();
 		    		sortPlayers.push(popPlayer);
-		    		sortRotation += 90;
 			    }
 		    }
-		    this.setState({board: newfields});
 		    this.setState({sortedPlayers: sortPlayers});
-		    this.setState({boardRotation: sortRotation});
 	    }
+
+		let newfields = null;
+    	newfields = fields
+
+		if (this.state.game !== prevState.game ||
+			this.state.sortedPlayers !== prevState.sortedPlayers ||
+			this.state.selectedFigure !== prevState.selectedFigure ||
+			this.state.possibleFields !== prevState.possibleFields) {
+			// Balls and Ring colors
+			let boardFields = this.state.game.board.fields;
+			for (let [index, value] of boardFields.entries()) {
+				if (value.occupant) {
+					newfields[index].ball = value.occupant.player.colour;
+				}
+				else {
+					newfields[index].ball = null;
+				}
+
+				if (value.colour) {
+					newfields[index].ringColor = value.colour;
+				}
+				else {
+					newfields[index].ringColor = null;
+				}
+			}
+
+			// Board rotation
+			let boardRotation = 0;
+			let fieldIndex = 0;
+			if (this.state.sortedPlayers && this.state.game.board) {
+				while (this.state.sortedPlayers[0].colour != this.state.game.board.fields[fieldIndex].colour) {
+					boardRotation += 90;
+					fieldIndex += 16;
+				}
+			}
+			this.setState({boardRotation: boardRotation});
+
+
+			// Selected figure
+			for (let index = 0; index < newfields.length; index++){
+				if (this.state.selectedFigure &&
+					this.state.game.board.fields[index].occupant &&
+					this.state.game.board.fields[index].occupant.id == this.state.selectedFigure.id ){
+					newfields[index].highlighted = true;
+				}
+				else {
+					newfields[index].highlighted = false;
+				}
+			}
+
+			// Possible fields
+			if (this.state.possibleFields) {
+				for (let index = 0; index < newfields.length; index++){
+					newfields[index].selectable = false;
+					for (let y = 0; y < this.state.possibleFields.length; y++){
+						if (this.state.game.board.fields[index].id == this.state.possibleFields[y].id){
+							newfields[index].selectable = true;
+						}
+					}
+				}
+			}
+			else {
+				for (let index = 0; index < newfields.length; index++){
+					newfields[index].selectable = false;
+				}
+			}
+
+		}
 
 		if (this.state.sortedPlayers !== prevState.sortedPlayers){
 			// Cards
 			let cards = this.state.sortedPlayers[0].hand;
 			this.setState({cards: cards});
+		}
 
-			// Home and goal fields
-			let players = this.state.game.players;
-			for (let [index, value] of players.entries()) {
-				let shiftedIndex = (index + 1)%4;
-				let range = ranges[shiftedIndex];
-				for (let i = 0; i < range.length; i++) {
-					newfields[range[i]].ringColor = value.colour;
-				}
-			}
+		if (this.state.game !== prevState.game ||
+			this.state.sortedPlayers !== prevState.sortedPlayers ||
+			this.state.selectedFigure !== prevState.selectedFigure ) {
+			this.setState({fields: newfields});
 		}
     }
 
@@ -371,22 +609,30 @@ class Gameboard extends React.Component {
 	                {this.state.cards?
 		                <div style={cards}>
 			                {this.state.cards.map((card) =>
-				                <>
-					                {card.suit && card.value?
-						                <Card suit={card.suit} value={card.value} />:
-						                <Card type="JOKER" />
-					                }
-				                </>
+				                <Card
+					                key={card.id}
+					                card={card}
+					                pleaseSelect={this.isMyMove() && !this.state.selectedCard}
+					                selected={this.state.selectedCard && card.id == this.state.selectedCard.id}
+					                action={() => this.selectPlayingCard(card)}
+				                />
 			                )}
 		                </div>:''
 	                }
 					<Map rotation={this.state.boardRotation}>
                         {this.state.fields.map((field) =>
                             <Field
+	                            key={field.boardIndex}
                                 top={field.top}
                                 left={field.left}
                                 ringColor={field.ringColor}
                                 bgColor={field.ball}
+	                            highlightColor={this.state.selectedCard && !this.state.selectedFigure?this.state.sortedPlayers[0].colour:''}
+	                            highlighted={field.highlighted}
+	                            selectable={field.selectable}
+	                            onClick={() => {
+		                            this.selectFigureOrFieldFromBoardField(field.boardIndex);
+	                            }}
                             />
                         )}
 					</Map>
@@ -395,8 +641,11 @@ class Gameboard extends React.Component {
                     <div style={players}>
 	                    {this.state.game?
 		                    this.state.game.players.map((player) =>
-				                    <PlayerDetail color={player.colour}>
-					                    {player.user.username}
+				                    <PlayerDetail
+					                    key={player.id}
+					                    color={player.colour}
+				                    >
+					                    {player.user?player.user.username:'Bot'}
 				                    </PlayerDetail>
 			                    ):''
 	                    }
@@ -407,8 +656,10 @@ class Gameboard extends React.Component {
 			                <div style={cardLayout}> Please choose a Joker </div>
 			                {this.getJokerDeck().map(card => {
 				                return (
-					                <div key={card}
-					                     onClick={() => { this.chosenJokerCard(card) }}>
+					                <div
+						                key={card}
+						                onClick={() => { this.chosenJokerCard(card) }}
+					                >
 						                <div style={cardLayout}>
 							                {card.val} <br />{card.suit}
 						                </div>

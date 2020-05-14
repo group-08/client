@@ -12,20 +12,39 @@ const CardContent = styled.div`
 	display: inline-block;
 	vertical-align: top;
 	font-size: 0.7em;
-	
+	${props => props.select?`
+	box-shadow: 0px 0px 3px 3px grey;
 	&:hover {
-		box-shadow: 0px 0px 3px 3px grey;
-	}
+		box-shadow: 0px 0px 6px 6px grey;
+	`:``}
+	${props => props.selected?`
+	box-shadow: 0px 0px 6px 6px grey;
+	`:``}
 `;
 
-function Card(props){
-	return (
-		<CardContent>
-			{(props.type && props.type == "JOKER")?
-				'JOKER':props.suit + ' ' + props.value
-			}
-		</CardContent>
-	)
+class Card extends React.Component{
+	constructor(props) {
+		super(props);
+	}
+
+	render() {
+		return (
+			<CardContent
+				select={this.props.pleaseSelect}
+				selected={this.props.selected}
+				onClick={this.props.action}
+			>
+				{this.props.card.type === "Normal"?
+					<>
+						{this.props.card.suit} <br />
+						{this.props.card.value}
+					</>
+					:
+					'JOKER'
+				}
+			</CardContent>
+		)
+	}
 }
 
 export default Card;
