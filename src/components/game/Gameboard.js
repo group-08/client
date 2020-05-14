@@ -278,7 +278,7 @@ class Gameboard extends React.Component {
     }
 
     isMyMove(){
-    	return (this.state.game.players[0].user.id == this.userID);
+    	return (this.state.game.players[0].user && this.state.game.players[0].user.id == this.userID);
     }
 
     async possibleFields() {
@@ -417,7 +417,8 @@ class Gameboard extends React.Component {
 				}
 			    console.log('Player selected the following card:', card);
 			    this.setState({selectedCard: card});}
-		    else if (this.state.selectedCard.id == card.id && this.state.remainingSeven === 7) {
+		    else if (this.state.selectedCard.id == card.id &&
+			    (!this.state.remainingSeven || this.state.remainingSeven == 7)) {
 			    console.log('Player disselected card');
 			    this.setState({
 				    selectedCard: null,
@@ -506,7 +507,7 @@ class Gameboard extends React.Component {
 
 		    // Sorted players
 		    if (this.state.game.players) {
-		    	while (sortPlayers[0].user.id !== this.userID) {
+		    	while (!sortPlayers[0].user || sortPlayers[0].user.id !== this.userID) {
 		    		let popPlayer = sortPlayers.shift();
 		    		sortPlayers.push(popPlayer);
 			    }
@@ -644,7 +645,7 @@ class Gameboard extends React.Component {
 					                    key={player.id}
 					                    color={player.colour}
 				                    >
-					                    {player.user.username}
+					                    {player.user?player.user.username:'Bot'}
 				                    </PlayerDetail>
 			                    ):''
 	                    }

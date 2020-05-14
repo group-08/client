@@ -203,9 +203,6 @@ class GameLobby extends React.Component {
 											<TableHead>
 												<TableRow>
 													<TableCell>
-														#
-													</TableCell>
-													<TableCell>
 														Name
 													</TableCell>
 													<TableCell>
@@ -215,33 +212,31 @@ class GameLobby extends React.Component {
 											</TableHead>
 											<TableBody>
 												{this.state.game.players.map(player => {
-													return (
-														<TableRow key={player.id}>
-															<TableCell>
-																{player.user.id}
-															</TableCell>
-															<TableCell>
-																{player.user.username}
-															</TableCell>
-															<TableCell>
-																{player.user.id == userID && this.state.game.host.id != userID ||
-																this.state.game.host.id == userID && player.user.id != userID?
-																	(
-																		<Button
-																			onClick={() => {
-																				this.removePlayer(player.user.id);
-																			}}
-																		>
-																			<CloseIcon />
-																		</Button>
-																	):(
-																		<Button disabled>
-																			<CloseIcon />
-																		</Button>
-																	)
-																}
-															</TableCell>
-														</TableRow>
+													return (player.user?(
+															<TableRow key={player.id}>
+																<TableCell>
+																	{player.user.username}
+																</TableCell>
+																<TableCell>
+																	{player.user.id == userID && this.state.game.host.id != userID ||
+																	this.state.game.host.id == userID && player.user.id != userID?
+																		(
+																			<Button
+																				onClick={() => {
+																					this.removePlayer(player.user.id);
+																				}}
+																			>
+																				<CloseIcon />
+																			</Button>
+																		):(
+																			<Button disabled>
+																				<CloseIcon />
+																			</Button>
+																		)
+																	}
+																</TableCell>
+															</TableRow>
+														):''
 													);
 												})}
 											</TableBody>
@@ -265,7 +260,7 @@ class GameLobby extends React.Component {
 									<>
 										<strong>Organsier:</strong> {this.state.game.host.username} <br />
 										<strong>Currenty Players:</strong> {this.state.game.players.length}
-										{this.state.game.host.id == userID && this.state.game.players.length >= 4 ?
+										{this.state.game.host.id == userID ?
 											(
 												<>
 													<Divider />
