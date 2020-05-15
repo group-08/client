@@ -111,9 +111,9 @@ const Field = styled.div`
     border: ${props => props.ringColor?"3px solid ": "1px solid"} black;
     border-color: ${props => props.ringColor};
     position: absolute;
-    width: 26px;
-    height: 26px;
-    border-radius: 13px;
+    width: ${props => props.ringColor?'28':'24'}px;
+    height: ${props => props.ringColor?'28':'24'}px;
+    border-radius: ${props => props.ringColor?'14':'12'}px;
     top: ${props => props.top}px;
     left: ${props => props.left}px;
     ${props => props.bgColor?"background: radial-gradient(circle at 8px 8px," + props.bgColor + ", #000);":""}
