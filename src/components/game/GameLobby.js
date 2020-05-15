@@ -26,6 +26,7 @@ import Tooltip from "@material-ui/core/Tooltip";
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import CloseIcon from '@material-ui/icons/Close';
 import {getDomain} from "../../helpers/getDomain";
+import {withSnackbar} from "notistack";
 
 const styles = theme => ({
 	root: {
@@ -112,7 +113,10 @@ class GameLobby extends React.Component {
 			prevState.game &&
 			this.state.game.gameState !== prevState.game.gameState &&
 			this.state.game.gameState == "RUNNING") {
-			alert('Game has started.');
+
+			this.props.enqueueSnackbar('Your Game has started.', {
+				variant: 'info',
+			});
 			this.props.history.push('../game');
 		}
 	}
@@ -291,4 +295,4 @@ class GameLobby extends React.Component {
 	}
 }
 
-export default withRouter(withStyles(styles)(GameLobby));
+export default withRouter(withStyles(styles)(withSnackbar(GameLobby)));

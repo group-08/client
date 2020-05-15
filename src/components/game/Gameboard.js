@@ -1,6 +1,7 @@
 import React from 'react';
 import {api, handleError} from '../../helpers/api';
 import {withRouter} from 'react-router-dom';
+import { withSnackbar } from 'notistack';
 
 import {getDomain} from "../../helpers/getDomain";
 
@@ -302,7 +303,10 @@ class Gameboard extends React.Component {
 			    this.setState({possibleFields: possibleFields});
 		    }
 		    else {
-		    	alert("You can't move this figure, please choose another one.");
+		    	this.props.enqueueSnackbar(
+		    		"You can't move this figure, please choose another one.",
+				    {variant: 'warning'}
+		        );
 		    	this.setState({selectedFigure: null});
 		    }
 	    } catch (error) {
@@ -692,4 +696,4 @@ class Gameboard extends React.Component {
     }
 }
 
-export default withRouter(Gameboard);
+export default withRouter(withSnackbar(Gameboard));
