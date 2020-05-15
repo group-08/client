@@ -296,9 +296,15 @@ class Gameboard extends React.Component {
 			    figureId: this.state.selectedFigure.id
 		    });
 		    const response = await api.post('/game/' + gameId + '/possible', requestBody, auth);
-		    console.log('The following are the possible fields:', response.data);
-		    this.setState({possibleFields: response.data});
-
+		    let possibleFields = response.data;
+		    console.log('The following are the possible fields:', possibleFields);
+		    if (possibleFields.length > 0){
+			    this.setState({possibleFields: possibleFields});
+		    }
+		    else {
+		    	alert("You can't move this figure, please choose another one.");
+		    	this.setState({selectedFigure: null});
+		    }
 	    } catch (error) {
 		    alert(`Couldn't get possible fields: \n${handleError(error)}`);
 	    }
@@ -321,8 +327,15 @@ class Gameboard extends React.Component {
 				remainingSeven: this.state.remainingSeven
 			});
 			const response = await api.post('/game/' + gameId + '/possible', requestBody, auth);
-			console.log('The following are the possible fields:', response.data);
-			this.setState({possibleFields: response.data});
+			let possibleFields = response.data;
+			console.log('The following are the possible fields:', possibleFields);
+			if (possibleFields.length > 0){
+				this.setState({possibleFields: possibleFields});
+			}
+			else {
+				alert("You can't move this figure, please choose another one.");
+				this.setState({selectedFigure: null});
+			}
 
 		} catch (error) {
 			alert(`Couldn't get possible fields: \n${handleError(error)}`);
