@@ -390,7 +390,11 @@ class Gameboard extends React.Component {
 			let remainingSeven = parseInt(response.data);
 			console.log("Remaining moves: ", remainingSeven);
 			if (remainingSeven > 0) {
-				this.setState({selectedFigure:null, selectedField:null, possibleFields:null});
+				this.setState({
+					selectedFigure:null,
+					selectedField:null,
+					possibleFields:null
+				});
 				this.setState({remainingSeven: remainingSeven});
 			} else {
 				this.setState({
