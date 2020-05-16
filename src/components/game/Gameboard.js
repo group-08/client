@@ -271,7 +271,8 @@ class Gameboard extends React.Component {
 	        selectedFigure: null,
 	        selectedField: null,
 	        possibleFields: null,
-			remainingSeven: null
+			remainingSeven: null,
+			exchangeCards: false
         };
 
         this.userID = parseInt(localStorage.getItem('userID'));
@@ -409,8 +410,29 @@ class Gameboard extends React.Component {
 		}
 	}
 
-    selectPlayingCard(card) {
-	    if (this.isMyMove()) {
+	async exchangeCards(card) {
+		let gameID = localStorage.getItem('gameID');
+		const auth = {
+			baseURL: getDomain(),
+			headers: {
+				'Content-Type': 'application/json',
+				'X-Token': localStorage.getItem('token')
+			}
+		};
+		const requestBody = JSON.stringify({
+			cardId: card.id
+		});
+		const response = await api.post("/game/" + gameID +"/exchange", requestBody, auth);
+		if (response.status === 201) {
+			this.setState({exchangeCards: false});
+		}
+	}
+
+    async selectPlayingCard(card) {
+    	if (this.state.exchangeCards) {
+			this.exchangeCards(card);
+		}
+	    else if (this.isMyMove()) {
 		    if (!this.state.selectedCard) {
 		    	if (card.value === 'SEVEN') {
 		    		this.setState({remainingSeven: 7});
@@ -477,22 +499,24 @@ class Gameboard extends React.Component {
     }
 
     async fetch() {
-	    const auth = {
-		    baseURL: getDomain(),
-		    headers: {
-			    'Content-Type': 'application/json',
-			    'X-Token': localStorage.getItem('token')
-		    }
-	    }
-	    try {
-		    let gameID = localStorage.getItem('gameID');
+    	if (!this.state.exchangeCards) {
+			const auth = {
+				baseURL: getDomain(),
+				headers: {
+					'Content-Type': 'application/json',
+					'X-Token': localStorage.getItem('token')
+				}
+			};
+			try {
+				let gameID = localStorage.getItem('gameID');
 
-		    const response = await api.get('/game/' + gameID, auth);
-		    let game = response.data;
-		    this.setState({game: game});
-	    } catch (error) {
-		    alert(`Something went wrong while fetching the game: \n${handleError(error)}`);
-	    }
+				const response = await api.get('/game/' + gameID, auth);
+				let game = response.data;
+				this.setState({game: game});
+			} catch (error) {
+				alert(`Something went wrong while fetching the game: \n${handleError(error)}`);
+			}
+		}
     }
 
     componentDidMount() {
@@ -516,7 +540,11 @@ class Gameboard extends React.Component {
 	    }
 
 		let newfields = null;
-    	newfields = fields
+    	newfields = fields;
+
+    	if (this.state.sortedPlayers && this.state.sortedPlayers !== prevState.sortedPlayers) {
+    		this.setState({exchangeCards: this.state.sortedPlayers[0].exchangeCards})
+		}
 
 		if (this.state.game !== prevState.game ||
 			this.state.sortedPlayers !== prevState.sortedPlayers ||
@@ -612,7 +640,7 @@ class Gameboard extends React.Component {
 				                <Card
 					                key={card.id}
 					                card={card}
-					                pleaseSelect={this.isMyMove() && !this.state.selectedCard}
+					                pleaseSelect={(this.isMyMove() && !this.state.selectedCard) || this.state.exchangeCards}
 					                selected={this.state.selectedCard && card.id == this.state.selectedCard.id}
 					                action={() => this.selectPlayingCard(card)}
 				                />
