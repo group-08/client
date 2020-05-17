@@ -34,14 +34,15 @@ class Card extends React.Component{
 				selected={this.props.selected}
 				onClick={this.props.action}
 			>
-				{this.props.card.type === "Normal"?
+				{this.props.card.value === "JOKER"?
+					this.props.card.value
+					:
 					<>
-						{this.props.card.suit} <br />
+						{this.props.card.suit}
 						{this.props.card.value}
 					</>
-					:
-					'JOKER'
 				}
+
 			</CardContent>
 		)
 	}
