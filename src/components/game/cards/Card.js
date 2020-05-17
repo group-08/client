@@ -38,7 +38,7 @@ class Card extends React.Component{
 					this.props.card.value
 					:
 					<>
-						{this.props.card.suit}
+						{this.props.card.suit} <br />
 						{this.props.card.value}
 					</>
 				}
