@@ -12,100 +12,26 @@ import _ from 'lodash';
 
 import mapPic from './mapPic.jpeg'
 
-const board = {
-    border: '1px solid',
-    width: 768,
-    height: 768,
-    position: "absolute",
-    marginLeft: 50
-};
+import Grid from "@material-ui/core/Grid";
+import withStyles from "@material-ui/core/styles/withStyles";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemAvatar from "@material-ui/core/ListItemAvatar";
+import Avatar from "@material-ui/core/Avatar";
+import ListItemText from "@material-ui/core/ListItemText";
+import Paper from "@material-ui/core/Paper";
 
-const opponent3 = {
-    border: '1px solid',
-    width: 95,
-    height: 420,
-    marginLeft: 5,
-    marginTop: 160
-};
-
-const opponent2 = {
-    border: '1px solid',
-    width: 420,
-    height: 95,
-    position: "absolute",
-    marginLeft: 173,
-    marginTop: 5
-};
-
-const opponent1 = {
-    border: '1px solid',
-    width: 95,
-    height: 420,
-    position: "absolute",
-    left: 663,
-    top: 160
-};
-
-const cards = {
-    border: '1px solid',
-    width: 453,
-    height: 115,
-    position: "absolute",
-    top: 640,
-    left: 154
-};
+import Avatars from '@dicebear/avatars';
+import avataars from '@dicebear/avatars-avataaars-sprites';
+import bottts from '@dicebear/avatars-bottts-sprites';
 
 const Map = styled.div`
 	background-image: url(${mapPic});
-    border: 1px solid;
-    width: 530px;
-    height: 530px;
-    position: absolute;
-    top: 104px;
-    left: 115px;
+    width: 100%;
+    height: 100%;
     transform: rotate(${props => props.rotation}deg);
 `;
-
-const sideboard = {
-    //backgroundImage: 'url(' + mapPic + ')',
-    border: '1px solid',
-    width: 548,
-    height: 768,
-    position: "absolute",
-    left:818
-};
-
-const players = {
-    border: '1px solid',
-    width: 530,
-    height: 210,
-    position: "absolute",
-    marginTop: 200,
-    marginLeft: 9,
-    borderRadius: 10
-};
-
-const joker = {
-    border: '1px solid',
-    width: 530,
-    height: 210,
-    position: "absolute",
-    marginTop: 420,
-    marginLeft: 9,
-    borderRadius: 10
-};
-
-const cardLayout = {
-    border: '1px solid',
-    height: 90,
-    width: 65,
-    marginLeft: 9,
-    marginTop: 9,
-    padding: 5,
-    borderRadius: 5,
-    float: 'left',
-	fontSize: '0.5em'
-};
 
 const Field = styled.div`   
     border: ${props => props.ringColor?"3px solid ": "1px solid"} black;
@@ -145,6 +71,37 @@ const PlayerDetail = styled.div`
     color: ${props => props.color == "YELLOW"?'black':'white'};
     background-color: ${props => props.color};
 `;
+
+const styles = theme => ({
+	root: {
+		height: '100vh',
+		padding: theme.spacing(4)
+	},
+	table: {
+		width: 768,
+		height: 768,
+	},
+	partner: {
+		width: 420,
+		height: 92,
+		padding: 10
+	},
+	opponent: {
+		height: 420,
+		width: 92,
+		padding: 10,
+	},
+	board: {
+		height: 530,
+		width: 530
+	},
+	centerAlign: {
+		textAlign: "center"
+	},
+	players: {
+		width: '100%'
+	}
+});
 
 // The fields positions
 const fields = [
@@ -289,6 +246,20 @@ class Gameboard extends React.Component {
 		    "GREEN": "Robodog",
 	    }
 	    return botNames[color];
+    }
+
+    avatar(type, color, identifier) {
+	    let options = {
+	    	base64: true,
+		    background: color,
+		    skin: ["light"],
+		    margin: 8
+	    };
+	    let avatars = new Avatars(avataars, options);
+	    if (type == "Bot") {
+	    	avatars = new Avatars(bottts, options);
+	    }
+	    return avatars.create(identifier);
     }
 
     async possibleFields() {
@@ -636,81 +607,155 @@ class Gameboard extends React.Component {
     }
 
 	render() {
+		const { classes } = this.props;
+
         return (
-            <div>
-                <div style={board}>
-                    <div style={opponent1}>
-                    </div>
-                    <div style={opponent2}>
-                    </div>
-                    <div style={opponent3}>
-                    </div>
-	                {this.state.sortedPlayers && this.state.sortedPlayers[0].hand?
-		                <div style={cards}>
-			                {this.state.sortedPlayers[0].hand.map((card) =>
-				                <Card
-					                key={card.id}
-					                card={card}
-					                pleaseSelect={(this.isMyMove() && !this.state.selectedCard) || this.state.exchangeCards}
-					                selected={this.state.selectedCard && card.id == this.state.selectedCard.id}
-					                action={() => this.selectPlayingCard(card)}
-				                />
-			                )}
-		                </div>:''
-	                }
-					<Map rotation={this.state.boardRotation}>
-                        {this.state.fields.map((field) =>
-                            <Field
-	                            key={field.boardIndex}
-                                top={field.top}
-                                left={field.left}
-                                ringColor={field.ringColor}
-                                bgColor={field.ball}
-	                            highlightColor={this.state.selectedCard && !this.state.selectedFigure?this.state.sortedPlayers[0].colour:''}
-	                            highlighted={field.highlighted}
-	                            selectable={field.selectable}
-	                            onClick={() => {
-		                            this.selectFigureOrFieldFromBoardField(field.boardIndex);
-	                            }}
-                            />
-                        )}
-					</Map>
-                </div>
-                <div style={sideboard}>
-                    <div style={players}>
-	                    {this.state.game?
-		                    this.state.game.players.map((player) =>
-				                    <PlayerDetail
-					                    key={player.id}
-					                    color={player.colour}
-				                    >
-					                    {player.user?player.user.username:this.botName(player.colour)}
-				                    </PlayerDetail>
-			                    ):''
-	                    }
-                    </div>
-	                {this.state.displayJoker?
-		                (<div style={joker}>
-			                <div style={cardLayout}> Please choose a Joker </div>
-			                {this.getJokerDeck().map(card => {
-				                return (
-					                <div
-						                key={card}
-						                onClick={() => { this.chosenJokerCard(card) }}
-					                >
-						                <div style={cardLayout}>
-							                {card.val} <br />{card.suit}
-						                </div>
-					                </div>
-				                );
-			                })}
-		                </div>):""
-	                }
-                </div>
-            </div>
+	        <Grid
+		        container
+		        component="main"
+		        className={classes.root}
+		        alignItems="center"
+		        spacing={2}
+	        >
+		        <CssBaseline />
+		        <Grid
+			        item
+			        className={classes.table}
+		        >
+			        <Grid
+				        container
+				        direction="column"
+				        justify="center"
+				        alignItems="center"
+				        spacing={2}
+			        >
+				        <Grid item>
+					        <Grid
+						        container
+						        spacing={2}
+					        >
+						        <Grid item xs />
+						        <Grid item>
+							        <Paper className={classes.partner}>
+								        Partners card
+							        </Paper>
+						        </Grid>
+						        <Grid item xs />
+					        </Grid>
+				        </Grid>
+				        <Grid item>
+					        <Grid
+						        container
+						        alignItems="center"
+						        spacing={2}
+					        >
+						        <Grid item xs>
+							        <Paper className={classes.opponent}>
+								        Opponents card
+							        </Paper>
+						        </Grid>
+						        <Grid item>
+							        <Paper className={classes.board}>
+								        <Map rotation={this.state.boardRotation}>
+									        {this.state.fields.map((field) =>
+										        <Field
+											        key={field.boardIndex}
+											        top={field.top}
+											        left={field.left}
+											        ringColor={field.ringColor}
+											        bgColor={field.ball}
+											        highlightColor={this.state.selectedCard && !this.state.selectedFigure?this.state.sortedPlayers[0].colour:''}
+											        highlighted={field.highlighted}
+											        selectable={field.selectable}
+											        onClick={() => {
+												        this.selectFigureOrFieldFromBoardField(field.boardIndex);
+											        }}
+										        />
+									        )}
+								        </Map>
+							        </Paper>
+						        </Grid>
+						        <Grid item xs>
+							        <Paper className={classes.opponent}>
+								        Opponents cards
+							        </Paper>
+						        </Grid>
+					        </Grid>
+				        </Grid>
+				        <Grid item>
+					        <Grid
+						        container
+						        spacing={2}
+					        >
+						        <Grid item xs />
+						        <Grid item>
+							        <Paper className={classes.partner}>
+								        {this.state.sortedPlayers && this.state.sortedPlayers[0].hand?
+									        <Grid
+										        container
+										        direction="row"
+										        justify="space-evenly"
+										        alignItems="center"
+										        spacing={2}
+									        >
+										        {this.state.sortedPlayers[0].hand.map((card) =>
+											        <Grid item xs className={classes.centerAlign}>
+												        <Card
+													        key={card.id}
+													        card={card}
+													        pleaseSelect={(this.isMyMove() && !this.state.selectedCard) || this.state.exchangeCards}
+													        selected={this.state.selectedCard && card.id == this.state.selectedCard.id}
+													        action={() => this.selectPlayingCard(card)}
+												        />
+											        </Grid>
+										        )}
+									        </Grid>:''
+								        }
+							        </Paper>
+						        </Grid>
+						        <Grid item xs />
+					        </Grid>
+				        </Grid>
+			        </Grid>
+		        </Grid>
+		        <Grid
+			        item
+			        xs
+		        >
+			        <Grid
+				        container
+				        direction="column"
+				        justify="center"
+				        alignItems="center"
+			        >
+				        <Grid item xs className={classes.players}>
+					        {this.state.game?(
+					        	<Paper>
+							        <List dense>
+								        {this.state.game.players.map((player) =>
+									        <ListItem key={player.id} button>
+										        <ListItemAvatar>
+											        <Avatar
+												        alt={`Avatar for player ${player.id}`}
+												        src={this.avatar((player.user?'Human':'Bot'),player.colour, player.id)}
+											        />
+										        </ListItemAvatar>
+										        <ListItemText
+											        primary={player.user?player.user.username:this.botName(player.colour)}
+										        />
+									        </ListItem>
+								        )}
+							        </List>
+						        </Paper>
+						        ):''
+					        }
+				        </Grid>
+			        </Grid>
+		        </Grid>
+            </Grid>
 
         )
     }
 }
 
-export default withRouter(withSnackbar(Gameboard));
+export default withRouter(withStyles(styles)(withSnackbar(Gameboard)));

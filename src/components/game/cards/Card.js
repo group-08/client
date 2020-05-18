@@ -126,11 +126,8 @@ let cards = {
 
 const CardContent = styled.div`
 	border: 1px solid black;
-	width: 65px;
-	height: 90px;
-	margin-left: 9px;
-	margin-top: 9px;
-	padding: 5px;
+	width: 51px;
+	height: 72px;
 	border-radius: 3px;
 	display: inline-block;
 	vertical-align: top;
