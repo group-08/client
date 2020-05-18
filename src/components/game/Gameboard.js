@@ -1,6 +1,6 @@
 import React from 'react';
 import {api, handleError} from '../../helpers/api';
-import {withRouter} from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import { withSnackbar } from 'notistack';
 
 import {getDomain} from "../../helpers/getDomain";
@@ -264,7 +264,6 @@ class Gameboard extends React.Component {
         super();
         this.state = {
         	game: null,
-	        cards: null,
 	        sortedPlayers: null,
             fields: fields,
 	        boardRotation: 0,
@@ -503,22 +502,6 @@ class Gameboard extends React.Component {
 
     }
 
-    chosenJokerCard(card){
-        this.state.chosenCard = card
-    }
-
-    getJokerDeck(){
-        const values = ["2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"];
-        let jokerDeck = [];
-        let card = [];
-
-        for (let x = 0; x < values.length; x++) {
-            card = {suit: 'Joker', val: values[x]};
-            jokerDeck.push(card);
-        }
-        return jokerDeck
-    }
-
     async fetch() {
     	if (!this.state.exchangeCards) {
 			const auth = {
@@ -543,6 +526,10 @@ class Gameboard extends React.Component {
     componentDidMount() {
     	this.fetch();
 	    this.fetchInterval = setInterval(() => this.fetch(), 1000);
+    }
+
+    componentWillUnmount() {
+    	clearInterval(this.fetchInterval);
     }
 
 	componentDidUpdate(prevProps, prevState, snapshot) {
@@ -632,12 +619,6 @@ class Gameboard extends React.Component {
 
 		}
 
-		if (this.state.sortedPlayers !== prevState.sortedPlayers){
-			// Cards
-			let cards = this.state.sortedPlayers[0].hand;
-			this.setState({cards: cards});
-		}
-
 		if (this.state.game !== prevState.game ||
 			this.state.sortedPlayers !== prevState.sortedPlayers ||
 			this.state.selectedFigure !== prevState.selectedFigure ) {
@@ -655,9 +636,9 @@ class Gameboard extends React.Component {
                     </div>
                     <div style={opponent3}>
                     </div>
-	                {this.state.cards?
+	                {this.state.sortedPlayers[0].hand?
 		                <div style={cards}>
-			                {this.state.cards.map((card) =>
+			                {this.state.sortedPlayers[0].hand.map((card) =>
 				                <Card
 					                key={card.id}
 					                card={card}
