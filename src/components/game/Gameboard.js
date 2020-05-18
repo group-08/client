@@ -252,7 +252,6 @@ for (let i = 0; i < fields.length; i++) {
 
 // Special color fields
 const ranges = [
-
 	_.concat(0, _.range(64, 68), _.range(80, 84)),
 	_.concat(16, _.range(68, 72), _.range(84, 88)),
 	_.concat(32, _.range(72, 76), _.range(88, 92)),
@@ -280,6 +279,16 @@ class Gameboard extends React.Component {
 
     isMyMove(){
     	return (this.state.game.players[0].user && this.state.game.players[0].user.id == this.userID);
+    }
+
+    botName(color) {
+    	const botNames={
+    		"BLUE": "Barkificial Intelligence",
+		    "RED": "CorgAI",
+		    "YELLOW": "Doggy McDogface",
+		    "GREEN": "Robodog",
+	    }
+	    return botNames[color];
     }
 
     async possibleFields() {
@@ -675,7 +684,7 @@ class Gameboard extends React.Component {
 					                    key={player.id}
 					                    color={player.colour}
 				                    >
-					                    {player.user?player.user.username:'Bot'}
+					                    {player.user?player.user.username:this.botName(player.colour)}
 				                    </PlayerDetail>
 			                    ):''
 	                    }
