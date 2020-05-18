@@ -115,7 +115,7 @@ const cities = {
 	"CARCAS": 'Carcas',
 	"LIMA": 'Lima',
 	"NAIROBI": 'Nairobi',
-	"CASABLANCE": 'Casablanca',
+	"CASABLANCA": 'Casablanca',
 	"HANOI": 'Hanoi',
 	"DHAKA": 'Dhaka',
 	"TOKYO": 'Tokyo',
