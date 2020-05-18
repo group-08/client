@@ -26,11 +26,16 @@ import Avatars from '@dicebear/avatars';
 import avataars from '@dicebear/avatars-avataaars-sprites';
 import bottts from '@dicebear/avatars-bottts-sprites';
 
+import ReactAnimatedWeather from 'react-animated-weather';
+import Typography from "@material-ui/core/Typography";
+import Divider from "@material-ui/core/Divider";
+
 const Map = styled.div`
 	background-image: url(${mapPic});
     width: 100%;
     height: 100%;
     transform: rotate(${props => props.rotation}deg);
+    border-radius: 4px;
 `;
 
 const Field = styled.div`   
@@ -60,18 +65,6 @@ const Field = styled.div`
     `:""}
 `;
 
-const PlayerDetail = styled.div`
-    margin-left: 10px;
-    width: 510px;
-    height: 40px;
-    margin-top: 10px;
-    border-radius: 10px;
-    padding: 10px;
-    font-weight: bold;
-    color: ${props => props.color == "YELLOW"?'black':'white'};
-    background-color: ${props => props.color};
-`;
-
 const styles = theme => ({
 	root: {
 		height: '100vh',
@@ -98,10 +91,40 @@ const styles = theme => ({
 	centerAlign: {
 		textAlign: "center"
 	},
-	players: {
+	sideItem: {
 		width: '100%'
+	},
+	weatherBox: {
+		padding: 10,
+		textAlign: 'center'
 	}
 });
+
+const weathers = {
+	"SUNNY": 'CLEAR_DAY',
+	"WINDY": 'WIND',
+	"RAINY": 'RAIN',
+	"UNKNOWN": 'CLEAR_NIGHT'
+}
+
+const cities = {
+	"NEWYORK": 'New York',
+	"ZURICH": 'Zürich',
+	"LISBON": 'Lisbon',
+	"SANFRANCISCO": 'San Francisco',
+	"CARCAS": 'Carcas',
+	"LIMA": 'Lima',
+	"NAIROBI": 'Nairobi',
+	"CASABLANCE": 'Casablanca',
+	"HANOI": 'Hanoi',
+	"DHAKA": 'Dhaka',
+	"TOKYO": 'Tokyo',
+	"JAKARTA": 'Jakarta',
+	"BRISBANE": 'Brisbane',
+	"PERTH": 'Perth',
+	"CHRISTCHURCH": 'Christchurch',
+	"DUBAI": 'Dubai',
+}
 
 // The fields positions
 const fields = [
@@ -655,7 +678,7 @@ class Gameboard extends React.Component {
 							        </Paper>
 						        </Grid>
 						        <Grid item>
-							        <Paper className={classes.board}>
+							        <Paper elevation={4} className={classes.board}>
 								        <Map rotation={this.state.boardRotation}>
 									        {this.state.fields.map((field) =>
 										        <Field
@@ -725,10 +748,25 @@ class Gameboard extends React.Component {
 			        <Grid
 				        container
 				        direction="column"
-				        justify="center"
+				        justify="space-evenly"
 				        alignItems="center"
+				        spacing={2}
 			        >
-				        <Grid item xs className={classes.players}>
+				        <Grid item xs className={classes.sideItem}>
+					        {this.state.game?
+						        (
+							        <Paper className={classes.weatherBox}>
+								        <ReactAnimatedWeather
+									        icon={weathers[this.state.game.weatherState]}
+								        />
+								        <Divider />
+								        <Typography variant="body1">
+											The current weather in {cities[this.state.game.city]} is {this.state.game.weatherState.toLowerCase()}.
+								        </Typography>
+							        </Paper>
+						        ):''}
+				        </Grid>
+				        <Grid item xs className={classes.sideItem}>
 					        {this.state.game?(
 					        	<Paper>
 							        <List dense>
