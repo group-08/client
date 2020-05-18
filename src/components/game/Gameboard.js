@@ -645,7 +645,7 @@ class Gameboard extends React.Component {
                     </div>
                     <div style={opponent3}>
                     </div>
-	                {this.state.sortedPlayers[0].hand?
+	                {this.state.sortedPlayers && this.state.sortedPlayers[0].hand?
 		                <div style={cards}>
 			                {this.state.sortedPlayers[0].hand.map((card) =>
 				                <Card
@@ -688,7 +688,6 @@ class Gameboard extends React.Component {
 				                    </PlayerDetail>
 			                    ):''
 	                    }
-
                     </div>
 	                {this.state.displayJoker?
 		                (<div style={joker}>
