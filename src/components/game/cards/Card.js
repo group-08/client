@@ -139,6 +139,7 @@ const CardContent = styled.div`
 	box-shadow: 0px 0px 3px 3px grey;
 	&:hover {
 		box-shadow: 0px 0px 6px 6px grey;
+	}
 	`:``}
 	${props => props.selected?`
 	box-shadow: 0px 0px 6px 6px grey;
@@ -162,7 +163,7 @@ class Card extends React.Component{
 				onClick={this.props.action}
 				bg={this.props.card.value === "JOKER"?
 					cards[this.props.card.value]:
-					cards[this.props.card.suit][this.props.card.suit]}
+					cards[this.props.card.suit][this.props.card.value]}
 			/>
 		)
 	}
