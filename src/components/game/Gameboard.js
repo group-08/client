@@ -1,6 +1,7 @@
 import React from 'react';
 import {api, handleError} from '../../helpers/api';
 import {withRouter} from 'react-router-dom';
+import { withSnackbar } from 'notistack';
 
 import {getDomain} from "../../helpers/getDomain";
 
@@ -110,9 +111,9 @@ const Field = styled.div`
     border: ${props => props.ringColor?"3px solid ": "1px solid"} black;
     border-color: ${props => props.ringColor};
     position: absolute;
-    width: 26px;
-    height: 26px;
-    border-radius: 13px;
+    width: ${props => props.ringColor?'28':'24'}px;
+    height: ${props => props.ringColor?'28':'24'}px;
+    border-radius: ${props => props.ringColor?'14':'12'}px;
     top: ${props => props.top}px;
     left: ${props => props.left}px;
     ${props => props.bgColor?"background: radial-gradient(circle at 8px 8px," + props.bgColor + ", #000);":""}
@@ -297,9 +298,18 @@ class Gameboard extends React.Component {
 			    figureId: this.state.selectedFigure.id
 		    });
 		    const response = await api.post('/game/' + gameId + '/possible', requestBody, auth);
-		    console.log('The following are the possible fields:', response.data);
-		    this.setState({possibleFields: response.data});
-
+		    let possibleFields = response.data;
+		    console.log('The following are the possible fields:', possibleFields);
+		    if (possibleFields.length > 0){
+			    this.setState({possibleFields: possibleFields});
+		    }
+		    else {
+		    	this.props.enqueueSnackbar(
+		    		"You can't move this figure, please choose another one.",
+				    {variant: 'warning'}
+		        );
+		    	this.setState({selectedFigure: null});
+		    }
 	    } catch (error) {
 		    alert(`Couldn't get possible fields: \n${handleError(error)}`);
 	    }
@@ -322,8 +332,15 @@ class Gameboard extends React.Component {
 				remainingSeven: this.state.remainingSeven
 			});
 			const response = await api.post('/game/' + gameId + '/possible', requestBody, auth);
-			console.log('The following are the possible fields:', response.data);
-			this.setState({possibleFields: response.data});
+			let possibleFields = response.data;
+			console.log('The following are the possible fields:', possibleFields);
+			if (possibleFields.length > 0){
+				this.setState({possibleFields: possibleFields});
+			}
+			else {
+				alert("You can't move this figure, please choose another one.");
+				this.setState({selectedFigure: null});
+			}
 
 		} catch (error) {
 			alert(`Couldn't get possible fields: \n${handleError(error)}`);
@@ -378,7 +395,11 @@ class Gameboard extends React.Component {
 			let remainingSeven = parseInt(response.data);
 			console.log("Remaining moves: ", remainingSeven);
 			if (remainingSeven > 0) {
-				this.setState({selectedFigure:null, selectedField:null, possibleFields:null});
+				this.setState({
+					selectedFigure:null,
+					selectedField:null,
+					possibleFields:null
+				});
 				this.setState({remainingSeven: remainingSeven});
 			} else {
 				this.setState({
@@ -703,4 +724,4 @@ class Gameboard extends React.Component {
     }
 }
 
-export default withRouter(Gameboard);
+export default withRouter(withSnackbar(Gameboard));
