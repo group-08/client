@@ -14,6 +14,9 @@ import sanfrancisco from "./Cities/SanFrancisco.jpg";
 import tokyo from "./Cities/Tokyo.jpg";
 import zurich from "./Cities/Zurich.jpg";
 import casablanca from "./Cities/Casablanca.jpg";
+import christchurch from "./Cities/Christchurch.jpg";
+import caracas from "./Cities/Caracas.jpg";
+import brisbane from "./Cities/Brisbane.jpg"
 
 let cities = {
     "DHAKA": dhaka,
@@ -29,6 +32,9 @@ let cities = {
     "TOKYO": tokyo,
     "ZURICH": zurich,
     "CASABLANCA" : casablanca,
+    "CHRISTCHURCH" : christchurch,
+    "CARACAS" : caracas,
+    "BRISBANE" : brisbane
 };
 
 const CityContent = styled.div`
