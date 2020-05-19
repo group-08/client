@@ -828,7 +828,7 @@ class Gameboard extends React.Component {
 								        />
 								        <Divider />
 								        <Typography variant="body1">
-											The current weather in {cities[this.state.game.city]} is {this.state.game.weatherState.toLowerCase()}.
+											You now travelled to {cities[this.state.game.city]} where the weather is {this.state.game.weatherState.toLowerCase()}.
 								        </Typography>
 							        </Paper>
 						        ):''}
