@@ -709,7 +709,7 @@ class Gameboard extends React.Component {
 										        <ExchangeCards rotation={this.state.boardRotation}>
 											        Please select a card to exchange.
 										        </ExchangeCards>
-										        :''}
+									        :''}
 								        </Map>
 							        </Paper>
 						        </Grid>
