@@ -38,6 +38,16 @@ const Map = styled.div`
     border-radius: 4px;
 `;
 
+const ExchangeCards = styled.div`
+	background-color: rgba(1,1,1,0.3);
+    width: 100%;
+    height: 100%;
+    color: white;
+    padding-top: calc(520px/2 - 1em/2);
+    text-align: center;
+    transform: rotate(-${props => props.rotation}deg);
+`;
+
 const Field = styled.div`   
     border: ${props => props.ringColor?"3px solid ": "1px solid"} black;
     border-color: ${props => props.ringColor};
@@ -695,6 +705,11 @@ class Gameboard extends React.Component {
 											        }}
 										        />
 									        )}
+									        {this.state.exchangeCards?
+										        <ExchangeCards rotation={this.state.boardRotation}>
+											        Please select a card to exchange.
+										        </ExchangeCards>
+										        :''}
 								        </Map>
 							        </Paper>
 						        </Grid>
