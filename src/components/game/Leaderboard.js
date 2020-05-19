@@ -85,8 +85,9 @@ class Leaderboard extends React.Component {
         try {
             const response = await api.get('/users');
 
-            // Get the returned users and update the state.
+            // Get the returned users and update the state, then sorts them.
             this.setState({users: response.data});
+            this.state.users = this.state.users.sort((a,b) => a.leaderBoardScore > b.leaderBoardScore)
         }
         catch (error) {
             alert(`Something went wrong while fetching the users: \n${handleError(error)}`);
@@ -167,10 +168,10 @@ class Leaderboard extends React.Component {
                                                     return (
                                                         <TableRow key={user.id}>
                                                             <TableCell>
-                                                                {user.username}
+                                                                {user.leaderBoardScore}
                                                             </TableCell>
                                                             <TableCell>
-                                                                {user.status}
+                                                                {user.username}
                                                             </TableCell>
                                                         </TableRow>
                                                     );
