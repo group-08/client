@@ -39,13 +39,13 @@ let cities = {
 
 const CityContent = styled.div`
       position: absolute;
-      top: calc(520px / 2 - 100px);
-      left: calc(520px / 2 - 100px);
-      width: 200px;
-      height: 200px;
+      top: calc(520px / 2 - 105px);
+      left: calc(520px / 2 - 105px);
+      width: 210px;
+      height: 210px;
       padding: 0;
       margin: 0;
-      border-radius: 100px;
+      border-radius: 110px;
       background: url(${props => props.bg});
       background-repeat: no-repeat;
       background-size: cover;
