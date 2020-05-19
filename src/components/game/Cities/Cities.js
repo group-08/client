@@ -30,13 +30,17 @@ let cities = {
 };
 
 const CityContent = styled.div`
-      position: relative;
-      top: 210px;
-      left: 210px;
+      position: absolute;
+      top: calc(520px / 2 - 100px);
+      left: calc(520px / 2 - 100px);
       width: 200px;
       height: 200px;
+      padding: 0;
+      margin: 0;
       border-radius: 100px;
-      background: url(${props => props.bg}) no-repeat;
+      background: url(${props => props.bg});
+      background-repeat: no-repeat;
+      background-size: cover;
 `;
 
 class City extends React.Component {
