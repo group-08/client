@@ -773,7 +773,7 @@ class Gameboard extends React.Component {
 				        spacing={2}
 			        >
 				        <Grid item xs className={classes.sideItem}>
-					        {this.state.game?
+					        {this.state.game && this.state.game.weatherState && this.state.game.city?
 						        (
 							        <Paper className={classes.weatherBox}>
 								        <ReactAnimatedWeather
