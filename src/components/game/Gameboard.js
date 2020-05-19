@@ -43,7 +43,7 @@ const Map = styled.div`
 `;
 
 const ExchangeCards = styled.div`
-	background-color: rgba(1,1,1,0.3);
+	background-color: rgba(1,1,1,0.5);
     width: 100%;
     height: 100%;
     color: white;
@@ -143,7 +143,7 @@ const weathers = {
 	"WINDY": 'WIND',
 	"RAINY": 'RAIN',
 	"UNKNOWN": 'CLEAR_NIGHT'
-}
+};
 
 const cities = {
 	"NEWYORK": 'New York',
@@ -162,7 +162,7 @@ const cities = {
 	"PERTH": 'Perth',
 	"CHRISTCHURCH": 'Christchurch',
 	"DUBAI": 'Dubai',
-}
+};
 
 // The fields positions
 const fields = [
