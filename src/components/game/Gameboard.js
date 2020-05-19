@@ -44,6 +44,7 @@ const Map = styled.div`
 
 const ExchangeCards = styled.div`
 	background-color: rgba(1,1,1,0.5);
+	font-weight: 1000;
     width: 100%;
     height: 100%;
     color: white;
@@ -828,7 +829,8 @@ class Gameboard extends React.Component {
 								        />
 								        <Divider />
 								        <Typography variant="body1">
-											You now travelled to {cities[this.state.game.city]} where the weather is {this.state.game.weatherState.toLowerCase()}.
+											You now travelled to <Typography variant="h6" >{cities[this.state.game.city]}</Typography>
+											where the weather is currently {this.state.game.weatherState.toLowerCase()}.
 								        </Typography>
 							        </Paper>
 						        ):''}
