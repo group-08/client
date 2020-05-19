@@ -158,7 +158,7 @@ class Leaderboard extends React.Component {
                         <Grid item xs={4}>
                             <Paper className={classes.paper}>
                                 <Typography component="h1" variant="h4" align="center">
-                                    Users
+                                    Leaderboard
                                 </Typography>
                                 {this.state.users ? (
                                     <TableContainer>
