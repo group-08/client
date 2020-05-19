@@ -32,6 +32,7 @@ import Divider from "@material-ui/core/Divider";
 import City from "./Cities/Cities";
 
 import puddle from "./illustrations/puddle.png";
+import wind from "./illustrations/wind.png";
 
 const Map = styled.div`
 	background-image: url(${mapPic});
@@ -85,6 +86,18 @@ const Puddle = styled.div`
 	top: ${props => props.top}px;
     left: ${props => props.left}px;
     background-image:url(${puddle});
+    background-repeat:no-repeat;
+    background-size:contain;
+    transform: rotate(-${props => props.rotation}deg);
+`;
+
+const WindIcon = styled.div`
+	position: absolute;
+	width: 32px;
+	height: 32px;
+	top: ${props => props.top}px;
+    left: ${props => props.left}px;
+    background-image:url(${wind});
     background-repeat:no-repeat;
     background-size:contain;
     transform: rotate(-${props => props.rotation}deg);
@@ -714,7 +727,15 @@ class Gameboard extends React.Component {
 										        </>
 										        :''
 									        }
-
+									        {this.state.game && this.state.game.weatherState == "WINDY" ?
+										        <>
+											        <WindIcon top={294} left={82} rotation={this.state.boardRotation-70} />
+											        <WindIcon top={82} left={204} rotation={this.state.boardRotation-70+270} />
+											        <WindIcon top={412} left={288} rotation={this.state.boardRotation-70+90} />
+											        <WindIcon top={204} left={414} rotation={this.state.boardRotation-70+180} />
+										        </>
+										        :''
+									        }
 									        {this.state.fields.map((field) =>
 										        <Field
 											        key={field.boardIndex}
