@@ -29,6 +29,7 @@ import bottts from '@dicebear/avatars-bottts-sprites';
 import ReactAnimatedWeather from 'react-animated-weather';
 import Typography from "@material-ui/core/Typography";
 import Divider from "@material-ui/core/Divider";
+import City from "./Cities/Cities";
 
 const Map = styled.div`
 	background-image: url(${mapPic});
@@ -705,6 +706,10 @@ class Gameboard extends React.Component {
 											        }}
 										        />
 									        )}
+											{this.state.game && this.state.game.city?
+												<City city={this.state.game.city}/>
+												: ''
+											}
 									        {this.state.exchangeCards?
 										        <ExchangeCards rotation={this.state.boardRotation}>
 											        Please select a card to exchange.
