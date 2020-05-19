@@ -43,8 +43,10 @@ const Map = styled.div`
 `;
 
 const ExchangeCards = styled.div`
-	background-color: rgba(1,1,1,0.5);
+	background-color: rgba(1,1,1,0.6);
 	font-weight: 1000;
+	font-size: 30px;
+	font-family: Impact, sans-serif;
     width: 100%;
     height: 100%;
     color: white;
@@ -760,7 +762,7 @@ class Gameboard extends React.Component {
 										        :''}
 									        {this.state.exchangeCards?
 										        <ExchangeCards rotation={this.state.boardRotation}>
-											        Please select a card to exchange.
+											        Please select a card to exchange!
 										        </ExchangeCards>
 									        :''}
 								        </Map>
