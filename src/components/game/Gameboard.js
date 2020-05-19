@@ -31,6 +31,8 @@ import Typography from "@material-ui/core/Typography";
 import Divider from "@material-ui/core/Divider";
 import City from "./Cities/Cities";
 
+import puddle from "./illustrations/puddle.png";
+
 const Map = styled.div`
 	background-image: url(${mapPic});
     width: 100%;
@@ -74,6 +76,18 @@ const Field = styled.div`
         box-shadow: 0px 0px 6px 6px white;
     }
     `:""}
+`;
+
+const Puddle = styled.div`
+	position: absolute;
+	width: 32px;
+	height: 32px;
+	top: ${props => props.top}px;
+    left: ${props => props.left}px;
+    background-image:url(${puddle});
+    background-repeat:no-repeat;
+    background-size:contain;
+    transform: rotate(-${props => props.rotation}deg);
 `;
 
 const styles = theme => ({
@@ -691,6 +705,16 @@ class Gameboard extends React.Component {
 						        <Grid item>
 							        <Paper elevation={4} className={classes.board}>
 								        <Map rotation={this.state.boardRotation}>
+									        {this.state.game && this.state.game.weatherState == "RAINY" ?
+										        <>
+											        <Puddle top={308} left={100} rotation={this.state.boardRotation} />
+											        <Puddle top={100} left={188} rotation={this.state.boardRotation+90} />
+											        <Puddle top={396} left={308} rotation={this.state.boardRotation+180} />
+											        <Puddle top={188} left={398} rotation={this.state.boardRotation+270} />
+										        </>
+										        :''
+									        }
+
 									        {this.state.fields.map((field) =>
 										        <Field
 											        key={field.boardIndex}
