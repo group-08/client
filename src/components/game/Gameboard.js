@@ -707,7 +707,10 @@ class Gameboard extends React.Component {
 										        />
 									        )}
 									        {this.state.game && this.state.game.city?
-										        <City city={this.state.game.city}/>
+										        <City
+											        city={this.state.game.city}
+											        rotation={this.state.boardRotation}
+										        />
 										        :''}
 									        {this.state.exchangeCards?
 										        <ExchangeCards rotation={this.state.boardRotation}>

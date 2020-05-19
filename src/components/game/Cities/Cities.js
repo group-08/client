@@ -41,6 +41,7 @@ const CityContent = styled.div`
       background: url(${props => props.bg});
       background-repeat: no-repeat;
       background-size: cover;
+      transform: rotate(-${props => props.rotation}deg);
 `;
 
 class City extends React.Component {
@@ -52,6 +53,7 @@ class City extends React.Component {
         return (
             <CityContent
                 bg={cities[this.props.city]}
+                rotation={this.props.rotation}
             />
         )
     }
