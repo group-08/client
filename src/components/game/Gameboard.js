@@ -119,7 +119,7 @@ const WindIcon = styled.div`
     background-image:url(${wind});
     background-repeat:no-repeat;
     background-size:contain;
-    transform: rotate(-${props => props.rotation}deg);
+    transform: rotate(${props => props.rotation}deg);
 `;
 
 const styles = theme => ({
@@ -169,7 +169,7 @@ const cities = {
 	"ZURICH": 'Zürich',
 	"LISBON": 'Lisbon',
 	"SANFRANCISCO": 'San Francisco',
-	"CARCAS": 'Carcas',
+	"CARACAS": 'Caracas',
 	"LIMA": 'Lima',
 	"NAIROBI": 'Nairobi',
 	"CASABLANCA": 'Casablanca',
@@ -324,7 +324,7 @@ class Gameboard extends React.Component {
 		    "RED": "CorgAI",
 		    "YELLOW": "Doggy McDogface",
 		    "GREEN": "Robodog",
-	    }
+	    };
 	    return botNames[color];
     }
 
@@ -780,12 +780,12 @@ class Gameboard extends React.Component {
 										        </>
 										        :''
 									        }
-									        {this.state.game && this.state.game.weatherState == "WINDY" ?
+									        {true || this.state.game && this.state.game.weatherState == "WINDY" ?
 										        <>
-											        <WindIcon top={294} left={82} rotation={this.state.boardRotation-70} />
-											        <WindIcon top={82} left={204} rotation={this.state.boardRotation-70+270} />
-											        <WindIcon top={412} left={288} rotation={this.state.boardRotation-70+90} />
-											        <WindIcon top={204} left={414} rotation={this.state.boardRotation-70+180} />
+											        <WindIcon top={294} left={82} rotation={-70} />
+											        <WindIcon top={82} left={204} rotation={-70+90} />
+											        <WindIcon top={412} left={288} rotation={-70+90} />
+											        <WindIcon top={204} left={414} rotation={-70+180} />
 										        </>
 										        :''
 									        }
