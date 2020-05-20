@@ -33,7 +33,7 @@ import City from "./Cities/Cities";
 
 import puddle from "./illustrations/puddle.png";
 import wind from "./illustrations/wind.png";
-import back from "./cards/illustrations/hiddenCard.svg";
+import back from "./cards/illustrations/hiddenCard.jpg";
 
 const Map = styled.div`
 	background-image: url(${mapPic});
@@ -49,7 +49,7 @@ const HiddenCard = styled.div`
 	height: 72px;
 	border-radius: 3px;
 	display: inline-block;
-	vertical-align: top;
+	vertical-align: center;
 	font-size: 0.7em;
 	background-image:    url(${props => props.bg});
     background-size:     cover;
@@ -751,7 +751,7 @@ class Gameboard extends React.Component {
 										{this.state.sortedPlayers && this.state.sortedPlayers[3].hand?
 											<Grid
 												container
-												direction="row"
+												direction="column"
 												justify="space-evenly"
 												alignItems="center"
 												spacing={2}
@@ -812,7 +812,7 @@ class Gameboard extends React.Component {
 										        :''}
 									        {this.state.exchangeCards?
 										        <ExchangeCards rotation={this.state.boardRotation}>
-											        Please select a card to exchange!
+											        Please select which card to exchange!
 										        </ExchangeCards>
 									        :''}
 								        </Map>
