@@ -33,7 +33,10 @@ import City from "./Cities/Cities";
 
 import puddle from "./illustrations/puddle.png";
 import wind from "./illustrations/wind.png";
-import back from "./cards/illustrations/hiddenCard.jpg";
+
+import back from "./cards/illustrations/Back.svg";
+import backRotated from "./cards/illustrations/BackRotated.svg";
+
 
 const Map = styled.div`
 	background-image: url(${mapPic});
@@ -43,19 +46,30 @@ const Map = styled.div`
     border-radius: 4px;
 `;
 
-const HiddenCard = styled.div`
+const PartnerCard = styled.div`
 	border: 1px solid black;
 	width: 51px;
 	height: 72px;
 	border-radius: 3px;
 	display: inline-block;
 	vertical-align: center;
-	font-size: 0.7em;
-	background-image:    url(${props => props.bg});
+	background-image:    url(${back});
     background-size:     cover;
     background-repeat:   no-repeat;
     background-position: center center;
-    transform: rotate(${props => props.rotation}deg);         
+`;
+
+const OpponentCard = styled.div`
+	border: 1px solid black;
+	width: 72px;
+	height: 51px;
+	border-radius: 3px;
+	display: inline-block;
+	line-height: 1;
+	background-image:    url(${backRotated});
+    background-size:     cover;
+    background-repeat:   no-repeat;
+    background-position: center center;
 `;
 
 const ExchangeCards = styled.div`
@@ -154,6 +168,9 @@ const styles = theme => ({
 	weatherBox: {
 		padding: 10,
 		textAlign: 'center'
+	},
+	compact: {
+		lineHeight: 1
 	}
 });
 
@@ -537,7 +554,7 @@ class Gameboard extends React.Component {
 		if ( this.isMyMove() && this.state.selectedCard ) {
 			let field = this.state.game.board.fields[boardIndex];
 			if (!this.state.selectedFigure) {
-				if (field.occupant.player.user && field.occupant.player.user.id == this.userID) {
+				if (field.occupant.player && field.occupant.player.user && field.occupant.player.user.id == this.userID) {
 					this.setState(
 						{selectedFigure: field.occupant},
 						() => {this.getPossibleFields()}
@@ -721,16 +738,13 @@ class Gameboard extends React.Component {
 											<Grid
 												container
 												direction="row"
-												justify="space-evenly"
+												justify="flex-start"
 												alignItems="center"
 												spacing={2}
 											>
 												{this.state.sortedPlayers[2].hand.map((card) =>
 													<Grid item xs className={classes.centerAlign}>
-														<HiddenCard
-															rotation={180}
-															bg={back}
-														/>
+														<PartnerCard />
 													</Grid>
 												)}
 											</Grid>:''
@@ -752,16 +766,14 @@ class Gameboard extends React.Component {
 											<Grid
 												container
 												direction="column"
-												justify="space-evenly"
+												justify="flex-start"
 												alignItems="center"
 												spacing={2}
+												className={classes.fullHeight}
 											>
 												{this.state.sortedPlayers[3].hand.map((card) =>
-													<Grid item xs className={classes.centerAlign}>
-														<HiddenCard
-															rotation={270}
-															bg={back}
-														/>
+													<Grid item xs className={classes.compact}>
+														<OpponentCard />
 													</Grid>
 												)}
 											</Grid>:''
@@ -824,16 +836,14 @@ class Gameboard extends React.Component {
 											<Grid
 												container
 												direction="column"
-												justify="space-evenly"
+												justify="flex-start"
 												alignItems="center"
 												spacing={2}
+												className={classes.fullHeight}
 											>
 												{this.state.sortedPlayers[1].hand.map((card) =>
-													<Grid item xs className={classes.centerAlign}>
-														<HiddenCard
-															rotation={90}
-															bg={back}
-														/>
+													<Grid item xs className={classes.compact}>
+														<OpponentCard />
 													</Grid>
 												)}
 											</Grid>:''
@@ -854,7 +864,7 @@ class Gameboard extends React.Component {
 									        <Grid
 										        container
 										        direction="row"
-										        justify="space-evenly"
+										        justify="flex-start"
 										        alignItems="center"
 										        spacing={2}
 									        >
