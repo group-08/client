@@ -823,7 +823,7 @@ class Gameboard extends React.Component {
 										{this.state.sortedPlayers && this.state.sortedPlayers[1].hand?
 											<Grid
 												container
-												direction="row"
+												direction="column"
 												justify="space-evenly"
 												alignItems="center"
 												spacing={2}
