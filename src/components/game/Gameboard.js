@@ -33,6 +33,7 @@ import City from "./Cities/Cities";
 
 import puddle from "./illustrations/puddle.png";
 import wind from "./illustrations/wind.png";
+import back from "./cards/illustrations/hiddenCard.svg";
 
 const Map = styled.div`
 	background-image: url(${mapPic});
@@ -40,6 +41,21 @@ const Map = styled.div`
     height: 100%;
     transform: rotate(${props => props.rotation}deg);
     border-radius: 4px;
+`;
+
+const HiddenCard = styled.div`
+	border: 1px solid black;
+	width: 51px;
+	height: 72px;
+	border-radius: 3px;
+	display: inline-block;
+	vertical-align: top;
+	font-size: 0.7em;
+	background-image:    url(${props => props.bg});
+    background-size:     cover;
+    background-repeat:   no-repeat;
+    background-position: center center;
+    transform: rotate(${props => props.rotation}deg);         
 `;
 
 const ExchangeCards = styled.div`
@@ -700,9 +716,26 @@ class Gameboard extends React.Component {
 					        >
 						        <Grid item xs />
 						        <Grid item>
-							        <Paper className={classes.partner}>
-								        Partners card
-							        </Paper>
+									<Paper className={classes.partner}>
+										{this.state.sortedPlayers && this.state.sortedPlayers[2].hand?
+											<Grid
+												container
+												direction="row"
+												justify="space-evenly"
+												alignItems="center"
+												spacing={2}
+											>
+												{this.state.sortedPlayers[2].hand.map((card) =>
+													<Grid item xs className={classes.centerAlign}>
+														<HiddenCard
+															rotation={180}
+															bg={back}
+														/>
+													</Grid>
+												)}
+											</Grid>:''
+										}
+									</Paper>
 						        </Grid>
 						        <Grid item xs />
 					        </Grid>
@@ -714,9 +747,26 @@ class Gameboard extends React.Component {
 						        spacing={2}
 					        >
 						        <Grid item xs>
-							        <Paper className={classes.opponent}>
-								        Opponents card
-							        </Paper>
+									<Paper className={classes.opponent}>
+										{this.state.sortedPlayers && this.state.sortedPlayers[3].hand?
+											<Grid
+												container
+												direction="row"
+												justify="space-evenly"
+												alignItems="center"
+												spacing={2}
+											>
+												{this.state.sortedPlayers[3].hand.map((card) =>
+													<Grid item xs className={classes.centerAlign}>
+														<HiddenCard
+															rotation={270}
+															bg={back}
+														/>
+													</Grid>
+												)}
+											</Grid>:''
+										}
+									</Paper>
 						        </Grid>
 						        <Grid item>
 							        <Paper elevation={4} className={classes.board}>
@@ -769,9 +819,26 @@ class Gameboard extends React.Component {
 							        </Paper>
 						        </Grid>
 						        <Grid item xs>
-							        <Paper className={classes.opponent}>
-								        Opponents cards
-							        </Paper>
+									<Paper className={classes.opponent}>
+										{this.state.sortedPlayers && this.state.sortedPlayers[1].hand?
+											<Grid
+												container
+												direction="row"
+												justify="space-evenly"
+												alignItems="center"
+												spacing={2}
+											>
+												{this.state.sortedPlayers[1].hand.map((card) =>
+													<Grid item xs className={classes.centerAlign}>
+														<HiddenCard
+															rotation={90}
+															bg={back}
+														/>
+													</Grid>
+												)}
+											</Grid>:''
+										}
+									</Paper>
 						        </Grid>
 					        </Grid>
 				        </Grid>
