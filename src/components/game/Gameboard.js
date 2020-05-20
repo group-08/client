@@ -780,12 +780,12 @@ class Gameboard extends React.Component {
 										        </>
 										        :''
 									        }
-									        {true || this.state.game && this.state.game.weatherState == "WINDY" ?
+									        {this.state.game && this.state.game.weatherState == "WINDY" ?
 										        <>
-											        <WindIcon top={294} left={82} rotation={-70} />
-											        <WindIcon top={82} left={204} rotation={-70+90} />
-											        <WindIcon top={412} left={288} rotation={-70+90} />
-											        <WindIcon top={204} left={414} rotation={-70+180} />
+											        <WindIcon top={294} left={82} rotation={250} />
+											        <WindIcon top={82} left={204} rotation={340} />
+											        <WindIcon top={412} left={288} rotation={160} />
+											        <WindIcon top={204} left={414} rotation={70} />
 										        </>
 										        :''
 									        }
