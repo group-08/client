@@ -423,6 +423,14 @@ class Gameboard extends React.Component {
 		}
 	}
 
+	isFinished() {
+    	return this.state.sortedPlayers[0].finished;
+	}
+
+	isPartnerFinished() {
+    	return this.state.sortedPlayers[2].finished;
+	}
+
 	getPossibleFields() {
 		if ( this.state.selectedCard.value === 'SEVEN' ) {
 			this.possibleFieldsSeven();
