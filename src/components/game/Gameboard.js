@@ -936,6 +936,22 @@ class Gameboard extends React.Component {
 						        ):''
 					        }
 				        </Grid>
+				        <Grid item xs className={classes.sideItem}>
+					        {this.state.game && this.state.game.logItems?(
+						        <Paper>
+							        <List dense>
+								        {this.state.game.logItems.map((logItem) =>
+									        <ListItem key={logItem.player + logItem.value + logItem.suit}>
+										        <ListItemText
+											        primary={`Player ${logItem.player} played a ${logItem.value} of ${logItem.suit}`}
+										        />
+									        </ListItem>
+								        )}
+							        </List>
+						        </Paper>
+					        ):''
+					        }
+				        </Grid>
 			        </Grid>
 		        </Grid>
             </Grid>
