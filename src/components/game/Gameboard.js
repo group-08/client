@@ -654,6 +654,7 @@ class Gameboard extends React.Component {
 		    // GameLog
 		    if (this.state.game.logItems) {
 			    let logItems = this.state.game.logItems.reverse();
+			    logItems = logItems.slice(0,5); //Limits the logItems to 5
 			    this.setState({gameLog: logItems});
 		    }
 	    }
