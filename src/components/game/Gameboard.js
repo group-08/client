@@ -591,8 +591,8 @@ class Gameboard extends React.Component {
 			let field = this.state.game.board.fields[boardIndex];
 			if (!this.state.selectedFigure) {
 				if (this.isFinished()) {
-					const partnerId = this.state.game.sortedPlayers[2].user.id;
-					if (field.occupant.player.user && field.occupant.player.user.id == partnerId) {
+					const partnerId = this.state.sortedPlayers[2].id;
+					if (field.occupant.player && field.occupant.player.id == partnerId) {
 						this.setState(
 							{selectedFigure: field.occupant},
 							() => {this.getPossibleFields()}
