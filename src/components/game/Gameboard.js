@@ -1,6 +1,6 @@
 import React from 'react';
 import {api, handleError} from '../../helpers/api';
-import {withRouter} from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import { withSnackbar } from 'notistack';
 
 import {getDomain} from "../../helpers/getDomain";
@@ -12,100 +12,78 @@ import _ from 'lodash';
 
 import mapPic from './mapPic.jpeg'
 
-const board = {
-    border: '1px solid',
-    width: 768,
-    height: 768,
-    position: "absolute",
-    marginLeft: 50
-};
+import Grid from "@material-ui/core/Grid";
+import withStyles from "@material-ui/core/styles/withStyles";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemAvatar from "@material-ui/core/ListItemAvatar";
+import Avatar from "@material-ui/core/Avatar";
+import ListItemText from "@material-ui/core/ListItemText";
+import Paper from "@material-ui/core/Paper";
 
-const opponent3 = {
-    border: '1px solid',
-    width: 95,
-    height: 420,
-    marginLeft: 5,
-    marginTop: 160
-};
+import Avatars from '@dicebear/avatars';
+import avataars from '@dicebear/avatars-avataaars-sprites';
+import bottts from '@dicebear/avatars-bottts-sprites';
 
-const opponent2 = {
-    border: '1px solid',
-    width: 420,
-    height: 95,
-    position: "absolute",
-    marginLeft: 173,
-    marginTop: 5
-};
+import ReactAnimatedWeather from 'react-animated-weather';
+import Typography from "@material-ui/core/Typography";
+import Divider from "@material-ui/core/Divider";
+import City from "./Cities/Cities";
 
-const opponent1 = {
-    border: '1px solid',
-    width: 95,
-    height: 420,
-    position: "absolute",
-    left: 663,
-    top: 160
-};
+import puddle from "./illustrations/puddle.png";
+import wind from "./illustrations/wind.png";
 
-const cards = {
-    border: '1px solid',
-    width: 453,
-    height: 115,
-    position: "absolute",
-    top: 640,
-    left: 154
-};
+import back from "./cards/illustrations/Back.svg";
+import backRotated from "./cards/illustrations/BackRotated.svg";
+
 
 const Map = styled.div`
 	background-image: url(${mapPic});
-    border: 1px solid;
-    width: 530px;
-    height: 530px;
-    position: absolute;
-    top: 104px;
-    left: 115px;
+    width: 100%;
+    height: 100%;
     transform: rotate(${props => props.rotation}deg);
+    border-radius: 4px;
 `;
 
-const sideboard = {
-    //backgroundImage: 'url(' + mapPic + ')',
-    border: '1px solid',
-    width: 548,
-    height: 768,
-    position: "absolute",
-    left:818
-};
+const PartnerCard = styled.div`
+	border: 1px solid black;
+	width: 51px;
+	height: 72px;
+	border-radius: 3px;
+	display: inline-block;
+	vertical-align: center;
+	background-image:    url(${back});
+    background-size:     cover;
+    background-repeat:   no-repeat;
+    background-position: center center;
+`;
 
-const players = {
-    border: '1px solid',
-    width: 530,
-    height: 210,
-    position: "absolute",
-    marginTop: 200,
-    marginLeft: 9,
-    borderRadius: 10
-};
+const OpponentCard = styled.div`
+	border: 1px solid black;
+	width: 72px;
+	height: 51px;
+	border-radius: 3px;
+	display: inline-block;
+	line-height: 1;
+	background-image:    url(${backRotated});
+    background-size:     cover;
+    background-repeat:   no-repeat;
+    background-position: center center;
+`;
 
-const joker = {
-    border: '1px solid',
-    width: 530,
-    height: 210,
-    position: "absolute",
-    marginTop: 420,
-    marginLeft: 9,
-    borderRadius: 10
-};
-
-const cardLayout = {
-    border: '1px solid',
-    height: 90,
-    width: 65,
-    marginLeft: 9,
-    marginTop: 9,
-    padding: 5,
-    borderRadius: 5,
-    float: 'left',
-	fontSize: '0.5em'
-};
+const ExchangeCards = styled.div`
+	background-color: rgba(1,1,1,0.6);
+	font-weight: 1000;
+	font-size: 30px;
+	font-family: Impact, sans-serif;
+    width: 100%;
+    height: 100%;
+    color: white;
+    padding-top: calc(520px/2 - 1em/2);
+    text-align: center;
+    transform: rotate(-${props => props.rotation}deg);
+`;
 
 const Field = styled.div`   
     border: ${props => props.ringColor?"3px solid ": "1px solid"} black;
@@ -134,17 +112,96 @@ const Field = styled.div`
     `:""}
 `;
 
-const PlayerDetail = styled.div`
-    margin-left: 10px;
-    width: 510px;
-    height: 40px;
-    margin-top: 10px;
-    border-radius: 10px;
-    padding: 10px;
-    font-weight: bold;
-    color: ${props => props.color == "YELLOW"?'black':'white'};
-    background-color: ${props => props.color};
+const Puddle = styled.div`
+	position: absolute;
+	width: 32px;
+	height: 32px;
+	top: ${props => props.top}px;
+    left: ${props => props.left}px;
+    background-image:url(${puddle});
+    background-repeat:no-repeat;
+    background-size:contain;
+    transform: rotate(-${props => props.rotation}deg);
 `;
+
+const WindIcon = styled.div`
+	position: absolute;
+	width: 32px;
+	height: 32px;
+	top: ${props => props.top}px;
+    left: ${props => props.left}px;
+    background-image:url(${wind});
+    background-repeat:no-repeat;
+    background-size:contain;
+    transform: rotate(${props => props.rotation}deg);
+`;
+
+const styles = theme => ({
+	root: {
+		height: '100vh',
+		padding: theme.spacing(4)
+	},
+	table: {
+		width: 768,
+		height: 768,
+	},
+	partner: {
+		width: 420,
+		height: 92,
+		padding: 10
+	},
+	opponent: {
+		height: 420,
+		width: 92,
+		padding: 10,
+	},
+	board: {
+		height: 530,
+		width: 530
+	},
+	centerAlign: {
+		textAlign: "center"
+	},
+	sideItem: {
+		width: '100%'
+	},
+	weatherBox: {
+		padding: 10,
+		textAlign: 'center'
+	},
+	compact: {
+		lineHeight: 1
+	},
+	gameLog: {
+		fontSize: '0.75em'
+	}
+});
+
+const weathers = {
+	"SUNNY": 'CLEAR_DAY',
+	"WINDY": 'WIND',
+	"RAINY": 'RAIN',
+	"UNKNOWN": 'CLEAR_NIGHT'
+};
+
+const cities = {
+	"NEWYORK": 'New York',
+	"ZURICH": 'Zürich',
+	"LISBON": 'Lisbon',
+	"SANFRANCISCO": 'San Francisco',
+	"CARACAS": 'Caracas',
+	"LIMA": 'Lima',
+	"NAIROBI": 'Nairobi',
+	"CASABLANCA": 'Casablanca',
+	"HANOI": 'Hanoi',
+	"DHAKA": 'Dhaka',
+	"TOKYO": 'Tokyo',
+	"JAKARTA": 'Jakarta',
+	"BRISBANE": 'Brisbane',
+	"PERTH": 'Perth',
+	"CHRISTCHURCH": 'Christchurch',
+	"DUBAI": 'Dubai',
+};
 
 // The fields positions
 const fields = [
@@ -252,7 +309,6 @@ for (let i = 0; i < fields.length; i++) {
 
 // Special color fields
 const ranges = [
-
 	_.concat(0, _.range(64, 68), _.range(80, 84)),
 	_.concat(16, _.range(68, 72), _.range(84, 88)),
 	_.concat(32, _.range(72, 76), _.range(88, 92)),
@@ -264,7 +320,6 @@ class Gameboard extends React.Component {
         super();
         this.state = {
         	game: null,
-	        cards: null,
 	        sortedPlayers: null,
             fields: fields,
 	        boardRotation: 0,
@@ -273,7 +328,8 @@ class Gameboard extends React.Component {
 	        selectedField: null,
 	        possibleFields: null,
 			remainingSeven: null,
-			exchangeCards: false
+			exchangeCards: false,
+	        gameLog: null
         };
 
         this.userID = parseInt(localStorage.getItem('userID'));
@@ -281,6 +337,54 @@ class Gameboard extends React.Component {
 
     isMyMove(){
     	return (this.state.game.players[0].user && this.state.game.players[0].user.id == this.userID);
+    }
+
+    botName(color) {
+    	const botNames={
+    		"BLUE": "Barkificial Intelligence",
+		    "RED": "CorgAI",
+		    "YELLOW": "Doggy McDogface",
+		    "GREEN": "Robodog",
+	    };
+	    return botNames[color];
+    }
+
+    playerFromPlayerId(playerId) {
+	    if ( this.state.game && this.state.game.players ) {
+		    let player = this.state.game.players.find(player => player.id === playerId);
+		    return player;
+	    }
+	    return null;
+    }
+
+    getName(playerId) {
+	    if ( this.state.game && this.state.game.players ) {
+		    let player = this.playerFromPlayerId(playerId);
+		    console.log(playerId, player);
+		    // For humans
+		    if ( player.user ) {
+		    	return player.user.username;
+		    }
+		    // For bots
+		    else {
+		    	return this.botName(player.colour);
+		    }
+	    }
+    	return null;
+    }
+
+    avatar(type, color, identifier) {
+	    let options = {
+	    	base64: true,
+		    background: color,
+		    skin: ["light"],
+		    margin: 8
+	    };
+	    let avatars = new Avatars(avataars, options);
+	    if (type == "Bot") {
+	    	avatars = new Avatars(bottts, options);
+	    }
+	    return avatars.create(identifier);
     }
 
     async possibleFields() {
@@ -423,6 +527,14 @@ class Gameboard extends React.Component {
 		}
 	}
 
+	isFinished() {
+    	return this.state.sortedPlayers[0].finished;
+	}
+
+	isPartnerFinished() {
+    	return this.state.sortedPlayers[2].finished;
+	}
+
 	getPossibleFields() {
 		if ( this.state.selectedCard.value === 'SEVEN' ) {
 			this.possibleFieldsSeven();
@@ -478,15 +590,24 @@ class Gameboard extends React.Component {
 		if ( this.isMyMove() && this.state.selectedCard ) {
 			let field = this.state.game.board.fields[boardIndex];
 			if (!this.state.selectedFigure) {
-				if (field.occupant.player.user && field.occupant.player.user.id == this.userID) {
-					this.setState(
-						{selectedFigure: field.occupant},
-						() => {this.getPossibleFields()}
+				if (this.isFinished()) {
+					const partnerId = this.state.sortedPlayers[2].id;
+					if (field.occupant.player && field.occupant.player.id == partnerId) {
+						this.setState(
+							{selectedFigure: field.occupant},
+							() => {this.getPossibleFields()}
 						);
-					console.log('Player selected the following figure', field.occupant);
+						console.log('Player selected the following figure', field.occupant);
+					}
+				} else {
+					if (field.occupant.player.user && field.occupant.player.user.id == this.userID) {
+						this.setState(
+							{selectedFigure: field.occupant},
+							() => {this.getPossibleFields()}
+						);
+						console.log('Player selected the following figure', field.occupant);
+					}
 				}
-
-
 			}
 			else if (this.state.selectedCard && this.state.selectedFigure) {
 				for (let index = 0; index < this.state.possibleFields.length; index++) {
@@ -501,22 +622,6 @@ class Gameboard extends React.Component {
 			}
 		}
 
-    }
-
-    chosenJokerCard(card){
-        this.state.chosenCard = card
-    }
-
-    getJokerDeck(){
-        const values = ["2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"];
-        let jokerDeck = [];
-        let card = [];
-
-        for (let x = 0; x < values.length; x++) {
-            card = {suit: 'Joker', val: values[x]};
-            jokerDeck.push(card);
-        }
-        return jokerDeck
     }
 
     async fetch() {
@@ -545,6 +650,10 @@ class Gameboard extends React.Component {
 	    this.fetchInterval = setInterval(() => this.fetch(), 1000);
     }
 
+    componentWillUnmount() {
+    	clearInterval(this.fetchInterval);
+    }
+
 	componentDidUpdate(prevProps, prevState, snapshot) {
     	if(this.state.game !== prevState.game){
 
@@ -558,6 +667,13 @@ class Gameboard extends React.Component {
 			    }
 		    }
 		    this.setState({sortedPlayers: sortPlayers});
+
+		    // GameLog
+		    if (this.state.game.logItems) {
+			    let logItems = this.state.game.logItems.reverse();
+			    logItems = logItems.slice(0,5); //Limits the logItems to 5
+			    this.setState({gameLog: logItems});
+		    }
 	    }
 
 		let newfields = null;
@@ -632,12 +748,6 @@ class Gameboard extends React.Component {
 
 		}
 
-		if (this.state.sortedPlayers !== prevState.sortedPlayers){
-			// Cards
-			let cards = this.state.sortedPlayers[0].hand;
-			this.setState({cards: cards});
-		}
-
 		if (this.state.game !== prevState.game ||
 			this.state.sortedPlayers !== prevState.sortedPlayers ||
 			this.state.selectedFigure !== prevState.selectedFigure ) {
@@ -646,82 +756,274 @@ class Gameboard extends React.Component {
     }
 
 	render() {
+		const { classes } = this.props;
+
         return (
-            <div>
-                <div style={board}>
-                    <div style={opponent1}>
-                    </div>
-                    <div style={opponent2}>
-                    </div>
-                    <div style={opponent3}>
-                    </div>
-	                {this.state.cards?
-		                <div style={cards}>
-			                {this.state.cards.map((card) =>
-				                <Card
-					                key={card.id}
-					                card={card}
-					                pleaseSelect={(this.isMyMove() && !this.state.selectedCard) || this.state.exchangeCards}
-					                selected={this.state.selectedCard && card.id == this.state.selectedCard.id}
-					                action={() => this.selectPlayingCard(card)}
-				                />
-			                )}
-		                </div>:''
-	                }
-					<Map rotation={this.state.boardRotation}>
-                        {this.state.fields.map((field) =>
-                            <Field
-	                            key={field.boardIndex}
-                                top={field.top}
-                                left={field.left}
-                                ringColor={field.ringColor}
-                                bgColor={field.ball}
-	                            highlightColor={this.state.selectedCard && !this.state.selectedFigure?this.state.sortedPlayers[0].colour:''}
-	                            highlighted={field.highlighted}
-	                            selectable={field.selectable}
-	                            onClick={() => {
-		                            this.selectFigureOrFieldFromBoardField(field.boardIndex);
-	                            }}
-                            />
-                        )}
-					</Map>
-                </div>
-                <div style={sideboard}>
-                    <div style={players}>
-	                    {this.state.game?
-		                    this.state.game.players.map((player) =>
-				                    <PlayerDetail
-					                    key={player.id}
-					                    color={player.colour}
-				                    >
-					                    {player.user?player.user.username:'Bot'}
-				                    </PlayerDetail>
-			                    ):''
-	                    }
-
-                    </div>
-	                {this.state.displayJoker?
-		                (<div style={joker}>
-			                <div style={cardLayout}> Please choose a Joker </div>
-			                {this.getJokerDeck().map(card => {
-				                return (
-					                <div
-						                key={card}
-						                onClick={() => { this.chosenJokerCard(card) }}
-					                >
-						                <div style={cardLayout}>
-							                {card.val} <br />{card.suit}
-						                </div>
-					                </div>
-				                );
-			                })}
-		                </div>):""
-	                }
-                </div>
-            </div>
-
+	        <Grid
+		        container
+		        component="main"
+		        className={classes.root}
+		        alignItems="center"
+		        spacing={2}
+	        >
+		        <CssBaseline />
+		        <Grid
+			        item
+			        className={classes.table}
+		        >
+			        <Grid
+				        container
+				        direction="column"
+				        justify="center"
+				        alignItems="center"
+				        spacing={2}
+			        >
+				        <Grid item>
+					        <Grid
+						        container
+						        spacing={2}
+					        >
+						        <Grid item xs />
+						        <Grid item>
+									<Paper className={classes.partner}>
+										{this.state.sortedPlayers && this.state.sortedPlayers[2].hand?
+											<Grid
+												container
+												direction="row"
+												justify="flex-start"
+												alignItems="center"
+												spacing={2}
+											>
+												{this.state.sortedPlayers[2].hand.map((card) =>
+													<Grid item xs className={classes.centerAlign}>
+														<PartnerCard />
+													</Grid>
+												)}
+											</Grid>:''
+										}
+									</Paper>
+						        </Grid>
+						        <Grid item xs />
+					        </Grid>
+				        </Grid>
+				        <Grid item>
+					        <Grid
+						        container
+						        alignItems="center"
+						        spacing={2}
+					        >
+						        <Grid item xs>
+									<Paper className={classes.opponent}>
+										{this.state.sortedPlayers && this.state.sortedPlayers[3].hand?
+											<Grid
+												container
+												direction="column"
+												justify="flex-start"
+												alignItems="center"
+												spacing={2}
+												className={classes.fullHeight}
+											>
+												{this.state.sortedPlayers[3].hand.map((card) =>
+													<Grid item xs className={classes.compact}>
+														<OpponentCard />
+													</Grid>
+												)}
+											</Grid>:''
+										}
+									</Paper>
+						        </Grid>
+						        <Grid item>
+							        <Paper elevation={4} className={classes.board}>
+								        <Map rotation={this.state.boardRotation}>
+									        {this.state.game && this.state.game.weatherState == "RAINY" ?
+										        <>
+											        <Puddle top={308} left={100} rotation={this.state.boardRotation} />
+											        <Puddle top={100} left={188} rotation={this.state.boardRotation+90} />
+											        <Puddle top={396} left={308} rotation={this.state.boardRotation+180} />
+											        <Puddle top={188} left={398} rotation={this.state.boardRotation+270} />
+										        </>
+										        :''
+									        }
+									        {this.state.game && this.state.game.weatherState == "WINDY" ?
+										        <>
+											        <WindIcon top={294} left={82} rotation={250} />
+											        <WindIcon top={82} left={204} rotation={340} />
+											        <WindIcon top={412} left={288} rotation={160} />
+											        <WindIcon top={204} left={414} rotation={70} />
+										        </>
+										        :''
+									        }
+									        {this.state.fields.map((field) =>
+										        <Field
+											        key={field.boardIndex}
+											        top={field.top}
+											        left={field.left}
+											        ringColor={field.ringColor}
+											        bgColor={field.ball}
+											        highlightColor={this.state.selectedCard && !this.state.selectedFigure?
+												        (this.isFinished()?
+													        this.state.sortedPlayers[2].colour:
+													        this.state.sortedPlayers[0].colour):
+												        ''}
+											        highlighted={field.highlighted}
+											        selectable={field.selectable}
+											        onClick={() => {
+												        this.selectFigureOrFieldFromBoardField(field.boardIndex);
+											        }}
+										        />
+									        )}
+									        {this.state.game && this.state.game.city?
+										        <City
+											        city={this.state.game.city}
+											        rotation={this.state.boardRotation}
+										        />
+										        :''}
+									        {this.state.exchangeCards?
+										        <ExchangeCards rotation={this.state.boardRotation}>
+											        Please select which card to exchange!
+										        </ExchangeCards>
+									        :''}
+								        </Map>
+							        </Paper>
+						        </Grid>
+						        <Grid item xs>
+									<Paper className={classes.opponent}>
+										{this.state.sortedPlayers && this.state.sortedPlayers[1].hand?
+											<Grid
+												container
+												direction="column"
+												justify="flex-start"
+												alignItems="center"
+												spacing={2}
+												className={classes.fullHeight}
+											>
+												{this.state.sortedPlayers[1].hand.map((card) =>
+													<Grid item xs className={classes.compact}>
+														<OpponentCard />
+													</Grid>
+												)}
+											</Grid>:''
+										}
+									</Paper>
+						        </Grid>
+					        </Grid>
+				        </Grid>
+				        <Grid item>
+					        <Grid
+						        container
+						        spacing={2}
+					        >
+						        <Grid item xs />
+						        <Grid item>
+							        <Paper className={classes.partner}>
+								        {this.state.sortedPlayers && this.state.sortedPlayers[0].hand?
+									        <Grid
+										        container
+										        direction="row"
+										        justify="flex-start"
+										        alignItems="center"
+										        spacing={2}
+									        >
+										        {this.state.sortedPlayers[0].hand.map((card) =>
+											        <Grid item xs className={classes.centerAlign}>
+												        <Card
+													        key={card.id}
+													        card={card}
+													        pleaseSelect={(this.isMyMove() && !this.state.selectedCard) || this.state.exchangeCards}
+													        selected={this.state.selectedCard && card.id == this.state.selectedCard.id}
+													        action={() => this.selectPlayingCard(card)}
+												        />
+											        </Grid>
+										        )}
+									        </Grid>:''
+								        }
+							        </Paper>
+						        </Grid>
+						        <Grid item xs />
+					        </Grid>
+				        </Grid>
+			        </Grid>
+		        </Grid>
+		        <Grid
+			        item
+			        xs
+		        >
+			        <Grid
+				        container
+				        direction="column"
+				        justify="space-evenly"
+				        alignItems="center"
+				        spacing={2}
+			        >
+				        <Grid item xs className={classes.sideItem}>
+					        {this.state.game && this.state.game.weatherState && this.state.game.city?
+						        (
+							        <Paper className={classes.weatherBox}>
+								        <ReactAnimatedWeather
+									        icon={weathers[this.state.game.weatherState]}
+								        />
+								        <Divider />
+								        <Typography variant="body1">
+											You now travelled to <Typography variant="h6" >{cities[this.state.game.city]}</Typography>
+											where the weather is currently {this.state.game.weatherState.toLowerCase()}.
+								        </Typography>
+							        </Paper>
+						        ):''}
+				        </Grid>
+				        <Grid item xs className={classes.sideItem}>
+					        {this.state.game?(
+					        	<Paper>
+							        <List dense>
+								        {this.state.game.players.map((player) =>
+									        <ListItem key={player.id} button>
+										        <ListItemAvatar>
+											        <Avatar
+												        alt={`Avatar for player ${this.getName(player.id)}`}
+												        src={this.avatar((player.user?'Human':'Bot'),player.colour, player.id)}
+											        />
+										        </ListItemAvatar>
+										        <ListItemText
+											        primary={this.getName(player.id)}
+										        />
+									        </ListItem>
+								        )}
+							        </List>
+						        </Paper>
+						        ):''
+					        }
+				        </Grid>
+				        <Grid item xs className={classes.sideItem}>
+					        {this.state.gameLog && this.state.gameLog.length !== 0?(
+						        <Paper className={classes.gameLog}>
+							        <List
+								        dense
+								        disablePadding
+							        >
+								        {this.state.gameLog.map((logItem) =>
+									        <ListItem
+										        key={logItem.id}
+										        divider
+									        >
+										        <ListItemText
+											        className={classes.gameLog}
+											        primary={
+												        logItem.value === "JOKER"?
+													        `${this.getName(logItem.playerId)} played a ${logItem.value.toLowerCase()}.`:
+													        `${this.getName(logItem.playerId)} played a ${logItem.value.toLowerCase()} of ${logItem.suit.toLowerCase()}.`
+											        }
+										        />
+									        </ListItem>
+								        )}
+							        </List>
+						        </Paper>
+					        ):''
+					        }
+				        </Grid>
+			        </Grid>
+		        </Grid>
+            </Grid>
         )
     }
 }
 
-export default withRouter(withSnackbar(Gameboard));
+export default withRouter(withStyles(styles)(withSnackbar(Gameboard)));
