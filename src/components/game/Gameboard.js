@@ -693,7 +693,11 @@ class Gameboard extends React.Component {
                                 left={field.left}
                                 ringColor={field.ringColor}
                                 bgColor={field.ball}
-	                            highlightColor={this.state.selectedCard && !this.state.selectedFigure?this.state.sortedPlayers[0].colour:''}
+	                            highlightColor={this.state.selectedCard && !this.state.selectedFigure?
+									(this.isFinished()?
+									this.state.sortedPlayers[2].colour:
+									this.state.sortedPlayers[0].colour):
+									''}
 	                            highlighted={field.highlighted}
 	                            selectable={field.selectable}
 	                            onClick={() => {
