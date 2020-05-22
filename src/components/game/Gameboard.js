@@ -6,6 +6,7 @@ import { withSnackbar } from 'notistack';
 import {getDomain} from "../../helpers/getDomain";
 
 import Card from "./cards/Card";
+import Die from "./dice/Die"
 
 import styled from 'styled-components';
 import _ from 'lodash';
@@ -975,7 +976,9 @@ class Gameboard extends React.Component {
 									        </Grid>
 									        {this.state.game.cardNum?
 										        <Grid item xs>
-											        {this.numberofCards(this.state.game.cardNum)}
+											        <Die
+												        number={this.numberofCards(this.state.game.cardNum)}
+											        />
 										        </Grid>
 									        :''}
 
