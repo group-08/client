@@ -6,11 +6,12 @@ import { withSnackbar } from 'notistack';
 import {getDomain} from "../../helpers/getDomain";
 
 import Card from "./cards/Card";
+import Die from "./dice/Die"
 
 import styled from 'styled-components';
 import _ from 'lodash';
 
-import mapPic from './mapPic.jpeg'
+import mapPic from './boardBackground.jpeg'
 
 import Grid from "@material-ui/core/Grid";
 import withStyles from "@material-ui/core/styles/withStyles";
@@ -358,7 +359,7 @@ class Gameboard extends React.Component {
     }
 
     getName(playerId) {
-	    if ( this.state.game && this.state.game.players ) {
+	    if (this.state.game && this.state.game.players ) {
 		    let player = this.playerFromPlayerId(playerId);
 		    console.log(playerId, player);
 		    // For humans
@@ -525,6 +526,10 @@ class Gameboard extends React.Component {
 		} else {
     		this.move();
 		}
+	}
+
+	numberofCards(gameCardNum) {
+    	return (gameCardNum -1)%5 + 2; // Formula by very smart trial and error
 	}
 
 	isFinished() {
@@ -959,14 +964,46 @@ class Gameboard extends React.Component {
 					        {this.state.game && this.state.game.weatherState && this.state.game.city?
 						        (
 							        <Paper className={classes.weatherBox}>
-								        <ReactAnimatedWeather
-									        icon={weathers[this.state.game.weatherState]}
-								        />
+								        <Grid
+									        container
+									        justify="space-evenly"
+									        alignItems="center"
+								        >
+									        <Grid item xs>
+										        <ReactAnimatedWeather
+											        icon={weathers[this.state.game.weatherState]}
+										        />
+									        </Grid>
+									        {this.state.game.cardNum?
+										        <Grid item xs>
+											        <Die
+												        number={this.numberofCards(this.state.game.cardNum)}
+											        />
+										        </Grid>
+									        :''}
+
+								        </Grid>
+
 								        <Divider />
-								        <Typography variant="body1">
-											You now travelled to <Typography variant="h6" >{cities[this.state.game.city]}</Typography>
-											where the weather is currently {this.state.game.weatherState.toLowerCase()}.
-								        </Typography>
+								        <Grid
+									        container
+									        justify="space-evenly"
+									        alignItems="center"
+								        >
+									        <Grid item xs>
+										        <Typography variant="body1">
+											        You now travelled to <strong>{cities[this.state.game.city]}</strong> where the weather is currently {this.state.game.weatherState.toLowerCase()}.
+										        </Typography>
+									        </Grid>
+									        {this.state.game.cardNum?
+										        <Grid item xs>
+											        <Typography variant="body1">
+												        Everyone received {this.numberofCards(this.state.game.cardNum)} cards.
+											        </Typography>
+										        </Grid>
+									        :''}
+								        </Grid>
+
 							        </Paper>
 						        ):''}
 				        </Grid>
