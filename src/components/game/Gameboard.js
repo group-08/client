@@ -10,7 +10,7 @@ import Card from "./cards/Card";
 import styled from 'styled-components';
 import _ from 'lodash';
 
-import mapPic from './mapPic.jpeg'
+import mapPic from './boardBackground.jpeg'
 
 import Grid from "@material-ui/core/Grid";
 import withStyles from "@material-ui/core/styles/withStyles";
