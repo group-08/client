@@ -171,6 +171,9 @@ const styles = theme => ({
 	},
 	compact: {
 		lineHeight: 1
+	},
+	gameLog: {
+		fontSize: '0.75em'
 	}
 });
 
@@ -325,7 +328,8 @@ class Gameboard extends React.Component {
 	        selectedField: null,
 	        possibleFields: null,
 			remainingSeven: null,
-			exchangeCards: false
+			exchangeCards: false,
+	        gameLog: null
         };
 
         this.userID = parseInt(localStorage.getItem('userID'));
@@ -347,7 +351,7 @@ class Gameboard extends React.Component {
 
     playerFromPlayerId(playerId) {
 	    if ( this.state.game && this.state.game.players ) {
-		    let player = this.state.sortedPlayers.find(player => player.id === playerId);
+		    let player = this.state.game.players.find(player => player.id === playerId);
 		    return player;
 	    }
 	    return null;
@@ -356,6 +360,7 @@ class Gameboard extends React.Component {
     getName(playerId) {
 	    if ( this.state.game && this.state.game.players ) {
 		    let player = this.playerFromPlayerId(playerId);
+		    console.log(playerId, player);
 		    // For humans
 		    if ( player.user ) {
 		    	return player.user.username;
@@ -645,6 +650,12 @@ class Gameboard extends React.Component {
 			    }
 		    }
 		    this.setState({sortedPlayers: sortPlayers});
+
+		    // GameLog
+		    if (this.state.game.logItems) {
+			    let logItems = this.state.game.logItems.reverse();
+			    this.setState({gameLog: logItems});
+		    }
 	    }
 
 		let newfields = null;
@@ -960,13 +971,24 @@ class Gameboard extends React.Component {
 					        }
 				        </Grid>
 				        <Grid item xs className={classes.sideItem}>
-					        {this.state.game && this.state.game.logItems?(
-						        <Paper>
-							        <List dense>
-								        {this.state.game.logItems.map((logItem) =>
-									        <ListItem key={logItem.player + logItem.value + logItem.suit}>
+					        {this.state.gameLog && this.state.gameLog.length !== 0?(
+						        <Paper className={classes.gameLog}>
+							        <List
+								        dense
+								        disablePadding
+							        >
+								        {this.state.gameLog.map((logItem) =>
+									        <ListItem
+										        key={logItem.id}
+										        divider
+									        >
 										        <ListItemText
-											        primary={`Player ${logItem.player} played a ${logItem.value} of ${logItem.suit}`}
+											        className={classes.gameLog}
+											        primary={
+												        logItem.value === "JOKER"?
+													        `${this.getName(logItem.playerId)} played a ${logItem.value.toLowerCase()}.`:
+													        `${this.getName(logItem.playerId)} played a ${logItem.value.toLowerCase()} of ${logItem.suit.toLowerCase()}.`
+											        }
 										        />
 									        </ListItem>
 								        )}
