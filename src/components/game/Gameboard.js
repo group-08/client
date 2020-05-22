@@ -345,6 +345,29 @@ class Gameboard extends React.Component {
 	    return botNames[color];
     }
 
+    playerFromPlayerId(playerId) {
+	    if ( this.state.game && this.state.game.players ) {
+		    let player = this.state.sortedPlayers.find(player => player.id === playerId);
+		    return player;
+	    }
+	    return null;
+    }
+
+    getName(playerId) {
+	    if ( this.state.game && this.state.game.players ) {
+		    let player = this.playerFromPlayerId(playerId);
+		    // For humans
+		    if ( player.user ) {
+		    	return player.user.username;
+		    }
+		    // For bots
+		    else {
+		    	return this.botName(player.colour);
+		    }
+	    }
+    	return null;
+    }
+
     avatar(type, color, identifier) {
 	    let options = {
 	    	base64: true,
