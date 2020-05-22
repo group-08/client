@@ -945,12 +945,12 @@ class Gameboard extends React.Component {
 									        <ListItem key={player.id} button>
 										        <ListItemAvatar>
 											        <Avatar
-												        alt={`Avatar for player ${player.id}`}
+												        alt={`Avatar for player ${this.getName(player.id)}`}
 												        src={this.avatar((player.user?'Human':'Bot'),player.colour, player.id)}
 											        />
 										        </ListItemAvatar>
 										        <ListItemText
-											        primary={player.user?player.user.username:this.botName(player.colour)}
+											        primary={this.getName(player.id)}
 										        />
 									        </ListItem>
 								        )}
