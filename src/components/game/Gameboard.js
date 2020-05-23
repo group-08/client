@@ -829,7 +829,7 @@ class Gameboard extends React.Component {
 		try {
 			const response = await api.delete('/lobby/' + gameID,  auth);
 			console.log(response.data);
-			this.props.history.push('../lobby');
+			this.props.history.push('../app/lobby');
 
 		} catch (error) {
 			alert(`Something went wrong while exiting the game: \n${handleError(error)}`)
@@ -1191,15 +1191,22 @@ class Gameboard extends React.Component {
 							justify="center"
 							alignItems="center"
 							>
-							<Typography variant="h1">
-								{this.state.winner1}
+							<Typography variant="h4">
+								{this.state.winner1}<br />
 								{this.state.winner2}
 							</Typography>
+						</Grid>
+						<Grid
+							container
+							justify="center"
+							alignItems="center"
+							>
 							<Button
 								onClick={() => {
 									this.deleteLobby();
 								}}
 							>
+								Leave
 								<ExitToAppIcon />
 							</Button>
 						</Grid>
