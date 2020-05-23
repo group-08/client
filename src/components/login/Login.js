@@ -13,6 +13,7 @@ import Typography from '@material-ui/core/Typography';
 import withStyles from "@material-ui/core/styles/withStyles";
 
 import Splash from "../../views/splash/Splash";
+import {withSnackbar} from "notistack";
 
 const styles = theme => ({
   closed: {
@@ -69,6 +70,12 @@ class Login extends React.Component {
       });
       const response = await api.post('/login', requestBody);
 
+      if (response.status === 200) {
+        this.props.enqueueSnackbar("Login successful", {
+          variant: 'success',
+        });
+      }
+
       // Get the returned user and update a new object.
       const user = new User(response.data);
 
@@ -79,7 +86,14 @@ class Login extends React.Component {
       // Login successfully worked --> navigate to the route /game in the GameRouter
       this.props.history.push(`/app`);
     } catch (error) {
-      alert(`Something went wrong during the login: \n${handleError(error)}`);
+      if (error.response.status === 401) {
+        this.props.enqueueSnackbar(error.response.data.message, {
+          variant: 'error',
+        });
+      }
+      else {
+        alert(`Something went wrong during the login: \n${handleError(error)}`);
+      }
     }
   }
 
@@ -190,4 +204,4 @@ class Login extends React.Component {
  * You can get access to the history object's properties via the withRouter.
  * withRouter will pass updated match, location, and history props to the wrapped component whenever it renders.
  */
-export default withRouter(withStyles(styles)(Login));
+export default withRouter(withStyles(styles)(withSnackbar(Login)));
