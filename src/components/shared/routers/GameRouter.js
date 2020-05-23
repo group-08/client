@@ -4,7 +4,6 @@ import { Redirect, Route } from "react-router-dom";
 import Lobby from "../../game/Lobby";
 import GameLobby from "../../game/GameLobby";
 import Gameboard from "../../game/Gameboard";
-import {LoginGuard} from "../routeProtectors/LoginGuard";
 import Leaderboard from "../../game/Leaderboard";
 
 const Container = styled.div`
