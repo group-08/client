@@ -1141,7 +1141,7 @@ class Gameboard extends React.Component {
 											>
 												<ListItemText
 													primary="Sunny"
-													secondary="Noting special happens if it's sunny."
+													secondary="Nothing special happens if it's sunny."
 												/>
 											</ListItem>
 											<ListItem
