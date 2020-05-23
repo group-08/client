@@ -186,6 +186,10 @@ const styles = theme => ({
 	aLittleBitPadding: {
 		padding: theme.spacing(3),
 		paddingTop: 0
+	},
+	cardContainer: {
+		textAlign: 'center',
+		padding: theme.spacing(2)
 	}
 });
 
@@ -342,7 +346,8 @@ class Gameboard extends React.Component {
 			remainingSeven: null,
 			exchangeCards: false,
 	        gameLog: null,
-	        displayRules: false
+	        displayRules: false,
+	        showExchangedCard: false
         };
 
         this.userID = parseInt(localStorage.getItem('userID'));
@@ -582,6 +587,14 @@ class Gameboard extends React.Component {
 		}
 	}
 
+	openExchangedCardsDisplay() {
+    	this.setState({showExchangedCard: true});
+	}
+
+	closeExchangedCardsDisplay() {
+		this.setState({showExchangedCard: false});
+	}
+
     async selectPlayingCard(card) {
     	if (this.state.exchangeCards) {
 			this.exchangeCards(card);
@@ -773,6 +786,15 @@ class Gameboard extends React.Component {
 			this.state.sortedPlayers !== prevState.sortedPlayers ||
 			this.state.selectedFigure !== prevState.selectedFigure ) {
 			this.setState({fields: newfields});
+		}
+
+		// Exchanged cards
+		if (this.state.sortedPlayers &&
+			this.state.sortedPlayers[2] &&
+			prevState.sortedPlayers &&
+			prevState.sortedPlayers[2] &&
+			this.state.sortedPlayers[2].exchangeCards !== prevState.sortedPlayers[2].exchangeCards) {
+			this.openExchangedCardsDisplay();
 		}
     }
 
@@ -1101,6 +1123,29 @@ class Gameboard extends React.Component {
 				        </Grid>
 			        </Grid>
 		        </Grid>
+		        <Dialog
+			        open={this.state.showExchangedCard && !this.state.sortedPlayers[0].exchangeCards}
+			        onClose={() => this.closeExchangedCardsDisplay()}
+		        >
+			        <DialogTitle>You received the following card from your partner:</DialogTitle>
+			        {this.state.sortedPlayers && this.state.sortedPlayers[0]?
+				        <Grid
+					        container
+					        justify="center"
+					        alignItems="center"
+				        >
+					        <Grid item xs className={classes.cardContainer}>
+						        <Card
+							        card={this.state.sortedPlayers[0].hand.slice(-1)[0]}
+						        />
+					        </Grid>
+
+				        </Grid>
+
+
+			        :''}
+
+		        </Dialog>
             </Grid>
         )
     }
