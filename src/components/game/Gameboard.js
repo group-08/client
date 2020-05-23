@@ -37,10 +37,13 @@ import wind from "./illustrations/wind.png";
 
 import back from "./cards/illustrations/Back.svg";
 import backRotated from "./cards/illustrations/BackRotated.svg";
+
 import Fab from "@material-ui/core/Fab";
 import Dialog from "@material-ui/core/Dialog";
 import DialogTitle from "@material-ui/core/DialogTitle";
 
+import Link from '@material-ui/core/Link';
+import Rules from './SB.A01-01.pdf';
 
 const Map = styled.div`
 	background-image: url(${mapPic});
@@ -1121,8 +1124,11 @@ class Gameboard extends React.Component {
 									        Rules
 								        </Typography>
 								        <Typography variant="body1">
-									        The game is played according to normal Brändi Dog rules. You can read them
-									        here.
+									        The game is played according to normal <Link href={Rules} target="_blank" >Brändi Dog rules</Link>.
+								        </Typography>
+								        <Divider />
+								        <Typography variant="body2">
+									        Below you find the special rules depending on the weather and a quick reference for all the cards.
 								        </Typography>
 							        </Grid>
 							        <Grid item xs>
