@@ -76,6 +76,12 @@ class SignUp extends React.Component {
         });
         const response = await api.post('/signup', requestBody);
 
+        if (response.status == 201) {
+	        this.props.enqueueSnackbar('User has been created.', {
+		        variant: 'success',
+	        });
+        }
+
         // Get the returned user and update a new object.
         const user = new User(response.data);
 
