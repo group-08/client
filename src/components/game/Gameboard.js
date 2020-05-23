@@ -38,6 +38,8 @@ import wind from "./illustrations/wind.png";
 import back from "./cards/illustrations/Back.svg";
 import backRotated from "./cards/illustrations/BackRotated.svg";
 import Fab from "@material-ui/core/Fab";
+import Dialog from "@material-ui/core/Dialog";
+import DialogTitle from "@material-ui/core/DialogTitle";
 
 
 const Map = styled.div`
@@ -335,7 +337,8 @@ class Gameboard extends React.Component {
 	        possibleFields: null,
 			remainingSeven: null,
 			exchangeCards: false,
-	        gameLog: null
+	        gameLog: null,
+	        displayRules: false
         };
 
         this.userID = parseInt(localStorage.getItem('userID'));
@@ -1066,9 +1069,27 @@ class Gameboard extends React.Component {
 					        }
 				        </Grid>
 				        <Grid item xs className={classes.rulesContainer}>
-					        <Fab color="primary" aria-label="add">
+					        <Fab
+						        color="primary"
+						        aria-label="add"
+						        onClick={() =>
+							        this.setState({displayRules: true})
+						        }
+					        >
 					            Rules
 				            </Fab>
+					        <Dialog
+						        open={this.state.displayRules}
+						        scroll="body"
+						        onClose={() =>
+							        this.setState({displayRules: false})
+						        }
+					        >
+						        <DialogTitle>
+							        Test
+						        </DialogTitle>
+						        Rules
+					        </Dialog>
 				        </Grid>
 			        </Grid>
 		        </Grid>
