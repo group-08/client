@@ -185,7 +185,6 @@ const styles = theme => ({
 	},
 	aLittleBitPadding: {
 		padding: theme.spacing(3),
-		paddingTop: 0
 	},
 	cardContainer: {
 		textAlign: 'center',
@@ -1111,12 +1110,142 @@ class Gameboard extends React.Component {
 							        this.setState({displayRules: false})
 						        }
 					        >
-						        <DialogTitle>
-							        Rules
-						        </DialogTitle>
-						        <Grid container className={classes.aLittleBitPadding}>
+						        <Grid
+							        container
+							        className={classes.aLittleBitPadding}
+							        spacing={2}
+							        direction="column"
+						        >
 							        <Grid item xs>
-								        And here comes the rules.
+								        <Typography variant="h4">
+									        Rules
+								        </Typography>
+								        <Typography variant="body1">
+									        The game is played according to normal Brändi Dog rules. You can read them
+									        here.
+								        </Typography>
+							        </Grid>
+							        <Grid item xs>
+										<Typography variant="h5">
+											Weather
+										</Typography>
+										<List dense>
+											<ListItem
+												selected={this.state.game && this.state.game.weatherState == "SUNNY"}
+											>
+												<ListItemText
+													primary="Sunny"
+													secondary="Noting special happens if it's sunny."
+												/>
+											</ListItem>
+											<ListItem
+												selected={this.state.game && this.state.game.weatherState == "RAINY"}
+											>
+												<ListItemText
+													primary="Rainy"
+													secondary="If you step into the puddle you will be sent back home"
+												/>
+											</ListItem>
+											<ListItem
+												selected={this.state.game && this.state.game.weatherState == "WINDY"}
+											>
+												<ListItemText
+													primary="Windy"
+													secondary="If you land on the wind field you will get blown away (and land somewhere on the board)."
+												/>
+											</ListItem>
+										</List>
+							        </Grid>
+							        <Grid item xs>
+								        <Typography variant="h5">
+									        Cards
+								        </Typography>
+								        <List dense>
+									        <ListItem>
+										        <ListItemText
+											        primary="Two"
+											        secondary="Move two forward"
+										        />
+									        </ListItem>
+									        <ListItem>
+										        <ListItemText
+											        primary="Three"
+											        secondary="Move three forward"
+										        />
+									        </ListItem>
+									        <ListItem>
+										        <ListItemText
+											        primary="Four"
+											        secondary="Move four backward or forward"
+										        />
+									        </ListItem>
+									        <ListItem>
+										        <ListItemText
+											        primary="Five"
+											        secondary="Move five forward"
+										        />
+									        </ListItem>
+									        <ListItem>
+										        <ListItemText
+											        primary="Six"
+											        secondary="Move six forward"
+										        />
+									        </ListItem>
+									        <ListItem>
+										        <ListItemText
+											        primary="Seven"
+											        secondary="Move one forward seven times"
+										        />
+									        </ListItem>
+									        <ListItem>
+										        <ListItemText
+											        primary="Eight"
+											        secondary="Move eight forward"
+										        />
+									        </ListItem>
+									        <ListItem>
+										        <ListItemText
+											        primary="Nine"
+											        secondary="Move nine forward"
+										        />
+									        </ListItem>
+									        <ListItem>
+										        <ListItemText
+											        primary="Ten"
+											        secondary="Move ten forward"
+										        />
+									        </ListItem>
+									        <ListItem>
+										        <ListItemText
+											        primary="Jack"
+											        secondary="Exchange with another figure on the field"
+										        />
+									        </ListItem>
+									        <ListItem>
+										        <ListItemText
+											        primary="Queen"
+											        secondary="Move twelve forward"
+										        />
+									        </ListItem>
+									        <ListItem>
+										        <ListItemText
+											        primary="King"
+											        secondary="Get out of your home or move thirteen forward"
+										        />
+									        </ListItem>
+									        <ListItem>
+										        <ListItemText
+											        primary="Ace"
+											        secondary="Get out of your home, move forward one or eleven"
+										        />
+									        </ListItem>
+									        <ListItem>
+										        <ListItemText
+											        primary="Joker"
+											        secondary="Perform the move of any other card"
+										        />
+									        </ListItem>
+								        </List>
 							        </Grid>
 						        </Grid>
 					        </Dialog>
