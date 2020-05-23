@@ -10,25 +10,31 @@ import Grid from '@material-ui/core/Grid';
 import EmojiPeopleIcon from '@material-ui/icons/EmojiPeople';
 import Typography from '@material-ui/core/Typography';
 import withStyles from "@material-ui/core/styles/withStyles";
+import zxcvbn from 'zxcvbn';
 
 import Splash from "../../views/splash/Splash";
+import LinearProgress from "@material-ui/core/LinearProgress";
+import {withSnackbar} from "notistack";
 
 const styles = theme => ({
-  complete: {
-    margin: theme.spacing(1),
-    backgroundColor: theme.palette.success.main,
-  },
-  hi: {
-    margin: theme.spacing(1),
-    backgroundColor: theme.palette.primary.main,
-  },
-  form: {
-    width: '100%', // Fix IE 11 issue.
-    marginTop: theme.spacing(1),
-  },
-  submit: {
-    margin: theme.spacing(3, 0, 2),
-  },
+	complete: {
+		margin: theme.spacing(1),
+		backgroundColor: theme.palette.success.main,
+	},
+	hi: {
+		margin: theme.spacing(1),
+		backgroundColor: theme.palette.primary.main,
+	},
+	form: {
+		width: '100%', // Fix IE 11 issue.
+		marginTop: theme.spacing(1),
+    },
+    submit: {
+        margin: theme.spacing(3, 0, 2),
+    },
+	noMargin: {
+  	    margin: 0
+	}
 });
 
 /**
@@ -48,11 +54,12 @@ class SignUp extends React.Component {
    * These fields are then handled in the onChange() methods in the resp. InputFields
    */
   constructor() {
-    super();
+  	super();
     this.state = {
-      email: null,
-      username: null,
-      password: null
+    	email: null,
+	    username: null,
+	    password: null,
+        passwordStrength: null
     };
   }
   /**
@@ -62,36 +69,61 @@ class SignUp extends React.Component {
    */
   async login() {
     try {
-      const requestBody = JSON.stringify({
-        email: this.state.email,
-        username: this.state.username,
-        password: this.state.password
-      });
-      const response = await api.post('/signup', requestBody);
+        const requestBody = JSON.stringify({
+            email: this.state.email,
+            username: this.state.username,
+            password: this.state.password
+        });
+        const response = await api.post('/signup', requestBody);
 
-      // Get the returned user and update a new object.
-      const user = new User(response.data);
+        if (response.status == 201) {
+	        this.props.enqueueSnackbar('User has been created.', {
+		        variant: 'success',
+	        });
+        }
 
-      // Store the token into the local storage.
-      let userEmail = user.email;
+        // Get the returned user and update a new object.
+        const user = new User(response.data);
 
-      // Login successfully worked --> navigate to the route /game in the GameRouter
-      this.props.history.push(`/login`, {email: userEmail});
-    } catch (error) {
-      alert(`Something went wrong during the login: \n${handleError(error)}`);
+        // Store the token into the local storage.
+        let userEmail = user.email;
+
+        // Login successfully worked --> navigate to the route /game in the GameRouter
+        this.props.history.push(`/login`, {email: userEmail});
+        }
+
+        catch (error) {
+    	    if (error.response.status == 409) {
+		        this.props.enqueueSnackbar(error.response.data.message, {
+			        variant: 'error',
+		        });
+	        }
+	        else {
+		        	alert(`Something went wrong during the login: \n${handleError(error)}`);
+	        }
+        }
+  }
+
+    /**
+     *  Every time the user enters something in the input field, the state gets updated.
+     * @param key (the key of the state for identifying the field that needs to be updated)
+     * @param value (the value that gets assigned to the identified state key)
+     */
+    handleInputChange(key, value) {
+        // Example: if the key is username, this statement is the equivalent to the following one:
+        // this.setState({'username': value});
+        this.setState({[key]: value});
+
+        // Password strength indicator
+        if (key === 'password') {
+            if (value) {
+                this.setState({passwordStrength: zxcvbn(value)});
+            } else {
+                this.setState({passwordStrength: null});
+            }
+
+        }
     }
-  }
-
-  /**
-   *  Every time the user enters something in the input field, the state gets updated.
-   * @param key (the key of the state for identifying the field that needs to be updated)
-   * @param value (the value that gets assigned to the identified state key)
-   */
-  handleInputChange(key, value) {
-    // Example: if the key is username, this statement is the equivalent to the following one:
-    // this.setState({'username': value});
-    this.setState({ [key]: value });
-  }
 
   /**
    * componentDidMount() is invoked immediately after a component is mounted (inserted into the tree).
@@ -154,11 +186,49 @@ class SignUp extends React.Component {
                 label="Password"
                 type="password"
                 id="password"
-                autoComplete="current-password"
                 onChange={e => {
                   this.handleInputChange('password', e.target.value);
                 }}
             />
+              {this.state.passwordStrength ?
+                  <>
+                    <LinearProgress
+                        variant="determinate"
+                        value={this.state.passwordStrength.score / 4 * 100}
+                    />
+	                  {this.state.passwordStrength.feedback.warning ?
+		                  <Typography variant="caption">
+			                  {this.state.passwordStrength.feedback.warning}
+			                  {this.state.passwordStrength.feedback.suggestions ?
+				                  <ul className={classes.noMargin}>
+					                  {this.state.passwordStrength.feedback.suggestions.map((value, index) => {
+					                  	return <li key={index}>{value}</li>
+					                  })}
+				                  </ul>: ''
+			                  }
+		                  </Typography> : ''
+	                  }
+                      {/*
+                        <PasswordStrength
+                      pwdStrength={this.state.passwordStrength.score}
+                  >
+
+                          `${this.state.passwordStrength.feedback.warning}. ` :
+                          ``
+                      }
+                      {this.state.passwordStrength.feedback.suggestions ?
+                          <PasswordList>
+                              {this.state.passwordStrength.feedback.suggestions.map((value, index) => {
+                                  return <PasswordItem key={index}>{value}</PasswordItem>
+                              })}
+                          </PasswordList> :
+                          ``
+                      }
+                      {this.state.passwordStrength.score >= 3 ? `This password is pretty secure.` : ``}
+                  </PasswordStrength>
+                      */}
+                  </>: ''
+              }
             <Button
                 fullWidth
                 variant="contained"
@@ -194,4 +264,4 @@ class SignUp extends React.Component {
  * You can get access to the history object's properties via the withRouter.
  * withRouter will pass updated match, location, and history props to the wrapped component whenever it renders.
  */
-export default withRouter(withStyles(styles)(SignUp));
+export default withRouter(withStyles(styles)(withSnackbar(SignUp)));

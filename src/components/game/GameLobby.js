@@ -89,16 +89,25 @@ class GameLobby extends React.Component {
 				'Content-Type': 'application/json',
 				'X-Token': localStorage.getItem('token')
 			}
-		}
+		};
 		try {
 			let gameID = localStorage.getItem('gameID');
 
 			const response = await api.get('/lobby/' + gameID, auth);
 			let game = response.data;
 
+			let userId = localStorage.getItem('userID');
+			let myPlayer = game.players.find(player => player.user.id == userId);
+			if (!myPlayer) {
+				this.props.history.push('../lobby');
+			}
 			this.setState({game: game});
 		} catch (error) {
-			alert(`Something went wrong while fetching the game: \n${handleError(error)}`);
+			if (error.response.status === 404) {
+				this.props.history.push('../lobby');
+			} else {
+				alert(`Something went wrong while fetching the game: \n${handleError(error)}`);
+			}
 		}
 	}
 
@@ -126,10 +135,18 @@ class GameLobby extends React.Component {
 	}
 
 	async removePlayer (id) {
-		alert("Will remove player " + id);
-		// and go back to lobby if you removed yourself
-		if (localStorage.getItem('userID') == id) {
-			this.props.history.push('../lobby');
+		let gameID = localStorage.getItem('gameID');
+		const auth = {
+			baseURL: getDomain(),
+			headers: {
+				'Content-Type': 'application/json',
+				'X-Token': localStorage.getItem('token')
+			}
+		};
+		try {
+			await api.delete('/lobby/' + gameID + '/user/' + id, auth);
+		} catch (error) {
+			alert(`Something went wrong while removing player: \n${handleError(error)}`);
 		}
 	}
 
@@ -141,13 +158,31 @@ class GameLobby extends React.Component {
 				'Content-Type': 'application/json',
 				'X-Token': localStorage.getItem('token')
 			}
-		}
+		};
 		try {
 			const response = await api.post('/lobby/' + gameID + '/start', {}, auth);
 			console.log(response.data);
 			this.setState({games: response.data});
 		} catch (error) {
 			alert(`Something went wrong while starting the game: \n${handleError(error)}`);
+		}
+	}
+
+	async deleteLobby() {
+		let gameID = localStorage.getItem('gameID');
+		const auth = {
+			baseURL: getDomain(),
+			headers: {
+				'Content-Type': 'application/json',
+				'X-Token': localStorage.getItem('token')
+			}
+		};
+		try {
+			const response = await api.delete('/lobby/' + gameID,  auth);
+			console.log(response.data);
+
+		} catch (error) {
+			alert(`Something went wrong while removing the lobby: \n${handleError(error)}`)
 		}
 	}
 
@@ -233,6 +268,14 @@ class GameLobby extends React.Component {
 																				<CloseIcon />
 																			</Button>
 																		):(
+																			this.state.game.host.id == userID?
+																				<Button
+																					onClick={() => {
+																						this.deleteLobby();
+																					}}
+																				>
+																					<ExitToAppIcon />
+																				</Button>:
 																			<Button disabled>
 																				<CloseIcon />
 																			</Button>
