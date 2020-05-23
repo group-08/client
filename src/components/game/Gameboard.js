@@ -37,6 +37,7 @@ import wind from "./illustrations/wind.png";
 
 import back from "./cards/illustrations/Back.svg";
 import backRotated from "./cards/illustrations/BackRotated.svg";
+import Fab from "@material-ui/core/Fab";
 import Dialog from "@material-ui/core/Dialog";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import {Button} from "@material-ui/core";
@@ -171,6 +172,10 @@ const styles = theme => ({
 	sideItem: {
 		width: '100%'
 	},
+	rulesContainer: {
+		width: '100%',
+		textAlign: 'right'
+	},
 	weatherBox: {
 		padding: 10,
 		textAlign: 'center'
@@ -180,6 +185,10 @@ const styles = theme => ({
 	},
 	gameLog: {
 		fontSize: '0.75em'
+	},
+	aLittleBitPadding: {
+		padding: theme.spacing(3),
+		paddingTop: 0
 	},
 	cardContainer: {
 		textAlign: 'center',
@@ -340,9 +349,10 @@ class Gameboard extends React.Component {
 			remainingSeven: null,
 			exchangeCards: false,
 	        gameLog: null,
-	        showExchangedCard: false,
 			winner1: "test",
-			winner2: "test"
+			winner2: "test",
+	        displayRules: false,
+
         };
 
         this.userID = parseInt(localStorage.getItem('userID'));
@@ -1121,6 +1131,33 @@ class Gameboard extends React.Component {
 						        </Paper>
 					        ):''
 					        }
+				        </Grid>
+				        <Grid item xs className={classes.rulesContainer}>
+					        <Fab
+						        color="primary"
+						        aria-label="add"
+						        onClick={() =>
+							        this.setState({displayRules: true})
+						        }
+					        >
+					            Rules
+				            </Fab>
+					        <Dialog
+						        open={this.state.displayRules}
+						        scroll="body"
+						        onClose={() =>
+							        this.setState({displayRules: false})
+						        }
+					        >
+						        <DialogTitle>
+							        Rules
+						        </DialogTitle>
+						        <Grid container className={classes.aLittleBitPadding}>
+							        <Grid item xs>
+								        And here comes the rules.
+							        </Grid>
+						        </Grid>
+					        </Dialog>
 				        </Grid>
 			        </Grid>
 		        </Grid>
