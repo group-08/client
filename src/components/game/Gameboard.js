@@ -43,6 +43,7 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import {Button} from "@material-ui/core";
 import CloseIcon from "@material-ui/icons/Close";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
+import DialogActions from "@material-ui/core/DialogActions";
 
 
 const Map = styled.div`
@@ -1196,20 +1197,15 @@ class Gameboard extends React.Component {
 								{this.state.winner2}
 							</Typography>
 						</Grid>
-						<Grid
-							container
-							justify="center"
-							alignItems="center"
-							>
+						<DialogActions>
 							<Button
 								onClick={() => {
 									this.deleteLobby();
 								}}
 							>
-								Leave
-								<ExitToAppIcon />
+								Go back to lobby
 							</Button>
-						</Grid>
+						</DialogActions>
 				</Dialog>
 
             </Grid>
