@@ -170,6 +170,10 @@ const styles = theme => ({
 		padding: 10,
 		textAlign: 'center'
 	},
+	lobbyButton: {
+		padding: 10,
+		textAlign: 'center'
+	},
 	compact: {
 		lineHeight: 1
 	},
@@ -330,6 +334,7 @@ class Gameboard extends React.Component {
 	        possibleFields: null,
 			remainingSeven: null,
 			exchangeCards: false,
+			displayLobbyButton: false,
 	        gameLog: null
         };
 
@@ -339,6 +344,10 @@ class Gameboard extends React.Component {
     isMyMove(){
     	return (this.state.game.players[0].user && this.state.game.players[0].user.id == this.userID);
     }
+
+	goToLobby() {
+		this.props.history.push('/game/lobby');
+	}
 
     botName(color) {
     	const botNames={
@@ -1060,6 +1069,29 @@ class Gameboard extends React.Component {
 					        ):''
 					        }
 				        </Grid>
+						<Grid item xs className={classes.sideItem}>
+							{this.state.displayLobbyButton?
+								(
+									<Paper className={classes.lobbyButton}>
+										<Grid
+											container
+											justify="space-evenly"
+											alignItems="center"
+										>
+											<Grid item xs
+											onClick={() => {
+												this.goToLobby();
+											}}
+											>
+												<Typography variant="body1">
+													Go back to Lobby
+												</Typography>
+											</Grid>
+										</Grid>
+									</Paper>
+								):''
+							}
+						</Grid>
 			        </Grid>
 		        </Grid>
             </Grid>
