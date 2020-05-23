@@ -89,13 +89,18 @@ class GameLobby extends React.Component {
 				'Content-Type': 'application/json',
 				'X-Token': localStorage.getItem('token')
 			}
-		}
+		};
 		try {
 			let gameID = localStorage.getItem('gameID');
 
 			const response = await api.get('/lobby/' + gameID, auth);
 			let game = response.data;
 
+			let userId = localStorage.getItem('userID');
+			let myPlayer = game.players.find(player => player.user.id == userId);
+			if (!myPlayer) {
+				this.props.history.push('../lobby');
+			}
 			this.setState({game: game});
 		} catch (error) {
 			if (error.response.status === 404) {
@@ -130,26 +135,18 @@ class GameLobby extends React.Component {
 	}
 
 	async removePlayer (id) {
-		alert("Will remove player " + id);
-		// and go back to lobby if you removed yourself
-		if (localStorage.getItem('userID') == id) {
-			let gameID = localStorage.getItem('gameID');
-			const auth = {
-				baseURL: getDomain(),
-				headers: {
-					'Content-Type': 'application/json',
-					'X-Token': localStorage.getItem('token')
-				}
-			};
-			try {
-				const requestBody = JSON.stringify({
-					// how do I get username as I cannot send ID
-				});
-				const response = await api.delete('/lobby/' + gameID + '/user', auth, requestBody);
-			} catch (error) {
-				return null;
+		let gameID = localStorage.getItem('gameID');
+		const auth = {
+			baseURL: getDomain(),
+			headers: {
+				'Content-Type': 'application/json',
+				'X-Token': localStorage.getItem('token')
 			}
-			this.props.history.push('../lobby');
+		};
+		try {
+			await api.delete('/lobby/' + gameID + '/user/' + id, auth);
+		} catch (error) {
+			alert(`Something went wrong while removing player: \n${handleError(error)}`);
 		}
 	}
 

@@ -127,12 +127,15 @@ class Lobby extends React.Component {
 				'Content-Type': 'application/json',
 				'X-Token': this.userToken
 			}
-		}
+		};
 		try {
 			const response = await api.get('/lobbies', auth);
 			console.log(response.data);
 			this.setState({games: response.data});
 		} catch (error) {
+			if (error.response.status === 403) {
+				localStorage.clear();
+			}
 			alert(`Something went wrong while fetching the games: \n${handleError(error)}`);
 		}
 	}
