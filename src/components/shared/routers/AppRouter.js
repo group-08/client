@@ -51,15 +51,6 @@ class AppRouter extends React.Component {
               />
               <Route
                   exact
-                  path="/leaderboard"
-                  render={() => (
-                      <LoginGuard>
-                          <Leaderboard />
-                      </LoginGuard>
-                  )}
-              />
-              <Route
-                  exact
                   path="/testboard"
                   render={() => (
                       <Gameboard />
