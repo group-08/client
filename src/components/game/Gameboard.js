@@ -350,8 +350,8 @@ class Gameboard extends React.Component {
 			remainingSeven: null,
 			exchangeCards: false,
 	        gameLog: null,
-			winner1: "test",
-			winner2: "test",
+			winner1: null,
+			winner2: null,
 	        displayRules: false,
 
         };
@@ -1185,7 +1185,7 @@ class Gameboard extends React.Component {
 			        :''}
 
 		        </Dialog>
-				<Dialog open={true}>
+				<Dialog open={this.state.game.gameState === "FINISHED"}>
 					<DialogTitle>Congratulations, following players have won the game:</DialogTitle>
 						<Grid
 							container
