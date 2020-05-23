@@ -26,6 +26,7 @@ import Tooltip from "@material-ui/core/Tooltip";
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import CloseIcon from '@material-ui/icons/Close';
 import {getDomain} from "../../helpers/getDomain";
+import {withSnackbar} from "notistack";
 
 const styles = theme => ({
 	root: {
@@ -112,7 +113,10 @@ class GameLobby extends React.Component {
 			prevState.game &&
 			this.state.game.gameState !== prevState.game.gameState &&
 			this.state.game.gameState == "RUNNING") {
-			alert('Game has started.');
+
+			this.props.enqueueSnackbar('Your Game has started.', {
+				variant: 'info',
+			});
 			this.props.history.push('../game');
 		}
 	}
@@ -203,9 +207,6 @@ class GameLobby extends React.Component {
 											<TableHead>
 												<TableRow>
 													<TableCell>
-														#
-													</TableCell>
-													<TableCell>
 														Name
 													</TableCell>
 													<TableCell>
@@ -215,33 +216,31 @@ class GameLobby extends React.Component {
 											</TableHead>
 											<TableBody>
 												{this.state.game.players.map(player => {
-													return (
-														<TableRow key={player.id}>
-															<TableCell>
-																{player.user.id}
-															</TableCell>
-															<TableCell>
-																{player.user.username}
-															</TableCell>
-															<TableCell>
-																{player.user.id == userID && this.state.game.host.id != userID ||
-																this.state.game.host.id == userID && player.user.id != userID?
-																	(
-																		<Button
-																			onClick={() => {
-																				this.removePlayer(player.user.id);
-																			}}
-																		>
-																			<CloseIcon />
-																		</Button>
-																	):(
-																		<Button disabled>
-																			<CloseIcon />
-																		</Button>
-																	)
-																}
-															</TableCell>
-														</TableRow>
+													return (player.user?(
+															<TableRow key={player.id}>
+																<TableCell>
+																	{player.user.username}
+																</TableCell>
+																<TableCell>
+																	{player.user.id == userID && this.state.game.host.id != userID ||
+																	this.state.game.host.id == userID && player.user.id != userID?
+																		(
+																			<Button
+																				onClick={() => {
+																					this.removePlayer(player.user.id);
+																				}}
+																			>
+																				<CloseIcon />
+																			</Button>
+																		):(
+																			<Button disabled>
+																				<CloseIcon />
+																			</Button>
+																		)
+																	}
+																</TableCell>
+															</TableRow>
+														):''
 													);
 												})}
 											</TableBody>
@@ -265,7 +264,7 @@ class GameLobby extends React.Component {
 									<>
 										<strong>Organsier:</strong> {this.state.game.host.username} <br />
 										<strong>Currenty Players:</strong> {this.state.game.players.length}
-										{this.state.game.host.id == userID && this.state.game.players.length >= 4 ?
+										{this.state.game.host.id == userID ?
 											(
 												<>
 													<Divider />
@@ -296,4 +295,4 @@ class GameLobby extends React.Component {
 	}
 }
 
-export default withRouter(withStyles(styles)(GameLobby));
+export default withRouter(withStyles(styles)(withSnackbar(GameLobby)));

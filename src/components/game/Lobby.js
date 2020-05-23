@@ -160,7 +160,7 @@ class Lobby extends React.Component {
 
 	async componentDidMount() {
 		await this.fetchUsers();
-		await this.fetchGames()
+		await this.fetchGames();
 		this.userInterval = setInterval(() => this.fetchUsers(), 2500); // Reload the users every 3 seconds
 		this.gamesInterval = setInterval(() => this.fetchGames(), 1000); // Reload the games every 3 seconds
 	}
