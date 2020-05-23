@@ -182,6 +182,10 @@ const styles = theme => ({
 	},
 	gameLog: {
 		fontSize: '0.75em'
+	},
+	aLittleBitPadding: {
+		padding: theme.spacing(3),
+		paddingTop: 0
 	}
 });
 
@@ -1086,9 +1090,13 @@ class Gameboard extends React.Component {
 						        }
 					        >
 						        <DialogTitle>
-							        Test
+							        Rules
 						        </DialogTitle>
-						        Rules
+						        <Grid container className={classes.aLittleBitPadding}>
+							        <Grid item xs>
+								        And here comes the rules.
+							        </Grid>
+						        </Grid>
 					        </Dialog>
 				        </Grid>
 			        </Grid>
