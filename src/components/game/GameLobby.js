@@ -94,10 +94,11 @@ class GameLobby extends React.Component {
 			let gameID = localStorage.getItem('gameID');
 
 			const response = await api.get('/lobby/' + gameID, auth);
+
 			let game = response.data;
 
 			let userId = localStorage.getItem('userID');
-			let myPlayer = game.players.find(player => player.user.id == userId);
+			let myPlayer = game.players.find(player => player.user && player.user.id == userId);
 			if (!myPlayer) {
 				this.props.history.push('../lobby');
 			}
