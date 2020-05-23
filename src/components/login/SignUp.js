@@ -10,54 +10,31 @@ import Grid from '@material-ui/core/Grid';
 import EmojiPeopleIcon from '@material-ui/icons/EmojiPeople';
 import Typography from '@material-ui/core/Typography';
 import withStyles from "@material-ui/core/styles/withStyles";
-import {store} from 'react-notifications-component';
 import zxcvbn from 'zxcvbn';
-import styled from 'styled-components';
 
 import Splash from "../../views/splash/Splash";
+import LinearProgress from "@material-ui/core/LinearProgress";
 
 const styles = theme => ({
-  complete: {
-    margin: theme.spacing(1),
-    backgroundColor: theme.palette.success.main,
-  },
-  hi: {
-    margin: theme.spacing(1),
-    backgroundColor: theme.palette.primary.main,
-  },
-  form: {
-    width: '100%', // Fix IE 11 issue.
-    marginTop: theme.spacing(1),
-  },
-  submit: {
-    margin: theme.spacing(3, 0, 2),
-  },
+	complete: {
+		margin: theme.spacing(1),
+		backgroundColor: theme.palette.success.main,
+	},
+	hi: {
+		margin: theme.spacing(1),
+		backgroundColor: theme.palette.primary.main,
+	},
+	form: {
+		width: '100%', // Fix IE 11 issue.
+		marginTop: theme.spacing(1),
+    },
+    submit: {
+        margin: theme.spacing(3, 0, 2),
+    },
+	noMargin: {
+  	    margin: 0
+	}
 });
-
-const PasswordStrength = styled.div`
-  margin-top: -20px;
-  padding-left: 11px;
-  font-size: 0.8em;
-  ${props => (props.pwdStrength > 0) ?
-    (props.pwdStrength > 2) ?
-        `color: #4caf50;` :
-        `color: #ff9800;`
-    :
-    `color: #f44336;`
-}
-`;
-
-const PasswordList = styled.ul`
-    padding: 0;
-    margin: 0
-`;
-
-const PasswordItem = styled.li`
-   list-style: none;
-   &::before {
-    content: "- ";
-   }
-`;
 
 /**
  * Classes in React allow you to have an internal state within the class and to have the React life-cycle for your component.
@@ -195,16 +172,33 @@ class SignUp extends React.Component {
                 label="Password"
                 type="password"
                 id="password"
-                autoComplete="current-password"
                 onChange={e => {
                   this.handleInputChange('password', e.target.value);
                 }}
             />
               {this.state.passwordStrength ?
-                  <PasswordStrength
+                  <>
+                    <LinearProgress
+                        variant="determinate"
+                        value={this.state.passwordStrength.score / 4 * 100}
+                    />
+	                  {this.state.passwordStrength.feedback.warning ?
+		                  <Typography variant="caption">
+			                  {this.state.passwordStrength.feedback.warning}
+			                  {this.state.passwordStrength.feedback.suggestions ?
+				                  <ul className={classes.noMargin}>
+					                  {this.state.passwordStrength.feedback.suggestions.map((value, index) => {
+					                  	return <li key={index}>{value}</li>
+					                  })}
+				                  </ul>: ''
+			                  }
+		                  </Typography> : ''
+	                  }
+                      {/*
+                        <PasswordStrength
                       pwdStrength={this.state.passwordStrength.score}
                   >
-                      {this.state.passwordStrength.feedback.warning ?
+
                           `${this.state.passwordStrength.feedback.warning}. ` :
                           ``
                       }
@@ -217,8 +211,9 @@ class SignUp extends React.Component {
                           ``
                       }
                       {this.state.passwordStrength.score >= 3 ? `This password is pretty secure.` : ``}
-                  </PasswordStrength> :
-                  ``
+                  </PasswordStrength>
+                      */}
+                  </>: ''
               }
             <Button
                 fullWidth
