@@ -520,12 +520,16 @@ class Gameboard extends React.Component {
 		}
 	}
 
-	makeMove() {
-    	if ( this.state.selectedCard.value === 'SEVEN' ) {
-    		this.moveSeven();
+	async makeMove() {
+    	// Stop refreshing the game
+		clearInterval(this.fetchInterval);
+		if (this.state.selectedCard.value === 'SEVEN') {
+			await this.moveSeven();
 		} else {
-    		this.move();
+			await this.move();
 		}
+		// Restart refreshing the game afterwards
+		this.fetchInterval = setInterval(() => this.fetch(), 1000);
 	}
 
 	numberofCards(gameCardNum) {
