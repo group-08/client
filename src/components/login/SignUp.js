@@ -11,13 +11,9 @@ import EmojiPeopleIcon from '@material-ui/icons/EmojiPeople';
 import Typography from '@material-ui/core/Typography';
 import withStyles from "@material-ui/core/styles/withStyles";
 import zxcvbn from 'zxcvbn';
-import styled from 'styled-components';
 
 import Splash from "../../views/splash/Splash";
 import LinearProgress from "@material-ui/core/LinearProgress";
-import green from "@material-ui/core/colors/green";
-import {lighten} from "@material-ui/core";
-import Chip from "@material-ui/core/Chip";
 
 const styles = theme => ({
 	complete: {
