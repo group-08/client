@@ -771,6 +771,10 @@ class Gameboard extends React.Component {
 			this.state.selectedFigure !== prevState.selectedFigure ) {
 			this.setState({fields: newfields});
 		}
+
+		if (this.status.game.GameState == 'finished'){
+			this.status.displayLobbyButton = true;
+		}
     }
 
 	render() {
