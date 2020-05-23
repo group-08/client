@@ -37,9 +37,13 @@ import wind from "./illustrations/wind.png";
 
 import back from "./cards/illustrations/Back.svg";
 import backRotated from "./cards/illustrations/BackRotated.svg";
+
+import Fab from "@material-ui/core/Fab";
 import Dialog from "@material-ui/core/Dialog";
 import DialogTitle from "@material-ui/core/DialogTitle";
 
+import Link from '@material-ui/core/Link';
+import Rules from './SB.A01-01.pdf';
 
 const Map = styled.div`
 	background-image: url(${mapPic});
@@ -168,6 +172,10 @@ const styles = theme => ({
 	sideItem: {
 		width: '100%'
 	},
+	rulesContainer: {
+		width: '100%',
+		textAlign: 'right'
+	},
 	weatherBox: {
 		padding: 10,
 		textAlign: 'center'
@@ -177,6 +185,9 @@ const styles = theme => ({
 	},
 	gameLog: {
 		fontSize: '0.75em'
+	},
+	aLittleBitPadding: {
+		padding: theme.spacing(3),
 	},
 	cardContainer: {
 		textAlign: 'center',
@@ -337,6 +348,7 @@ class Gameboard extends React.Component {
 			remainingSeven: null,
 			exchangeCards: false,
 	        gameLog: null,
+	        displayRules: false,
 	        showExchangedCard: false
         };
 
@@ -1083,6 +1095,166 @@ class Gameboard extends React.Component {
 						        </Paper>
 					        ):''
 					        }
+				        </Grid>
+				        <Grid item xs className={classes.rulesContainer}>
+					        <Fab
+						        color="primary"
+						        aria-label="add"
+						        onClick={() =>
+							        this.setState({displayRules: true})
+						        }
+					        >
+					            Rules
+				            </Fab>
+					        <Dialog
+						        open={this.state.displayRules}
+						        scroll="body"
+						        onClose={() =>
+							        this.setState({displayRules: false})
+						        }
+					        >
+						        <Grid
+							        container
+							        className={classes.aLittleBitPadding}
+							        spacing={2}
+							        direction="column"
+						        >
+							        <Grid item xs>
+								        <Typography variant="h4">
+									        Rules
+								        </Typography>
+								        <Typography variant="body1">
+									        The game is played according to normal <Link href={Rules} target="_blank" >Brändi Dog rules</Link>.
+								        </Typography>
+								        <Divider />
+								        <Typography variant="body2">
+									        Below you find the special rules depending on the weather and a quick reference for all the cards.
+								        </Typography>
+							        </Grid>
+							        <Grid item xs>
+										<Typography variant="h5">
+											Weather
+										</Typography>
+										<List dense>
+											<ListItem
+												selected={this.state.game && this.state.game.weatherState == "SUNNY"}
+											>
+												<ListItemText
+													primary="Sunny"
+													secondary="Noting special happens if it's sunny."
+												/>
+											</ListItem>
+											<ListItem
+												selected={this.state.game && this.state.game.weatherState == "RAINY"}
+											>
+												<ListItemText
+													primary="Rainy"
+													secondary="If you step into the puddle you will be sent back home"
+												/>
+											</ListItem>
+											<ListItem
+												selected={this.state.game && this.state.game.weatherState == "WINDY"}
+											>
+												<ListItemText
+													primary="Windy"
+													secondary="If you land on the wind field you will get blown away (and land somewhere on the board)."
+												/>
+											</ListItem>
+										</List>
+							        </Grid>
+							        <Grid item xs>
+								        <Typography variant="h5">
+									        Cards
+								        </Typography>
+								        <List dense>
+									        <ListItem>
+										        <ListItemText
+											        primary="Two"
+											        secondary="Move two forward"
+										        />
+									        </ListItem>
+									        <ListItem>
+										        <ListItemText
+											        primary="Three"
+											        secondary="Move three forward"
+										        />
+									        </ListItem>
+									        <ListItem>
+										        <ListItemText
+											        primary="Four"
+											        secondary="Move four backward or forward"
+										        />
+									        </ListItem>
+									        <ListItem>
+										        <ListItemText
+											        primary="Five"
+											        secondary="Move five forward"
+										        />
+									        </ListItem>
+									        <ListItem>
+										        <ListItemText
+											        primary="Six"
+											        secondary="Move six forward"
+										        />
+									        </ListItem>
+									        <ListItem>
+										        <ListItemText
+											        primary="Seven"
+											        secondary="Move one forward seven times"
+										        />
+									        </ListItem>
+									        <ListItem>
+										        <ListItemText
+											        primary="Eight"
+											        secondary="Move eight forward"
+										        />
+									        </ListItem>
+									        <ListItem>
+										        <ListItemText
+											        primary="Nine"
+											        secondary="Move nine forward"
+										        />
+									        </ListItem>
+									        <ListItem>
+										        <ListItemText
+											        primary="Ten"
+											        secondary="Move ten forward"
+										        />
+									        </ListItem>
+									        <ListItem>
+										        <ListItemText
+											        primary="Jack"
+											        secondary="Exchange with another figure on the field"
+										        />
+									        </ListItem>
+									        <ListItem>
+										        <ListItemText
+											        primary="Queen"
+											        secondary="Move twelve forward"
+										        />
+									        </ListItem>
+									        <ListItem>
+										        <ListItemText
+											        primary="King"
+											        secondary="Get out of your home or move thirteen forward"
+										        />
+									        </ListItem>
+									        <ListItem>
+										        <ListItemText
+											        primary="Ace"
+											        secondary="Get out of your home, move forward one or eleven"
+										        />
+									        </ListItem>
+									        <ListItem>
+										        <ListItemText
+											        primary="Joker"
+											        secondary="Perform the move of any other card"
+										        />
+									        </ListItem>
+								        </List>
+							        </Grid>
+						        </Grid>
+					        </Dialog>
 				        </Grid>
 			        </Grid>
 		        </Grid>
