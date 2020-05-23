@@ -98,7 +98,11 @@ class GameLobby extends React.Component {
 
 			this.setState({game: game});
 		} catch (error) {
-			alert(`Something went wrong while fetching the game: \n${handleError(error)}`);
+			if (error.response.status === 404) {
+				this.props.history.push('../lobby');
+			} else {
+				alert(`Something went wrong while fetching the game: \n${handleError(error)}`);
+			}
 		}
 	}
 
@@ -129,6 +133,22 @@ class GameLobby extends React.Component {
 		alert("Will remove player " + id);
 		// and go back to lobby if you removed yourself
 		if (localStorage.getItem('userID') == id) {
+			let gameID = localStorage.getItem('gameID');
+			const auth = {
+				baseURL: getDomain(),
+				headers: {
+					'Content-Type': 'application/json',
+					'X-Token': localStorage.getItem('token')
+				}
+			};
+			try {
+				const requestBody = JSON.stringify({
+					// how do I get username as I cannot send ID
+				});
+				const response = await api.delete('/lobby/' + gameID + '/user', auth, requestBody);
+			} catch (error) {
+				return null;
+			}
 			this.props.history.push('../lobby');
 		}
 	}
@@ -141,13 +161,31 @@ class GameLobby extends React.Component {
 				'Content-Type': 'application/json',
 				'X-Token': localStorage.getItem('token')
 			}
-		}
+		};
 		try {
 			const response = await api.post('/lobby/' + gameID + '/start', {}, auth);
 			console.log(response.data);
 			this.setState({games: response.data});
 		} catch (error) {
 			alert(`Something went wrong while starting the game: \n${handleError(error)}`);
+		}
+	}
+
+	async deleteLobby() {
+		let gameID = localStorage.getItem('gameID');
+		const auth = {
+			baseURL: getDomain(),
+			headers: {
+				'Content-Type': 'application/json',
+				'X-Token': localStorage.getItem('token')
+			}
+		};
+		try {
+			const response = await api.delete('/lobby/' + gameID,  auth);
+			console.log(response.data);
+
+		} catch (error) {
+			alert(`Something went wrong while removing the lobby: \n${handleError(error)}`)
 		}
 	}
 
@@ -233,6 +271,14 @@ class GameLobby extends React.Component {
 																				<CloseIcon />
 																			</Button>
 																		):(
+																			this.state.game.host.id == userID?
+																				<Button
+																					onClick={() => {
+																						this.deleteLobby();
+																					}}
+																				>
+																					<ExitToAppIcon />
+																				</Button>:
 																			<Button disabled>
 																				<CloseIcon />
 																			</Button>

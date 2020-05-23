@@ -150,6 +150,7 @@ class Lobby extends React.Component {
 		});
 		const response = await api.post('/lobbies', requestBody, auth);
 		localStorage.setItem('gameID', response.data.id);
+		this.setState({newGameName:null});
 		this.props.history.push('game/lobby');
 	}
 
@@ -282,7 +283,7 @@ class Lobby extends React.Component {
 													}}
 													endAdornment={
 														<InputAdornment position="end">
-															<IconButton
+															<IconButton disabled={!this.state.newGameName}
 																aria-label="Create Room"
 																onClick={() => {
 																	this.createGame();
