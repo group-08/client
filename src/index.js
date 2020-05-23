@@ -14,6 +14,10 @@ ReactDOM.render(
 	<SnackbarProvider
 		maxSnack={1}
 		autoHideDuration={5000}
+		anchorOrigin={{
+			vertical: 'top',
+			horizontal: 'right',
+		}}
 	>
 		<App />
 	</SnackbarProvider>
