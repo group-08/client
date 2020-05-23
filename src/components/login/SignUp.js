@@ -14,6 +14,7 @@ import zxcvbn from 'zxcvbn';
 
 import Splash from "../../views/splash/Splash";
 import LinearProgress from "@material-ui/core/LinearProgress";
+import {withSnackbar} from "notistack";
 
 const styles = theme => ({
 	complete: {
@@ -53,11 +54,11 @@ class SignUp extends React.Component {
    * These fields are then handled in the onChange() methods in the resp. InputFields
    */
   constructor() {
-    super();
+  	super();
     this.state = {
-      email: null,
-      username: null,
-      password: null,
+    	email: null,
+	    username: null,
+	    password: null,
         passwordStrength: null
     };
   }
@@ -86,7 +87,14 @@ class SignUp extends React.Component {
         }
 
         catch (error) {
-        alert(`Something went wrong during the login: \n${handleError(error)}`);
+    	    if (error.response.status == 409) {
+		        this.props.enqueueSnackbar(error.response.data.message, {
+			        variant: 'error',
+		        });
+	        }
+	        else {
+		        	alert(`Something went wrong during the login: \n${handleError(error)}`);
+	        }
         }
   }
 
@@ -250,4 +258,4 @@ class SignUp extends React.Component {
  * You can get access to the history object's properties via the withRouter.
  * withRouter will pass updated match, location, and history props to the wrapped component whenever it renders.
  */
-export default withRouter(withStyles(styles)(SignUp));
+export default withRouter(withStyles(styles)(withSnackbar(SignUp)));
