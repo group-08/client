@@ -37,6 +37,7 @@ import wind from "./illustrations/wind.png";
 
 import back from "./cards/illustrations/Back.svg";
 import backRotated from "./cards/illustrations/BackRotated.svg";
+import Fab from "@material-ui/core/Fab";
 
 
 const Map = styled.div`
@@ -165,6 +166,10 @@ const styles = theme => ({
 	},
 	sideItem: {
 		width: '100%'
+	},
+	rulesContainer: {
+		width: '100%',
+		textAlign: 'right'
 	},
 	weatherBox: {
 		padding: 10,
@@ -1059,6 +1064,11 @@ class Gameboard extends React.Component {
 						        </Paper>
 					        ):''
 					        }
+				        </Grid>
+				        <Grid item xs className={classes.rulesContainer}>
+					        <Fab color="primary" aria-label="add">
+					            Rules
+				            </Fab>
 				        </Grid>
 			        </Grid>
 		        </Grid>
