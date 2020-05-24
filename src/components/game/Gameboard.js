@@ -1328,7 +1328,7 @@ class Gameboard extends React.Component {
 						>
 							{this.state.winners.map((winner) =>
 								<Typography variant="h4">
-									{winner}
+									{winner.username}
 								</Typography>
 							)}
 							{this.state.winners.length === 0?
