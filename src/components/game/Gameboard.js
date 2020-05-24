@@ -1318,7 +1318,7 @@ class Gameboard extends React.Component {
 
 		        </Dialog>
 				<Dialog open={this.state.winners}>
-					<DialogTitle>Congratulations, here are the winners</DialogTitle>
+					<DialogTitle>Congratulations, here are the winners!</DialogTitle>
 					{this.state.winners?
 						<Grid
 							container
@@ -1330,6 +1330,7 @@ class Gameboard extends React.Component {
 									<Typography
 										key={winner.id}
 										variant="h4"
+										display="block"
 									>
 										{winner.username}
 									</Typography>
