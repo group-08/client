@@ -570,9 +570,10 @@ class Gameboard extends React.Component {
 
 	async setWinners() {
 		let gameID = localStorage.getItem('gameID');
-    	const response = await api.post('/game/' + gameID + '/finished')
+    	const response = await api.get('/game/' + gameID + '/finished')
 		const array = response.data;
 		this.setState({winners: array});
+		clearInterval(this.fetchInterval);
 	}
 
 	getPossibleFields() {
@@ -699,7 +700,7 @@ class Gameboard extends React.Component {
     }
 
     componentWillUnmount() {
-    	clearInterval(this.fetchInterval);
+	    clearInterval(this.fetchInterval);
     }
 
 	componentDidUpdate(prevProps, prevState, snapshot) {
