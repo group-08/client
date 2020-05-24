@@ -79,4 +79,4 @@ We want to thank everybody involved with the Module SoPra and especially Alex Sc
 
 ## License
 
-GNU General Public License v3.0 
+GNU General Public License v3.0 [Full License](https://sopra-fs20-group-08-client.herokuapp.com/license)
