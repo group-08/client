@@ -98,7 +98,7 @@ Brändi Dog around the World is a group project of the following five members.
 
 **Oliver Kamer** - *Team Lead and Back-/Frontend* - [olikami](https://github.com/orgs/group-08/people/olikami)<br>
 **Felix Hoffmann** - *Frontend* - [Felixuss](https://github.com/orgs/group-08/people/Felixuss)<br>
-**Nick Kipfer** - *Backend and Frontend* - [GiantDwarf42](https://github.com/orgs/group-08/people/GiantDwarf42)<br>
+**Nick Kipfer** - *Backend* - [GiantDwarf42](https://github.com/orgs/group-08/people/GiantDwarf42)<br>
 **Philip Flury** - *Backend and Frontend* - [TheRobihno70](https://github.com/orgs/group-08/people/TheRobihno70)<br>
 **Flurin Knellwolf** - *Backend* - [saegge123](https://github.com/orgs/group-08/people/saegge123)<br>
 **Alex Scheitlin** - *Support and Advice* - [alexscheitlin](https://github.com/orgs/group-08/people/alexscheitlin)<br>
