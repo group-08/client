@@ -1319,17 +1319,19 @@ class Gameboard extends React.Component {
 		        </Dialog>
 				<Dialog open={this.state.winners}>
 					<DialogTitle>Congratulations, following players have won the game:</DialogTitle>
+					{this.state.winners?
 						<Grid
 							container
 							justify="center"
 							alignItems="center"
-							>
+						>
 							{this.state.winners.map((winner) =>
 								<Typography variant="h4">
 									{winner}
 								</Typography>
 							)}
 						</Grid>
+					:''}
 						<DialogActions>
 							<Button
 								onClick={() => {
