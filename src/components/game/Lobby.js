@@ -195,7 +195,7 @@ class Lobby extends React.Component {
 								</Typography>
 							</Grid>
 							<Grid item>
-								<Tooltip title="Leaderboard" placement="left">
+								<Tooltip title="Leaderboard" placement="below">
 									<Button
 										color="inherit"
 										onClick={() => {

@@ -122,7 +122,7 @@ class Leaderboard extends React.Component {
                                 </Typography>
                             </Grid>
                             <Grid item>
-                                <Tooltip title="Lobby" placement="left">
+                                <Tooltip title="Lobby" placement="bottom">
                                     <Button
                                         color="inherit"
                                         onClick={() => {
