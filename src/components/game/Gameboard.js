@@ -1327,11 +1327,16 @@ class Gameboard extends React.Component {
 							justify="center"
 							alignItems="center"
 						>
-							{this.state.winners.map((winner) =>
-								<Typography variant="h4">
-									{winner.username}
-								</Typography>
-							)}
+							{this.state.winners.map((winner) =>{
+								return (
+									<Typography
+										key={winner.id}
+										variant="h4"
+									>
+										{winner.username}
+									</Typography>
+								)
+							})}
 							{this.state.winners.length === 0?
 								<Typography variant="h4">
 									The robodogs have beat the humans.
