@@ -41,6 +41,10 @@ import backRotated from "./cards/illustrations/BackRotated.svg";
 import Fab from "@material-ui/core/Fab";
 import Dialog from "@material-ui/core/Dialog";
 import DialogTitle from "@material-ui/core/DialogTitle";
+import {Button} from "@material-ui/core";
+import CloseIcon from "@material-ui/icons/Close";
+import ExitToAppIcon from "@material-ui/icons/ExitToApp";
+import DialogActions from "@material-ui/core/DialogActions";
 
 import Link from '@material-ui/core/Link';
 import Rules from './SB.A01-01.pdf';
@@ -348,6 +352,7 @@ class Gameboard extends React.Component {
 			remainingSeven: null,
 			exchangeCards: false,
 	        gameLog: null,
+			winners: null,
 	        displayRules: false,
 	        showExchangedCard: false
         };
@@ -563,6 +568,13 @@ class Gameboard extends React.Component {
     	return this.state.sortedPlayers[2].finished;
 	}
 
+	async setWinners() {
+		let gameID = localStorage.getItem('gameID');
+    	const response = await api.post('/game/' + gameID + '/finished')
+		const array = response.data;
+		this.setState({winners: array});
+	}
+
 	getPossibleFields() {
 		if ( this.state.selectedCard.value === 'SEVEN' ) {
 			this.possibleFieldsSeven();
@@ -710,6 +722,10 @@ class Gameboard extends React.Component {
 			    logItems = logItems.slice(0,5); //Limits the logItems to 5
 			    this.setState({gameLog: logItems});
 		    }
+
+		    if (this.state.game.gameState === "FINISHED") {
+			    this.setWinners();
+		    }
 	    }
 
 		let newfields = null;
@@ -800,6 +816,25 @@ class Gameboard extends React.Component {
 			this.openExchangedCardsDisplay();
 		}
     }
+
+	async deleteLobby() {
+		let gameID = localStorage.getItem('gameID');
+		const auth = {
+			baseURL: getDomain(),
+			headers: {
+				'Content-Type': 'application/json',
+				'X-Token': localStorage.getItem('token')
+			}
+		};
+		try {
+			const response = await api.delete('/lobby/' + gameID,  auth);
+			console.log(response.data);
+			this.props.history.push('../app/lobby');
+
+		} catch (error) {
+			alert(`Something went wrong while exiting the game: \n${handleError(error)}`)
+		}
+	}
 
 	render() {
 		const { classes } = this.props;
@@ -1282,6 +1317,30 @@ class Gameboard extends React.Component {
 			        :''}
 
 		        </Dialog>
+				<Dialog open={this.state.winners}>
+					<DialogTitle>Congratulations, following players have won the game:</DialogTitle>
+						<Grid
+							container
+							justify="center"
+							alignItems="center"
+							>
+							{this.state.winners.map((winner) =>
+								<Typography variant="h4">
+									{winner}
+								</Typography>
+							)}
+						</Grid>
+						<DialogActions>
+							<Button
+								onClick={() => {
+									this.deleteLobby();
+								}}
+							>
+								Go back to lobby
+							</Button>
+						</DialogActions>
+				</Dialog>
+
             </Grid>
         )
     }
