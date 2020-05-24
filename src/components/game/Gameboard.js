@@ -1328,7 +1328,6 @@ class Gameboard extends React.Component {
 							alignItems="center"
 						>
 							<Typography
-								key={winner.id}
 								variant="h4"
 							>
 							{this.state.winners.map((winner) =>{
