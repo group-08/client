@@ -829,10 +829,12 @@ class Gameboard extends React.Component {
 		try {
 			const response = await api.delete('/lobby/' + gameID,  auth);
 			console.log(response.data);
-			this.props.history.push('../app/lobby');
-
+			localStorage.removeItem('gameID');
+			this.props.history.push('..');
 		} catch (error) {
-			alert(`Something went wrong while exiting the game: \n${handleError(error)}`)
+			localStorage.removeItem('gameID');
+			this.props.history.push('..'); // go back anyway
+
 		}
 	}
 
