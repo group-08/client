@@ -140,6 +140,7 @@ class Lobby extends React.Component {
 		} catch (error) {
 			if (error.response.status === 403) {
 				localStorage.clear();
+				this.props.history.push('..');
 			}
 			alert(`Something went wrong while fetching the games: \n${handleError(error)}`);
 		}
