@@ -795,7 +795,8 @@ class Gameboard extends React.Component {
 			this.state.sortedPlayers[2] &&
 			prevState.sortedPlayers &&
 			prevState.sortedPlayers[2] &&
-			this.state.sortedPlayers[2].exchangeCards !== prevState.sortedPlayers[2].exchangeCards) {
+			this.state.sortedPlayers[2].exchangeCards !== prevState.sortedPlayers[2].exchangeCards &&
+			!this.state.sortedPlayers[2].exchangeCards ) {
 			this.openExchangedCardsDisplay();
 		}
     }
