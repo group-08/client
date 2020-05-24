@@ -350,8 +350,7 @@ class Gameboard extends React.Component {
 			remainingSeven: null,
 			exchangeCards: false,
 	        gameLog: null,
-			winner1: null,
-			winner2: null,
+			winners: null,
 	        displayRules: false,
 
         };
@@ -571,10 +570,7 @@ class Gameboard extends React.Component {
 		let gameID = localStorage.getItem('gameID');
     	const response = await api.post('/game/' + gameID + '/finished')
 		const array = response.data;
-    	const winner1 = array[0].username;
-    	const winner2 = array[1].username;
-		this.setState({winner1: winner1});
-		this.setState({winner2: winner2});
+		this.setState({winners: array});
 	}
 
 	getPossibleFields() {
@@ -1185,17 +1181,18 @@ class Gameboard extends React.Component {
 			        :''}
 
 		        </Dialog>
-				<Dialog open={this.state.game.gameState === "FINISHED"}>
+				<Dialog open={this.state.winners}>
 					<DialogTitle>Congratulations, following players have won the game:</DialogTitle>
 						<Grid
 							container
 							justify="center"
 							alignItems="center"
 							>
-							<Typography variant="h4">
-								{this.state.winner1}<br />
-								{this.state.winner2}
-							</Typography>
+							{this.state.winners.map((winner) =>
+								<Typography variant="h4">
+									{winner}
+								</Typography>
+							)}
 						</Grid>
 						<DialogActions>
 							<Button
