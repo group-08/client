@@ -89,6 +89,10 @@ There are some possible contributions new developers could add:
 - One could add more weather states and more places we can travel to.
 - The joker could realize the 7 card.
 
+And the last point might not be that serious:
+
+* A watch mode, where 4 robodogs (bots) play against each other and you can just watch and amuse yourself.
+
 ## Authors and acknowledgement
 Brändi Dog around the World is a group project of the following five members.
 
