@@ -25,7 +25,11 @@ This component is the lobby where players land after they logged in. Here they c
 
 ### [`GameLobby.js`](https://github.com/group-08/client/blob/master/src/components/game/GameLobby.js)
 
+This is where the players wait for the game to start. New players can join and it is dynamically updated when new players joing (or leave). The host of the game can also start the game for everyone here.
+
 ### [`Gameboard.js`](https://github.com/group-08/client/blob/master/src/components/game/Gameboard.js)
+
+The gameboard is where the magic happens.
 
 ## Launch & Deployment
 For your local development environment you'll need Node.js >= 8.10. You can download it [here](https://nodejs.org). All other dependencies including React get installed with:
@@ -62,11 +66,19 @@ Your app is ready to be deployed!
 
 ## Illustrations
 
+![login-screen](illustrations/login-screen.jpeg)
+
 Brändi Dog around the World starts with login mask. If the user has not created an account yet he needs to sign up and log in, the link for the sign up is on the login mask.
 
-After successful login the user gets redirected to the lobby where her can see who else is online and a open a game. There is also a Leaderboard accessible. Other users can join the host in this game, only the host can remove players from the game. The host can start the game at any point, if there are less than four players the remaining slots will be filled with automated bots.
+![Lobby](illustrations/Lobby.jpeg)
 
-Every time cards are distributed each player needs to select one to swap with his partner. The game is quite intuitive with simply clicking on Cards, Pieces and Fields that get illuminated if they are reachable. There is also a link to the game rules available. The previously mentioned twist of the game is that we visit different places and depending on the weather we have some special fields.
+![Leaderboard](illustrations/leaderboard.png)![Game-Lobby](illustrations/Game-Lobby.jpeg)After successful login the user gets redirected to the lobby where her can see who else is online and a open a game. There is also a Leaderboard accessible. Other users can join the host in this game, only the host can remove players from the game. The host can start the game at any point, if there are less than four players the remaining slots will be filled with automated bots.
+
+![game-start](illustrations/game-start.jpeg)
+
+![during-game](illustrations/during-game.jpeg)Every time cards are distributed each player needs to select one to swap with his partner. The game is quite intuitive with simply clicking on Cards, Pieces and Fields that get illuminated if they are reachable. There is also a link to the game rules available. The previously mentioned twist of the game is that we visit different places and depending on the weather we have some special fields.
+
+![Winning-screen](illustrations/Winning-screen.jpeg)
 
 When the game has finished the winners are displayed and the user can go back to the lobby using a link.
 
