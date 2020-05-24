@@ -6,7 +6,7 @@
 
 Welcome to Team 08's Brändi Dog around the World application.
 
-The project's aim was to implement a web application based on the popular board game *Brändi dog* but with a twist. 
+The project's aim was to implement a web application based on the popular board game *Brändi dog* but with a online only twist. 
 
 
 ## Technologies
@@ -17,22 +17,15 @@ For the interface we largely used the wonderful [Materia UI](https://material-ui
 For the password strength inidcation we used the [zxcvbn](https://github.com/dropbox/zxcvbn) by Dropbox. For some pratical javascript utilities we use [lodash](https://lodash.com/).
 
 ## High-level components
-The two main components are
-- User
-- Game
+There are three main components.
 
-The users identify the player and carry ID, login credentials, status and leader board score.
+### [`Lobby.js`](https://github.com/group-08/client/blob/master/src/components/game/Lobby.js)
 
-The game contains several sub components such as
+This component is the lobby where players land after they logged in. Here they can create or join a Lobby. There is also a list on the side with all users and you can go look at the leaderboard.
 
-- Cards
-- Fields
-- Players
-- etc.
+### [`GameLobby.js`](https://github.com/group-08/client/blob/master/src/components/game/GameLobby.js)
 
-The Player is linked to one user and receives the cards. The fields display where the pieces are on and let a player choose a move.
-
-The main class of the game is gameboard in gameboard.js
+### [`Gameboard.js`](https://github.com/group-08/client/blob/master/src/components/game/Gameboard.js)
 
 ## Launch & Deployment
 For your local development environment you'll need Node.js >= 8.10. You can download it [here](https://nodejs.org). All other dependencies including React get installed with:
