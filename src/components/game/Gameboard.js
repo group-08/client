@@ -724,6 +724,10 @@ class Gameboard extends React.Component {
 			    logItems = logItems.slice(0,5); //Limits the logItems to 5
 			    this.setState({gameLog: logItems});
 		    }
+
+		    if (this.state.game.gameState === "FINISHED") {
+			    this.setWinners();
+		    }
 	    }
 
 		let newfields = null;
@@ -811,10 +815,6 @@ class Gameboard extends React.Component {
 			prevState.sortedPlayers[2] &&
 			this.state.sortedPlayers[2].exchangeCards !== prevState.sortedPlayers[2].exchangeCards) {
 			this.openExchangedCardsDisplay();
-		}
-
-		if (this.state.game.gameState === "FINISHED") {
-			this.setWinners();
 		}
     }
 
