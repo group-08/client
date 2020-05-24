@@ -62,7 +62,7 @@ Your app is ready to be deployed!
 
 ### Deployment
 
-
+Deployments are automatic on heroku and on Netlify. Netlify also creates a deploy preview which can directly be access from the respective pull requests. Pull requests can only be merged if they pass the deploy on Netlify (`npm run build` needs to work).
 
 ## Illustrations
 
