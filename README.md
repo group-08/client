@@ -21,7 +21,8 @@ The game contains several sub components such as
 - Players
 - etc.
 
-The Player is linked to one user and receives the cards. The fields display where the pieces are on and let a player choose a move.
+The Player is linked to one user and receives the cards. The fields display where the pieces are on and let a player choose a move.<br>
+The main class of the game is gameboard in gameboard.js
 
 ## Launch & Deployment
 For your local development environment you'll need Node.js >= 8.10. You can download it [here](https://nodejs.org). All other dependencies including React get installed with:
