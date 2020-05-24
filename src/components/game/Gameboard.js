@@ -354,7 +354,7 @@ class Gameboard extends React.Component {
 	        gameLog: null,
 			winners: null,
 	        displayRules: false,
-
+	        showExchangedCard: false
         };
 
         this.userID = parseInt(localStorage.getItem('userID'));
