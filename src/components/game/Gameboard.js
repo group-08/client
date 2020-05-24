@@ -385,7 +385,6 @@ class Gameboard extends React.Component {
     getName(playerId) {
 	    if (this.state.game && this.state.game.players ) {
 		    let player = this.playerFromPlayerId(playerId);
-		    console.log(playerId, player);
 		    // For humans
 		    if ( player.user ) {
 		    	return player.user.username;
@@ -570,9 +569,10 @@ class Gameboard extends React.Component {
 
 	async setWinners() {
 		let gameID = localStorage.getItem('gameID');
-    	const response = await api.post('/game/' + gameID + '/finished')
-		const array = response.data;
+    	const response = await api.get('/game/' + gameID + '/finished')
+		const array = response.data.winners;
 		this.setState({winners: array});
+		clearInterval(this.fetchInterval);
 	}
 
 	getPossibleFields() {
@@ -699,7 +699,7 @@ class Gameboard extends React.Component {
     }
 
     componentWillUnmount() {
-    	clearInterval(this.fetchInterval);
+	    clearInterval(this.fetchInterval);
     }
 
 	componentDidUpdate(prevProps, prevState, snapshot) {
@@ -829,10 +829,12 @@ class Gameboard extends React.Component {
 		try {
 			const response = await api.delete('/lobby/' + gameID,  auth);
 			console.log(response.data);
-			this.props.history.push('../app/lobby');
-
+			localStorage.removeItem('gameID');
+			this.props.history.push('..');
 		} catch (error) {
-			alert(`Something went wrong while exiting the game: \n${handleError(error)}`)
+			localStorage.removeItem('gameID');
+			this.props.history.push('..'); // go back anyway
+
 		}
 	}
 
@@ -1318,18 +1320,24 @@ class Gameboard extends React.Component {
 
 		        </Dialog>
 				<Dialog open={this.state.winners}>
-					<DialogTitle>Congratulations, here are the winners</DialogTitle>
+					<DialogTitle>Congratulations, here are the winners!</DialogTitle>
 					{this.state.winners?
 						<Grid
 							container
 							justify="center"
 							alignItems="center"
 						>
-							{this.state.winners.map((winner) =>
-								<Typography variant="h4">
-									{winner}
-								</Typography>
-							)}
+							<Typography
+								variant="h4"
+							>
+							{this.state.winners.map((winner) =>{
+								return (
+									<>
+										{winner.username}<br />
+									</>
+								)
+							})}
+							</Typography>
 							{this.state.winners.length === 0?
 								<Typography variant="h4">
 									The robodogs have beat the humans.

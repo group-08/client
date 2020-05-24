@@ -141,6 +141,8 @@ class Lobby extends React.Component {
 			if (error.response.status === 403) {
 				localStorage.clear();
 				this.props.history.push('..');
+				clearInterval(this.userInterval);
+				clearInterval(this.gamesInterval);
 			}
 			alert(`Something went wrong while fetching the games: \n${handleError(error)}`);
 		}
@@ -193,7 +195,7 @@ class Lobby extends React.Component {
 								</Typography>
 							</Grid>
 							<Grid item>
-								<Tooltip title="Leaderboard" placement="left">
+								<Tooltip title="Leaderboard" placement="below">
 									<Button
 										color="inherit"
 										onClick={() => {
