@@ -307,7 +307,7 @@ class GameLobby extends React.Component {
 								{this.state.game ? (
 									<>
 										<strong>Organsier:</strong> {this.state.game.host.username} <br />
-										<strong>Currenty Players:</strong> {this.state.game.players.length}
+										<strong>Number of Players:</strong> {this.state.game.players.length}
 										{this.state.game.host.id == userID ?
 											(
 												<>
