@@ -1,35 +1,29 @@
-# SoPra FS20 - Client Template
+# Brändi Dog around the World
 
-![Deploy Project](https://github.com/group-08/client/workflows/Deploy%20Project/badge.svg)
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=group-08_client&metric=alert_status)](https://sonarcloud.io/dashboard?id=group-08_client)
+## Introduction
 
-## Getting started with React
+Welcome to Team 08's Brändi Dog around the World application. <br>
+The project's aim was to implement a web application based on the popular board game *Brändi dog* but with a twist. 
 
-Read and go through those Tutorials, It will make your life easier!
 
-- Read the React [Docs](https://reactjs.org/docs/getting-started.html)
-- Do this React [Getting Started](https://reactjs.org/tutorial/tutorial.html) Tutorial (it doesn’t assume any existing React knowledge)
-- Get an Understanding of [CSS](http://localhost:3000) and [HTML](https://www.w3schools.com/html/html_intro.asp)!
+## Technologies
+The frontend of the application is based on React. We use the REST-API to exchange data with the backend.
 
-Once you have done all of this, in the template there are two main external dependencies that you should look at:
+## High-level components
+The two main components are
+- User
+- Game
 
-- [styled-components](https://www.styled-components.com/docs)
-  It removes the mapping between components and styles (i.e. external css files). This means that when you're defining your styles, you're actually creating a normal React component, that has your styles attached to it
-* [react-router-dom](https://reacttraining.com/react-router/web/guides/quick-start) Declarative routing for React being a collection of navigational components that compose declaratively with your application. 
+The users identify the player and carry ID, login credentials, status and leader board score.<br>
+The game contains several sub components such as
+- Cards
+- Fields
+- Players
+- etc.
 
-<!-- ## IDE Recommendation
-As a student, you have the possibility with [JetBrains](https://www.jetbrains.com/student/) to obtain a free individual license and have access to several IDEs. 
-We recommend you to use [WebStorm](https://www.jetbrains.com/webstorm/specials/webstorm/webstorm.html?gclid=EAIaIQobChMIyPOj5f723wIVqRXTCh3SKwtYEAAYASAAEgLtMvD_BwE&gclsrc=aw.ds) for your front-end. 
-Once you have downloaded and installed it, you can add the following WebStorm plugins: 
-> Go to Preferences > Plugins > Browse Repositories and look for: 
-* [styled-components](https://plugins.jetbrains.com/plugin/9997-styled-components) (provides coding assistance like CSS Highlighting for Styled Components)
-* [prettier](https://plugins.jetbrains.com/plugin/10456-prettier) (a smart code formatter)
-* [Material Theme UI](https://plugins.jetbrains.com/plugin/8006-material-theme-ui) (Material Theme for Jetbrains IDEs, allowing a total customization of the IDE including Themes, Color Schemes, Icons and many other features.)
+The Player is linked to one user and receives the cards. The fields display where the pieces are on and let a player choose a move.
 
-Feel free to use other IDEs (e.g. [VisualStudio](https://code.visualstudio.com/)) if you want.  -->
-
-## Prerequisites and Installation
-
+## Launch & Deployment
 For your local development environment you'll need Node.js >= 8.10. You can download it [here](https://nodejs.org). All other dependencies including React get installed with:
 
 ### `npm install`
@@ -57,11 +51,31 @@ It correctly bundles React in production mode and optimizes the build for the be
 The build is minified and the filenames include the hashes.<br>
 Your app is ready to be deployed!
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Illustrations
 
-## Learn More
+Brändi Dog around the World starts with login mask. If the user has not created an account yet he needs to sign up and log in, the link for the sign up is on the login mask. <br> 
+After successful login the user gets redirected to the lobby where her can see who else is online and a open a game. There is also a Leaderboard accessible. Other users can join the host in this game, only the host can remove players from the game. The host can start the game at any point, if there are less than four players the remaining slots will be filled with automated bots.<br>
+Every time cards are distributed each player needs to select one to swap with his partner. The game is quite intuitive with simply clicking on Cards, Pieces and Fields that get illuminated if they are reachable. There is also a link to the game rules available. The previously mentioned twist of the game is that we visit different places and depending on the weather we have some special fields. <br>
+When the game has finished the winners are displayed and the user can go back to the lobby using a link.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## Roadmap
 
+There are some possible contributions new developers could add
+- A six player map could be realized.
+- One could add more weather states and more places we can travel to.
+- The joker could realize the 7 card.
 
->Thanks to Lucas Pelloni for the template
+## Authors and acknowledgement
+Brändi Dog around the World is a group project of the following five members.
+
+- Oliver Kamer (Team Lead, Back- and Frontend)
+- Philip Flury (Back- and Frontend)
+- Felix Hoffmann (Frontend)
+- Nick Kipfer (Backend)
+- Flurin Knellwolf (Backend)
+
+We want to thank everybody involved with the Module SoPra and especially Alex Scheitlin, our TA that guided us through the last three months. 
+
+## License
+
+GNU General Public License v3.0 
