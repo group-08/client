@@ -101,11 +101,13 @@ class GameLobby extends React.Component {
 			let myPlayer = game.players.find(player => player.user && player.user.id == userId);
 			if (!myPlayer) {
 				this.props.history.push('../lobby');
+				clearInterval(this.fetchGameInterval);
 			}
 			this.setState({game: game});
 		} catch (error) {
 			if (error.response.status === 404) {
 				this.props.history.push('../lobby');
+				clearInterval(this.fetchGameInterval);
 			} else {
 				alert(`Something went wrong while fetching the game: \n${handleError(error)}`);
 			}
