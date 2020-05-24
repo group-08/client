@@ -69,11 +69,12 @@ There are some possible contributions new developers could add
 ## Authors and acknowledgement
 Brändi Dog around the World is a group project of the following five members.
 
-- Oliver Kamer (Team Lead, Back- and Frontend)
-- Philip Flury (Back- and Frontend)
-- Felix Hoffmann (Frontend)
-- Nick Kipfer (Backend)
-- Flurin Knellwolf (Backend)
+**Oliver Kamer** - *Team Lead and Back-/Frontend* - [olikami](https://github.com/orgs/group-08/people/olikami)<br>
+**Felix Hoffmann** - *Frontend* - [Felixuss](https://github.com/orgs/group-08/people/Felixuss)<br>
+**Nick Kipfer** - *Backend and Frontend* - [GiantDwarf42](https://github.com/orgs/group-08/people/GiantDwarf42)<br>
+**Philip Flury** - *Backend and Frontend* - [TheRobihno70](https://github.com/orgs/group-08/people/TheRobihno70)<br>
+**Flurin Knellwolf** - *Backend* - [saegge123](https://github.com/orgs/group-08/people/saegge123)<br>
+**Alex Scheitlin** - *Support and Advice* - [alexscheitlin](https://github.com/orgs/group-08/people/alexscheitlin)<br>
 
 We want to thank everybody involved with the Module SoPra and especially Alex Scheitlin, our TA that guided us through the last three months. 
 
