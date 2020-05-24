@@ -1007,7 +1007,13 @@ class Gameboard extends React.Component {
 										        alignItems="center"
 										        spacing={2}
 									        >
-										        {this.state.sortedPlayers[0].hand.map((card) =>
+										        {this.state.sortedPlayers[0].hand.length == 0?
+													<Grid item xs className={classes.centerAlign}>
+														<Typography>
+															You have no cards left to play, please wait for next round to receive new cards.
+														</Typography>
+													</Grid>:
+										        	this.state.sortedPlayers[0].hand.map((card) =>
 											        <Grid item xs className={classes.centerAlign}>
 												        <Card
 													        key={card.id}
