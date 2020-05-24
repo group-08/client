@@ -1329,13 +1329,15 @@ class Gameboard extends React.Component {
 						>
 							{this.state.winners.map((winner) =>{
 								return (
-									<Typography
-										key={winner.id}
-										variant="h4"
-										display="block"
-									>
-										{winner.username}
-									</Typography>
+									<>
+										<Typography
+											key={winner.id}
+											variant="h4"
+										>
+											{winner.username}
+										</Typography>
+										<br />
+									</>
 								)
 							})}
 							{this.state.winners.length === 0?
