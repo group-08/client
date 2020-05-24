@@ -572,6 +572,7 @@ class Gameboard extends React.Component {
 		let gameID = localStorage.getItem('gameID');
     	const response = await api.get('/game/' + gameID + '/finished')
 		const array = response.data;
+    	console.log(array);
 		this.setState({winners: array});
 		clearInterval(this.fetchInterval);
 	}
