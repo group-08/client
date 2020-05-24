@@ -1318,7 +1318,7 @@ class Gameboard extends React.Component {
 
 		        </Dialog>
 				<Dialog open={this.state.winners}>
-					<DialogTitle>Congratulations, following players have won the game:</DialogTitle>
+					<DialogTitle>Congratulations, here are the winners</DialogTitle>
 					{this.state.winners?
 						<Grid
 							container
@@ -1330,6 +1330,12 @@ class Gameboard extends React.Component {
 									{winner}
 								</Typography>
 							)}
+							{this.state.winners.length === 0?
+								<Typography variant="h4">
+									The robodogs have beat the humans.
+								</Typography>
+								:''
+							}
 						</Grid>
 					:''}
 						<DialogActions>
