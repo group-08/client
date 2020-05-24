@@ -87,7 +87,7 @@ class Leaderboard extends React.Component {
 
             // Get the returned users and update the state, then sorts them.
             let users = response.data;
-            users = users.sort((a,b) => a.leaderBoardScore > b.leaderBoardScore)
+            users = users.sort((a,b) => a.leaderBoardScore - b.leaderBoardScore)
             this.setState({users: users});
         }
         catch (error) {
