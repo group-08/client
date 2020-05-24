@@ -385,7 +385,6 @@ class Gameboard extends React.Component {
     getName(playerId) {
 	    if (this.state.game && this.state.game.players ) {
 		    let player = this.playerFromPlayerId(playerId);
-		    console.log(playerId, player);
 		    // For humans
 		    if ( player.user ) {
 		    	return player.user.username;
